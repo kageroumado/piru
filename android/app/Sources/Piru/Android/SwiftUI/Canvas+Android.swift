@@ -36,7 +36,12 @@ struct Canvas<Symbols: View>: View {
 /// Nonisolated like SwiftUI's: renderers draw from nonisolated helpers.
 nonisolated struct GraphicsContext {
     final class Recording {
+        let size: CGSize
         var items: [CanvasItem] = []
+
+        init(size: CGSize) {
+            self.size = size
+        }
     }
 
     enum Shading {
@@ -132,9 +137,11 @@ nonisolated struct GraphicsContext {
     var opacity: Double = 1
     var blendMode: BlendMode = .normal
     private var clip: Path?
+    /// Rects cut out of the drawable area by inverse clips, in canvas coordinates.
+    private var clipHoles: [CGRect] = []
 
     static func record(size: CGSize, _ renderer: (inout GraphicsContext, CGSize) -> Void) -> [CanvasItem] {
-        var context = GraphicsContext(recording: Recording())
+        var context = GraphicsContext(recording: Recording(size: size))
         renderer(&context, size)
         return context.recording.items
     }
@@ -157,9 +164,39 @@ nonisolated struct GraphicsContext {
         transform = CGAffineTransform(rotationAngle: CGFloat(angle.radians)).concatenating(transform)
     }
 
+    /// A clip replaces the one before it. An inverse clip cuts the path's bounding rect out of
+    /// the current clip (the whole canvas when there is none), and successive ones add up.
     mutating func clip(to path: Path, style _: FillStyle = FillStyle(), options: ClipOptions = []) {
-        guard !options.contains(.inverse) else { return }
-        clip = path.applying(transform)
+        if options.contains(.inverse) {
+            clipHoles.append(path.applying(transform).boundingRect)
+        } else {
+            clip = path.applying(transform)
+            clipHoles = []
+        }
+    }
+
+    /// The clip each drawn item carries. With holes, it is the current clip's bounding rect
+    /// traced one way and each hole traced the other: Compose clips by the nonzero rule (SkipUI's
+    /// `clipShape` drops the fill style), under which an opposite winding is a hole. Holes are
+    /// expected not to overlap one another; where two do, the overlap shows through.
+    private func itemClip(canvasSize: CGSize) -> Path? {
+        guard !clipHoles.isEmpty else { return clip }
+        let outer = clip?.boundingRect
+            ?? CGRect(origin: .zero, size: canvasSize).insetBy(dx: -canvasSize.width, dy: -canvasSize.height)
+        var path = Path()
+        path.move(to: CGPoint(x: outer.minX, y: outer.minY))
+        path.addLine(to: CGPoint(x: outer.maxX, y: outer.minY))
+        path.addLine(to: CGPoint(x: outer.maxX, y: outer.maxY))
+        path.addLine(to: CGPoint(x: outer.minX, y: outer.maxY))
+        path.closeSubpath()
+        for hole in clipHoles {
+            path.move(to: CGPoint(x: hole.minX, y: hole.minY))
+            path.addLine(to: CGPoint(x: hole.minX, y: hole.maxY))
+            path.addLine(to: CGPoint(x: hole.maxX, y: hole.maxY))
+            path.addLine(to: CGPoint(x: hole.maxX, y: hole.minY))
+            path.closeSubpath()
+        }
+        return path
     }
 
     func drawLayer(content: (inout GraphicsContext) throws -> Void) rethrows {
@@ -238,7 +275,7 @@ nonisolated struct GraphicsContext {
         // An erase (a fade cut into what is already drawn) has no shape to lay out: each item
         // is its own Compose node, composited only over the page.
         guard blendMode != .destinationOut else { return }
-        recording.items.append(CanvasItem(kind: kind, opacity: opacity, clip: clip))
+        recording.items.append(CanvasItem(kind: kind, opacity: opacity, clip: itemClip(canvasSize: recording.size)))
     }
 }
 

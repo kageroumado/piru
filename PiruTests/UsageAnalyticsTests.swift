@@ -724,9 +724,9 @@ struct UsageAnalyticsTests {
     }
 
     /// Concerta in the morning and a Ritalin booster are one drug, methylphenidate: their rows
-    /// never pair, while each still pairs with a different substance.
+    /// never pair, and together they make one methylphenidate pair with a different substance.
     @Test
-    func `Two products of one molecule are not a pair`() {
+    func `Two products of one molecule are not a pair`() throws {
         let concerta = 0, ritalin = 1, caffeine = 2
         let entries = (1 ... 3).flatMap { day in
             [
@@ -736,7 +736,36 @@ struct UsageAnalyticsTests {
             ]
         }
         let pairs = UsageAnalytics.coUsePairs(dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc))
-        #expect(Set(pairs.map { [$0.firstIndex, $0.secondIndex] }) == [[concerta, caffeine], [ritalin, caffeine]])
+        try #require(pairs.count == 1)
+        let pair = pairs[0]
+        #expect(pair.firstIndex == concerta)
+        #expect(pair.secondIndex == caffeine)
+        #expect(pair.days == 3)
+        #expect(pair.firstSpansRows)
+        #expect(!pair.secondSpansRows)
+    }
+
+    /// Concerta with Adderall one day and Ritalin with Adderall the next are two
+    /// days of one methylphenidate-and-amphetamine pair, enough to surface.
+    @Test
+    func `Products of one molecule add their days to one pair`() throws {
+        let concerta = 0, ritalin = 1, adderall = 2
+        let entries = [
+            UsageEntrySnapshot(substanceIndex: concerta, moleculeIndex: 0, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: date(2_026, 6, 1, 8)),
+            UsageEntrySnapshot(substanceIndex: adderall, moleculeIndex: 1, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: date(2_026, 6, 1, 9)),
+            UsageEntrySnapshot(substanceIndex: ritalin, moleculeIndex: 0, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: date(2_026, 6, 2, 8)),
+            UsageEntrySnapshot(substanceIndex: adderall, moleculeIndex: 1, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: date(2_026, 6, 2, 9)),
+            UsageEntrySnapshot(substanceIndex: ritalin, moleculeIndex: 0, categoryIndex: 0, routeIndex: 0, doseLevelIndex: nil, timestamp: date(2_026, 6, 3, 8)),
+        ]
+        let pairs = UsageAnalytics.coUsePairs(dayIndex: UsageAnalytics.groupByDay(entries, calendar: utc))
+        try #require(pairs.count == 1)
+        let pair = pairs[0]
+        // Ritalin is the molecule's most-logged row; the pair names it by its molecule.
+        #expect(pair.firstIndex == ritalin)
+        #expect(pair.secondIndex == adderall)
+        #expect(pair.days == 2)
+        #expect(pair.unionDays == 3)
+        #expect(pair.firstSpansRows)
     }
 
     @Test

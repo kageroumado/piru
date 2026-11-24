@@ -130,7 +130,6 @@ nonisolated struct TimelineTimeMap {
 
         var heights: [CGFloat] = []
         heights.reserveCapacity(max(times.count - 1, 0))
-        var compressed: [DateInterval] = []
         var kinds: [SegmentKind] = []
         kinds.reserveCapacity(max(times.count - 1, 0))
         var activeIndex = 0
@@ -155,10 +154,6 @@ nonisolated struct TimelineTimeMap {
             if isActive {
                 heights.append(max(minutes * ppm, Self.pastMinimumHeight))
                 continue
-            }
-            let cap = segmentStart >= now ? futureCap : gapCap
-            if minutes * ppm > cap {
-                compressed.append(DateInterval(start: segmentStart, end: segmentEnd))
             }
             if segmentStart >= now {
                 heights.append(max(min(minutes * ppm, futureCap), Self.liveEdgeMinimumHeight))
@@ -199,6 +194,16 @@ nonisolated struct TimelineTimeMap {
             }
         }
 
+        // Read after the floors: a capped run a slice grew back to the
+        // uniform scale or past it is no longer squeezed.
+        var compressed: [DateInterval] = []
+        for i in heights.indices where kinds[i] == .empty {
+            let uniform = CGFloat(times[i + 1].timeIntervalSince(times[i]) / 60) * ppm
+            if heights[i] < uniform - Self.compressionTolerance {
+                compressed.append(DateInterval(start: times[i], end: times[i + 1]))
+            }
+        }
+
         var ys: [CGFloat] = [0]
         ys.reserveCapacity(times.count)
         for h in heights {
@@ -208,6 +213,10 @@ nonisolated struct TimelineTimeMap {
         self.ys = ys
         compressedRuns = Self.merged(compressed)
     }
+
+    /// How far below the uniform scale an empty segment must be drawn to
+    /// count as squeezed: less than a point is rounding, not compression.
+    private static let compressionTolerance: CGFloat = 0.5
 
     /// Height between two moments on the strip (`from` older than `to`).
     func height(from older: Date, to newer: Date) -> CGFloat {

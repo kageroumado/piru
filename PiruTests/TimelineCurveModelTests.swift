@@ -410,6 +410,24 @@ struct TimelineCurveModelTests {
         #expect(derived.yNormalization == min(1.0 / derived.peakCurveValue, 20.0))
     }
 
+    @Test
+    func `Each stacked group carries its amplitude factor, computed once with the model`() throws {
+        let light = dose(name: "Light", magnitude: 0.1)
+        let redose = dose(name: "Light", timestamp: t0.addingTimeInterval(90 * 60), magnitude: 0.1)
+        let heavy = dose(name: "Heavy", magnitude: 1.5)
+        let derived = TimelineCurveModel.computeDerived(
+            substances: [light, redose, heavy], markers: [], stackRedoses: true, dayBounded: false, currentTime: t0,
+        )
+        #expect(derived.stackedAmplitudeFactors.count == derived.stackedGroups.count)
+        for (group, factor) in zip(derived.stackedGroups, derived.stackedAmplitudeFactors) {
+            let expected = TimelineCurveModel.stackedAmplitudeFactor(group, earliestDose: t0, yNorm: derived.yNormalization)
+            #expect(factor == expected)
+        }
+        // The lighter group is lifted more than the heavier one.
+        let byName = Dictionary(uniqueKeysWithValues: zip(derived.stackedGroups.map { $0[0].substanceName }, derived.stackedAmplitudeFactors))
+        #expect(try #require(byName["Light"]) > byName["Heavy"]!)
+    }
+
     // MARK: - Lane layout
 
     @Test

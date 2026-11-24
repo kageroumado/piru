@@ -160,6 +160,9 @@ final class UsageAnalyticsModel {
             }
 
             let categoryIndex = substance.flatMap { categoryIndices[$0.category] } ?? otherCategoryIndex
+            // The molecule is the library's canonical substance, which a brand row shares.
+            let canonical = substance?.name ?? entry.substance
+            let moleculeKey = canonical.lowercased()
             let rowKey = title.lowercased()
             let substanceIndex: Int
             if let existing = substanceIndices[rowKey] {
@@ -172,11 +175,13 @@ final class UsageAnalyticsModel {
                     displayName: title,
                     categoryIndex: categoryIndex,
                     colorKey: entry.substance,
+                    moleculeName: DoseTitle.resolve(
+                        substance: canonical, productName: nil, namesForm: false,
+                        isomer: nil, releaseForm: nil, saltForm: nil,
+                    ),
                 ))
             }
 
-            // The molecule is the library's canonical substance, which a brand row shares.
-            let moleculeKey = (substance?.name ?? entry.substance).lowercased()
             let moleculeIndex: Int
             if let existing = moleculeIndices[moleculeKey] {
                 moleculeIndex = existing

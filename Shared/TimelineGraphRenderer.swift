@@ -223,7 +223,7 @@ struct TimelineGraphRenderer {
                 guard let first = group.first else { continue }
                 let (gStart, gEnd) = stackedGroupRange(group)
                 guard global >= gStart, global <= gEnd else { continue }
-                let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group) * yNorm * stackedAmplitudeFactor(group)))
+                let v = min(1, max(0, stackedIntensity(atGlobalMinutes: global, group: group) * yNorm * stackedAmplitudeFactor(gi)))
                 guard v > 0.01 else { continue }
                 out.append(ScrubSample(id: gi, name: first.substanceName, color: first.tint.color, value: v, phase: scrubPhaseName(elapsed: global - gStart, for: first)))
             }
@@ -1372,20 +1372,11 @@ struct TimelineGraphRenderer {
     }
 
     /// What ``drawStackedCurves(context:visibleStart:visibleSpan:graphWidth:graphHeight:graphInset:graphTop:)``
-    /// scales `group`'s sampled curve by: its peak compressed the way a lone
-    /// curve's is. The scrub dots and the milestones read heights through it, so
-    /// they sit on the line as drawn.
-    private func stackedAmplitudeFactor(_ group: [ActiveSubstanceState]) -> Double {
-        let (gStart, gEnd) = stackedGroupRange(group)
-        let span = gEnd - gStart
-        guard span > 0 else { return 1 }
-        let steps = compact ? 60 : 200
-        var peak = 0.0
-        for i in 0 ... steps {
-            let t = gStart + Double(i) / Double(steps) * span
-            peak = max(peak, stackedIntensity(atGlobalMinutes: t, group: group) * yNormalization)
-        }
-        return peak > 0 ? TimelineCurveModel.compressedAmplitude(peak) / peak : 1
+    /// scales the sampled curve of stacked group `index` by, computed once
+    /// with the derived model. The scrub dots and the milestones read heights
+    /// through it, so they sit on the line as drawn.
+    private func stackedAmplitudeFactor(_ index: Int) -> Double {
+        derived.stackedAmplitudeFactors.indices.contains(index) ? derived.stackedAmplitudeFactors[index] : 1
     }
 
     private func drawStackedCurves(
@@ -1398,11 +1389,11 @@ struct TimelineGraphRenderer {
         graphTop: CGFloat,
     ) {
         let baseline = graphTop + graphHeight
-        let steps = compact ? 60 : 200
+        let steps = compact ? 60 : TimelineCurveModel.stackedCurveSteps
         let yNorm = yNormalization
 
         let nowGlobal = currentTime.timeIntervalSince(earliestDose) / 60
-        for group in stackedGroups {
+        for (index, group) in stackedGroups.enumerated() {
             guard let first = group.first else { continue }
             let color = first.tint.color
             let (gStart, gEnd) = stackedGroupRange(group)
@@ -1426,12 +1417,10 @@ struct TimelineGraphRenderer {
             // non-stacked path does, scaling the whole sampled envelope by a
             // single factor so a light group lifts off the axis without
             // deforming its shape.
-            if let groupPeak = vs.max(), groupPeak > 0 {
-                let factor = TimelineCurveModel.compressedAmplitude(groupPeak) / groupPeak
-                if factor != 1 {
-                    for i in vs.indices {
-                        vs[i] *= factor
-                    }
+            let factor = stackedAmplitudeFactor(index)
+            if factor != 1 {
+                for i in vs.indices {
+                    vs[i] *= factor
                 }
             }
 

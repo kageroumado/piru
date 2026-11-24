@@ -157,6 +157,13 @@ struct UsageSubstanceStyle {
         return substances[index].displayName
     }
 
+    /// The name of row `index`'s molecule, for a figure that counts every
+    /// product of it as one.
+    func moleculeName(_ index: Int) -> String {
+        guard substances.indices.contains(index) else { return "—" }
+        return substances[index].moleculeName
+    }
+
     func color(_ index: Int) -> Color {
         guard substances.indices.contains(index) else { return Theme.accent }
         return SubstancePalette.color(for: substances[index].colorKey, colorMap: colorMap)

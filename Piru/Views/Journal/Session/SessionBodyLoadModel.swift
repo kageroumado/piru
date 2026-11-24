@@ -220,7 +220,10 @@ struct SessionBodyLoadModel {
         guard let clear = projectedDate(remainingFraction: 0.03, active: active, ke: ke, ka: ka) else {
             return String(localized: "soon")
         }
-        if scheduledDose(of: meds, before: clear, now: .now) { return nil }
+        let now = Date.now
+        let calendar = Calendar.current
+        let loggedToday = active.doses.count { $0.timestamp <= now && calendar.isDate($0.timestamp, inSameDayAs: now) }
+        if scheduledDose(of: meds, before: clear, now: now, loggedToday: loggedToday, calendar: calendar) { return nil }
         return milestoneText(clear)
     }
 
@@ -234,11 +237,27 @@ struct SessionBodyLoadModel {
         }
     }
 
-    /// Whether one of `meds` is due after today and before `date`, at its
-    /// earliest reminder time on a due day (the day's start when it has none).
-    /// Today is left out: its dose is most often the one already logged.
-    static func scheduledDose(of meds: [DailyDoseItem], before date: Date, now: Date, calendar: Calendar = .current) -> Bool {
-        guard !meds.isEmpty, var day = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: now)) else { return false }
+    /// Whether one of `meds` has a dose slot after `now` and before `date`.
+    ///
+    /// Today, every reminder time of every due med is a slot, and the
+    /// `loggedToday` doses already taken fill the earliest of them, the way
+    /// adherence counts a day; an open slot still ahead of `now` is due. A dose
+    /// taken early therefore fills the slot it was taken for. On a later due
+    /// day the med's earliest reminder time counts (the day's start when it
+    /// has none).
+    static func scheduledDose(
+        of meds: [DailyDoseItem], before date: Date, now: Date, loggedToday: Int = 0, calendar: Calendar = .current,
+    ) -> Bool {
+        guard !meds.isEmpty else { return false }
+        let today = calendar.startOfDay(for: now)
+        let todaySlots = meds
+            .filter { AdherenceCalculator.isDue($0, on: today) }
+            .flatMap { med in med.reminderTimesMinutes.isEmpty ? [0] : med.reminderTimesMinutes }
+            .sorted()
+            .dropFirst(max(0, loggedToday))
+            .map { today.addingTimeInterval(Double($0) * 60) }
+        if todaySlots.contains(where: { $0 > now && $0 < date }) { return true }
+        guard var day = calendar.date(byAdding: .day, value: 1, to: today) else { return false }
         while day < date {
             for med in meds where AdherenceCalculator.isDue(med, on: day) {
                 let minutes = med.reminderTimesMinutes.min() ?? 0
