@@ -119,7 +119,7 @@ struct SessionShareCard: View {
                 total: row.sessionTotal,
                 unit: row.unit,
                 status: .eliminating(
-                    percent: Int(row.active.eliminatedFraction * 100),
+                    percent: Int((row.active.eliminatedFraction * 100).rounded()),
                     clear: row.clearText,
                     remaining: row.remaining,
                 ),

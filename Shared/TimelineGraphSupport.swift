@@ -36,8 +36,13 @@ enum GraphMetrics {
         enlarged ? 74 : 54
     }
     static let vitalsBandGap: CGFloat = 8
-    static func vitalsBandTotal(enlarged: Bool) -> CGFloat {
+    /// The blood-pressure row under the heart-rate band: its readings as labeled
+    /// markers at their times, on no vertical scale, plus the gap above it.
+    nonisolated static let bloodPressureRow: CGFloat = 16
+    nonisolated static let bloodPressureRowGap: CGFloat = 3
+    static func vitalsBandTotal(enlarged: Bool, bloodPressure: Bool = false) -> CGFloat {
         vitalsBandGap + laneCaption + vitalsBand(enlarged: enlarged)
+            + (bloodPressure ? bloodPressureRowGap + bloodPressureRow : 0)
     }
     /// Height of the caption row above each lane under the curves ("intensity",
     /// "heart rate", "blood pressure"), so no caption prints over a lane's marks.

@@ -24,7 +24,9 @@ struct SessionTimelineSection: View {
 
     var body: some View {
         Section {
-            let vitalsExtra = (vitals?.hasHeartRate == true) ? GraphMetrics.vitalsBandTotal(enlarged: timelineEnlarged) : 0
+            let vitalsExtra = (vitals?.hasHeartRate == true)
+                ? GraphMetrics.vitalsBandTotal(enlarged: timelineEnlarged, bloodPressure: vitals?.hasBloodPressure == true)
+                : 0
             let shulginExtra = noteMarkers.contains { $0.shulgin != nil } ? GraphMetrics.shulginLaneTotal : 0
             let bandExtra = vitalsExtra + shulginExtra
             let height = GraphMetrics.graphHeight(

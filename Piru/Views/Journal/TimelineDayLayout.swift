@@ -29,14 +29,17 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
     /// two curves make a lone glyph ambiguous about which drug it belongs to.
     let milestones: [Milestone]
     /// The plain word for what the one running dose is doing at `now`, for
-    /// the gutter under the "Now" tag. `nil` on every slice but the live edge,
-    /// and whenever the milestones are empty for the same reason.
+    /// the gutter under the "Now" tag. `nil` on every slice but the one
+    /// holding Now, and whenever the milestones are empty for the same reason.
     let wordState: WordState?
     /// Heart rate across the slice as (y, 0…1) points, y ascending. Empty
     /// unless the health overlay is on and the slice holds enough samples to
     /// read as a line.
     let heartRate: [CurvePoint]
     let hourTicks: [HourTick]
+    /// Where the axis breaks, one mark per stretch of empty time drawn shorter
+    /// than the uniform scale (``TimelineTimeMap/compressedRuns``).
+    var compressionMarks: [CGFloat] = []
     let nowY: CGFloat?
     let mapHeight: CGFloat
     let totalHeight: CGFloat
@@ -85,9 +88,13 @@ nonisolated struct TimelineDayLayout: Identifiable, Equatable, Codable {
         /// envelope ran past the slice's mapped span, and they stand behind
         /// its "+n more" footer instead. Always 0 outside an envelope.
         var hiddenItemCount = 0
-        /// `false` when the group's time capsule would overprint the "Now"
-        /// tag in the gutter — Now wins (``TimelineGutterLabels``).
+        /// `false` when the group's time capsule has no room in the gutter:
+        /// it would overprint the "Now" tag, or sit too far from its dose once
+        /// stacked under the capsules above it (``TimelineGutterLabels``).
         var showsTimeLabel = true
+        /// Where the time capsule's center sits: ``timeY``, or a few points
+        /// below it when the capsule is stacked under a newer one or the Now tag.
+        var labelY: CGFloat = 0
 
         var height: CGFloat {
             CGFloat(items.count) * cardHeight

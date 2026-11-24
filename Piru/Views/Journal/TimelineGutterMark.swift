@@ -169,6 +169,7 @@ struct TimelineDayHeader: View {
         let calendar = Calendar.current
         if isToday { return String(localized: "Today") }
         if calendar.isJournalDayYesterday(date) { return String(localized: "Yesterday") }
+        if date == calendar.journalDay(after: calendar.journalDay(for: DebugClock.now)) { return String(localized: "Tomorrow") }
         return date.formatted(.dateTime.weekday(.abbreviated))
     }
 }

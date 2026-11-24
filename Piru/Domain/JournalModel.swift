@@ -502,6 +502,14 @@ final class JournalModel {
         let prefixResolved = resolvedCount
         if prefixChanged {
             derived = newDerived
+            // The prefix's fingerprints go out with its states: the regroup
+            // below reads Grouped rows through them, and an edited dose whose
+            // old fingerprint still stood would keep its old row. The tail's
+            // stay as they were until it is resolved against them.
+            for entry in prefixEntries {
+                let id = entry.persistentModelID
+                fingerprints[id] = newFingerprints[id]
+            }
             derivedRevision += 1
             onPrefixReady()
         }

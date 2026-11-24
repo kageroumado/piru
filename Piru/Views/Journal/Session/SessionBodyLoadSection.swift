@@ -96,12 +96,18 @@ struct BodyLoadRowLabel: View {
     private var statusLine: some View {
         switch status {
         case let .eliminating(percent, clear, _):
-            Text("\(percent)% eliminated in model · threshold ~\(clear)")
-                .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
-                .minimumScaleFactor(0.8)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .font(.subheadline)
-                .foregroundStyle(Theme.secondaryLabel)
+            Group {
+                if let clear {
+                    Text("\(percent)% eliminated in model · threshold ~\(clear)")
+                } else {
+                    Text("\(percent)% eliminated in model")
+                }
+            }
+            .lineLimit(dynamicTypeSize.isAccessibilitySize ? nil : 1)
+            .minimumScaleFactor(0.8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .font(.subheadline)
+            .foregroundStyle(Theme.secondaryLabel)
         case let .cleared(hasActiveMetabolite):
             Text(hasActiveMetabolite
                 ? "Below model threshold · active metabolite may persist"
@@ -220,7 +226,7 @@ private struct SessionBodyLoadRows: View {
                     total: row.sessionTotal,
                     unit: row.unit,
                     status: .eliminating(
-                        percent: Int(row.active.eliminatedFraction * 100),
+                        percent: Int((row.active.eliminatedFraction * 100).rounded()),
                         clear: row.clearText,
                         remaining: row.remaining,
                     ),

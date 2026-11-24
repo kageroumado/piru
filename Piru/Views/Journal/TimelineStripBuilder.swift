@@ -46,13 +46,11 @@ struct TimelineStripBuilder {
     /// substance's doses share so 500 mg and 1 g stack as 500 and 1 000. A dose
     /// with no amount, or in a unit that can't be read in that one, weighs nothing.
     private let pkDoseWeights: [PersistentIdentifier: Double]
-    /// Sessions materialized by one fetch, keyed by identifier. `entry.session`
-    /// hands back a fault, and reading its `id` fires a one-row fetch — one per
-    /// session per build (508 in a launch trace). Resolving through this map
-    /// reads a live object instead; an entry whose session is not in the map
-    /// falls back to the relationship.
-    private let sessionsByID: [PersistentIdentifier: Session]
-
+    /// An entry's session through `sessions`, the sessions materialized by one
+    /// fetch. `entry.session` hands back a fault, and reading its `id` fires a
+    /// one-row fetch — one per session per build (508 in a launch trace); the map
+    /// reads a live object instead, and an entry whose session is not in it falls
+    /// back to the relationship.
     private static func session(of entry: DoseEntry, in sessions: [PersistentIdentifier: Session]) -> Session? {
         guard let session = entry.session else { return nil }
         return sessions[session.persistentModelID] ?? session
@@ -238,7 +236,6 @@ struct TimelineStripBuilder {
         guard !entries.isEmpty else { return nil }
         self.colorMap = colorMap
         self.style = style
-        sessionsByID = sessions
         self.heartRate = heartRate.sorted { $0.date < $1.date }
         let resolved = resolved ?? {
             var resolver = Resolver(tintMap: colors.tintMap, colorMap: colorMap, sessionsByID: sessions)
@@ -340,7 +337,7 @@ struct TimelineStripBuilder {
         // the day's start and call this morning "Yesterday".
         let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
         let dayStart = { (day: Date) in calendar.journalDayStart(of: day, boundaryHour: boundaryHour) }
-        let dayDates = Set(byDay.keys).union([today]).sorted(by: >)
+        var dayDates = Set(byDay.keys).union([today]).sorted(by: >)
         guard let oldestDay = byDay.keys.min() else { return nil }
 
         // Strip bounds: from just before the oldest dose up past "now" to
@@ -362,6 +359,12 @@ struct TimelineStripBuilder {
             modeledCurves: modeledCurves,
             newestDose: entries.map(\.timestamp).max()!,
         )
+        // Hours past today's end belong to tomorrow's slice, so they sit under
+        // its own tag rather than above Now under "Today".
+        let tomorrow = calendar.journalDay(after: today)
+        if globalEnd > dayStart(tomorrow), !dayDates.contains(tomorrow) {
+            dayDates = (dayDates + [tomorrow]).sorted(by: >)
+        }
 
         // Where each curve is still above threshold and not yet a baseline —
         // the spans compression must leave at the uniform scale.
@@ -400,10 +403,7 @@ struct TimelineStripBuilder {
             let groups = Self.makeGroups(
                 dayEntries: byDay[day] ?? [],
                 resolved: resolved,
-                colorMap: colorMap,
-                sessions: sessionsByID,
                 cardHeight: cardHeight,
-                now: currentTime,
             )
             sliceInfos.append(Slice(
                 date: day,
@@ -611,11 +611,13 @@ struct TimelineStripBuilder {
             nil
         }
 
-        let visibleLabels = TimelineGutterLabels.doseLabelsVisible(doseYs: groups.map(\.timeY), nowY: nowY)
+        let labelCenters = TimelineGutterLabels.doseLabelCenters(doseYs: groups.map(\.timeY), nowY: nowY)
         for k in groups.indices {
-            groups[k].showsTimeLabel = visibleLabels[k]
+            groups[k].showsTimeLabel = labelCenters[k] != nil
+            groups[k].labelY = labelCenters[k] ?? groups[k].timeY
         }
 
+        let sliceCompressedRuns = compressedRuns(slice: slice)
         let hourTicks = hourTicks(
             slice: slice,
             localY: localY,
@@ -623,12 +625,13 @@ struct TimelineStripBuilder {
             reservedTop: reservedTop,
             groups: groups,
             nowY: nowY,
+            compressedRuns: sliceCompressedRuns,
         )
 
         // With the axis off nothing draws the curves, so skip sampling them.
         let series = style.showsAxis ? curveSeries(slice: slice, localY: localY) : []
 
-        let capsuleYs = groups.filter(\.showsTimeLabel).map(\.timeY) + [nowY].compactMap(\.self)
+        let capsuleYs = groups.filter(\.showsTimeLabel).map(\.labelY) + [nowY].compactMap(\.self)
         let noteMarks = notes
             .filter { $0.timestamp >= slice.bottomTime && $0.timestamp < slice.topTime }
             .map { note in
@@ -656,7 +659,7 @@ struct TimelineStripBuilder {
         let milestones = style.showsAxis && !pkCurves
             ? milestones(slice: slice, localY: localY, series: series, groups: groups, envelopes: envelopes)
             : []
-        let wordState = showsLiveEdge ? self.wordState(
+        let wordState = nowY != nil ? self.wordState(
             nowY: nowY,
             hourTicks: hourTicks,
             groups: groups,
@@ -687,10 +690,34 @@ struct TimelineStripBuilder {
             wordState: wordState,
             heartRate: heartRatePoints,
             hourTicks: hourTicks,
+            compressionMarks: style.showsAxis ? Self.compressionMarks(
+                runs: sliceCompressedRuns, localY: localY, from: reservedTop, to: mapHeight,
+            ) : [],
             nowY: nowY,
             mapHeight: mapHeight,
             totalHeight: totalHeight,
         )
+    }
+
+    /// The compressed runs overlapping `slice`, found by binary search: the
+    /// runs are ascending and disjoint, and a long log has thousands.
+    private func compressedRuns(slice: Slice) -> ArraySlice<DateInterval> {
+        let runs = map.compressedRuns
+        let lower = Self.firstIndex(in: runs) { $0.end > slice.bottomTime }
+        let upper = Self.firstIndex(in: runs) { $0.start >= slice.topTime }
+        return lower < upper ? runs[lower ..< upper] : []
+    }
+
+    /// The axis-break marks for one slice: each compressed run's middle, in
+    /// slice coordinates, where it lies between `top` (below the day tag) and
+    /// `bottom`.
+    static func compressionMarks(
+        runs: some Sequence<DateInterval>, localY: (Date) -> CGFloat, from top: CGFloat, to bottom: CGFloat,
+    ) -> [CGFloat] {
+        runs.compactMap { run in
+            let y = (localY(run.start) + localY(run.end)) / 2
+            return y > top && y < bottom ? y : nil
+        }
     }
 
     /// The heart-rate band the lane maps: 40 bpm sits on the axis, 160 bpm at
@@ -870,7 +897,7 @@ struct TimelineStripBuilder {
         guard y <= mapHeight - height / 2 else { return nil }
         let frame = TimelineGutterLabels.Frame(center: y, height: height)
         let occupied = hourTicks.filter { $0.label != nil }.map(\.y)
-            + groups.filter(\.showsTimeLabel).map(\.timeY)
+            + groups.filter(\.showsTimeLabel).map(\.labelY)
         guard occupied.allSatisfy({
             !frame.collides(with: TimelineGutterLabels.Frame(center: $0, height: height))
         }) else { return nil }
@@ -884,10 +911,11 @@ struct TimelineStripBuilder {
 
     // MARK: Hour ruler
 
-    /// A gridline for every hour that fits (≥8 pt apart — in a compressed
-    /// gap they bunch, which is the compression cue); labels additionally
-    /// thin out around the day tag, dose capsules, the "Now" tag, each other,
-    /// and any label a displaced card has pushed out of time order.
+    /// A gridline for every hour that fits (≥8 pt apart; in a compressed gap
+    /// they bunch). Labels go only on hours at the strip's scale, never inside
+    /// a compressed run, and thin out around the day tag, dose capsules, the
+    /// "Now" tag, each other, and any label a displaced card has pushed out of
+    /// time order.
     private func hourTicks(
         slice: Slice,
         localY: (Date) -> CGFloat,
@@ -895,12 +923,13 @@ struct TimelineStripBuilder {
         reservedTop: CGFloat,
         groups: [TimelineDayLayout.CardGroup],
         nowY: CGFloat?,
+        compressedRuns: ArraySlice<DateInterval>,
     ) -> [TimelineDayLayout.HourTick] {
         let calendar = Calendar.current
         guard var t = calendar.dateInterval(of: .hour, for: slice.bottomTime)?.end else { return [] }
 
         let labels = groups.map { (time: $0.representativeTime, y: $0.timeY) }
-        let visibleDoseYs = groups.filter(\.showsTimeLabel).map(\.timeY)
+        let visibleDoseYs = groups.filter(\.showsTimeLabel).map(\.labelY)
         let labelHalf = TimelineGutterLabels.hourLabelHeight / 2
         let labelSpacing = TimelineGutterLabels.hourLabelHeight + TimelineGutterLabels.gap
         var ticks: [TimelineDayLayout.HourTick] = []
@@ -914,7 +943,11 @@ struct TimelineStripBuilder {
             let ordered = labels.allSatisfy { label in
                 label.time < t ? label.y > y - 4 : label.y < y + 4
             }
+            // Inside a squeezed stretch the hours are not at the strip's scale:
+            // they keep their gridlines, and the axis break says why.
+            let squeezed = compressedRuns.contains { $0.start < t && t < $0.end }
             let labelFits = y >= labelHalf && y <= mapHeight - labelHalf
+                && !squeezed
                 && ordered
                 && TimelineGutterLabels.hourLabelFits(y: y, doseYs: visibleDoseYs, nowY: nowY, reservedTop: reservedTop)
                 && lastLabelY - y >= labelSpacing
@@ -1348,25 +1381,13 @@ struct TimelineStripBuilder {
     private static func makeGroups(
         dayEntries: [DoseEntry],
         resolved: Resolved,
-        colorMap: [String: Color],
-        sessions: [PersistentIdentifier: Session],
         cardHeight: CGFloat,
-        now: Date,
     ) -> [TimelineDayLayout.CardGroup] {
-        // A dose the resolver skipped (deleted while it ran) is read here.
-        let dayItems = dayEntries.map { entry -> (item: TimelineDayLayout.CardItem, sessionID: UUID?) in
+        // A dose the resolver skipped was deleted while it ran: it has no card,
+        // and its fields are never read again.
+        let dayItems = dayEntries.compactMap { entry -> (item: TimelineDayLayout.CardItem, sessionID: UUID?)? in
             let id = entry.persistentModelID
-            if let item = resolved.items[id] { return (item, resolved.sessionIDs[id]) }
-            let state = resolved.states[id]
-            let running = state.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) > now } ?? false
-            let item = TimelineDayLayout.CardItem(
-                entry: entry,
-                displayName: DoseTitle.resolve(for: entry),
-                color: SubstancePalette.color(for: entry.substance, colorMap: colorMap),
-                remainingFraction: resolved.remainingFractions[id],
-                state: running ? state : nil,
-            )
-            return (item, session(of: entry, in: sessions)?.id)
+            return resolved.items[id].map { ($0, resolved.sessionIDs[id]) }
         }
         .sorted { $0.item.timestamp < $1.item.timestamp }
         var groups: [TimelineDayLayout.CardGroup] = []

@@ -27,15 +27,81 @@ private struct CurvePoint {
     let concentration: Double
 }
 
-private struct OverlapPoint {
-    let hours: Double
-}
-
 private struct ChartData {
     let pointsA: [CurvePoint]
     let pointsB: [CurvePoint]
-    let overlap: [OverlapPoint]
+    /// Hours from the first dose during which both curves are above
+    /// ``InteractionOverlap/activeThreshold`` of their own peaks.
+    let overlap: ClosedRange<Double>?
+    /// Hours until the later curve falls to 5% of its peak.
     let totalHours: Double
+    /// The hours the chart shows (``InteractionOverlap/visibleHours(totalHours:overlap:)``).
+    let visibleHours: Double
+    /// The substance whose curve runs past the chart's right edge, and the hour
+    /// it falls to 5% of its peak; `nil` when both end on the chart.
+    let continuing: (substance: Side, hours: Double)?
+
+    enum Side { case a, b }
+}
+
+/// When two dose curves are both in the body, and how much of that the chart
+/// shows. Pure functions over the one-compartment curve, so the window can be
+/// tested without a substance database.
+nonisolated enum InteractionOverlap {
+    /// One dose's curve: its rate constants and its delay after the first dose.
+    struct Curve {
+        let ke: Double
+        let ka: Double
+        let offsetMinutes: Double
+        private let peak: Double
+
+        init(ke: Double, ka: Double, offsetMinutes: Double) {
+            self.ke = ke
+            self.ka = ka
+            self.offsetMinutes = offsetMinutes
+            peak = PKModel.cmax(ke: ke, ka: ka)
+        }
+
+        /// Concentration at `minutes` after the first dose, as a percentage of
+        /// this curve's own peak.
+        func percentOfPeak(at minutes: Double) -> Double {
+            let elapsed = minutes - offsetMinutes
+            guard elapsed >= 0, peak > 0 else { return 0 }
+            return max(0, PKModel.concentration(at: elapsed, ke: ke, ka: ka) / peak * 100)
+        }
+    }
+
+    /// A curve counts as active above this share of its own peak.
+    static let activeThreshold: Double = 3
+
+    /// Minutes from the first dose during which both curves are active, read
+    /// minute by minute up to `horizonMinutes`; `nil` when they never are.
+    static func window(_ a: Curve, _ b: Curve, horizonMinutes: Double) -> ClosedRange<Double>? {
+        var start: Double?
+        var end: Double?
+        var minute = 0.0
+        while minute <= horizonMinutes {
+            if a.percentOfPeak(at: minute) > activeThreshold, b.percentOfPeak(at: minute) > activeThreshold {
+                if start == nil { start = minute }
+                end = minute
+            }
+            minute += 1
+        }
+        guard let start, let end else { return nil }
+        return start ... end
+    }
+
+    /// The hours the chart shows: the overlap with half as much again after it
+    /// (at least ``minimumVisibleHours``), so a short overlap beside a curve
+    /// that lasts days still fills the chart. Both whole curves when they never
+    /// overlap, or when the overlap is most of them.
+    static func visibleHours(totalHours: Double, overlap: ClosedRange<Double>?) -> Double {
+        guard let overlap else { return totalHours }
+        let fitted = max(minimumVisibleHours, overlap.upperBound * 1.5)
+        return fitted < totalHours * 0.8 ? fitted : totalHours
+    }
+
+    static let minimumVisibleHours: Double = 6
 }
 
 @Observable @MainActor
@@ -165,44 +231,36 @@ private final class InteractionTimelineModel {
 
         let tailA = PKModel.timeToFraction(0.05, ke: pA.ke, ka: pA.ka, maxMinutes: pA.halfLifeMinutes * 7)
         let tailB = PKModel.timeToFraction(0.05, ke: pB.ke, ka: pB.ka, maxMinutes: pB.halfLifeMinutes * 7)
-        let totalMinutes = max(offsetAMinutes + tailA, offsetBMinutes + tailB)
+        let endA = offsetAMinutes + tailA
+        let endB = offsetBMinutes + tailB
+        let totalMinutes = max(endA, endB)
         let totalHours = totalMinutes / 60
 
-        let cmaxA = PKModel.cmax(ke: pA.ke, ka: pA.ka)
-        let cmaxB = PKModel.cmax(ke: pB.ke, ka: pB.ka)
+        let curveA = InteractionOverlap.Curve(ke: pA.ke, ka: pA.ka, offsetMinutes: offsetAMinutes)
+        let curveB = InteractionOverlap.Curve(ke: pB.ke, ka: pB.ka, offsetMinutes: offsetBMinutes)
+        let overlap = InteractionOverlap.window(curveA, curveB, horizonMinutes: totalMinutes)
+            .map { ($0.lowerBound / 60) ... ($0.upperBound / 60) }
+        let visibleHours = InteractionOverlap.visibleHours(totalHours: totalHours, overlap: overlap)
 
+        // Sampled over the hours shown, so a short window keeps its resolution.
         let steps = 200
         var pointsA: [CurvePoint] = []
         var pointsB: [CurvePoint] = []
-        var overlap: [OverlapPoint] = []
-
         for i in 0 ... steps {
-            let t = Double(i) / Double(steps) * totalMinutes
-            let hours = t / 60
-
-            let elapsedA = t - offsetAMinutes
-            let concA: Double = if elapsedA >= 0, cmaxA > 0 {
-                max(0, PKModel.concentration(at: elapsedA, ke: pA.ke, ka: pA.ka) / cmaxA * 100)
-            } else {
-                0
-            }
-
-            let elapsedB = t - offsetBMinutes
-            let concB: Double = if elapsedB >= 0, cmaxB > 0 {
-                max(0, PKModel.concentration(at: elapsedB, ke: pB.ke, ka: pB.ka) / cmaxB * 100)
-            } else {
-                0
-            }
-
-            pointsA.append(CurvePoint(hours: hours, concentration: concA))
-            pointsB.append(CurvePoint(hours: hours, concentration: concB))
-
-            if concA > 3, concB > 3 {
-                overlap.append(OverlapPoint(hours: hours))
-            }
+            let t = Double(i) / Double(steps) * visibleHours * 60
+            pointsA.append(CurvePoint(hours: t / 60, concentration: curveA.percentOfPeak(at: t)))
+            pointsB.append(CurvePoint(hours: t / 60, concentration: curveB.percentOfPeak(at: t)))
         }
 
-        return ChartData(pointsA: pointsA, pointsB: pointsB, overlap: overlap, totalHours: totalHours)
+        let continuing: (substance: ChartData.Side, hours: Double)? = if visibleHours >= totalHours {
+            nil
+        } else {
+            endA >= endB ? (.a, endA / 60) : (.b, endB / 60)
+        }
+        return ChartData(
+            pointsA: pointsA, pointsB: pointsB, overlap: overlap,
+            totalHours: totalHours, visibleHours: visibleHours, continuing: continuing,
+        )
     }
 }
 
@@ -336,10 +394,22 @@ private struct TimelineChartCard: View {
 
     var body: some View {
         let nowHours = Date.now.timeIntervalSince(referenceTime) / 3_600
-        let showNowMarker = nowHours > 0.05 && nowHours < data.totalHours
+        let showNowMarker = nowHours > 0.05 && nowHours < data.visibleHours
+        let showsDays = data.visibleHours > 48
 
         return VStack(alignment: .leading, spacing: Spacing.md) {
             Chart {
+                // The window the screen is about, shaded under both curves.
+                if let overlap = data.overlap {
+                    RectangleMark(
+                        xStart: .value("Overlap start", overlap.lowerBound),
+                        xEnd: .value("Overlap end", min(overlap.upperBound, data.visibleHours)),
+                        yStart: .value("Floor", 0.0),
+                        yEnd: .value("Ceiling", 105.0),
+                    )
+                    .foregroundStyle(Theme.secondaryLabel.opacity(0.12))
+                }
+
                 ForEach(data.pointsA, id: \.hours) { point in
                     LineMark(
                         x: .value("Time", point.hours),
@@ -369,12 +439,18 @@ private struct TimelineChartCard: View {
                 }
             }
             .chartXAxis {
-                AxisMarks(values: .automatic) { value in
+                AxisMarks(values: showsDays ? .stride(by: 24) : .automatic) { value in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.3))
                     AxisValueLabel {
                         if let h = value.as(Double.self) {
-                            Text("\(Int(h))h")
-                                .font(.caption2)
+                            Group {
+                                if showsDays {
+                                    Text("\(Int(h / 24))d")
+                                } else {
+                                    Text("\(Int(h))h")
+                                }
+                            }
+                            .font(.caption2)
                         }
                     }
                 }
@@ -390,18 +466,15 @@ private struct TimelineChartCard: View {
                     }
                 }
             }
-            .chartXScale(domain: 0 ... data.totalHours)
+            .chartXScale(domain: 0 ... data.visibleHours)
             .chartYScale(domain: 0 ... 105)
             .chartLegend(.hidden)
             .frame(height: 220)
             .chartSummaryAccessibility(
                 label: Text("Concentration Curves"),
-                value: {
-                    let window = overlapWindow(in: data)
-                    return window.map { w in
-                        Text("\(substanceA) and \(substanceB) over time; both active from \(formatHours(w.start)) to \(formatHours(w.end)).")
-                    } ?? Text("\(substanceA) and \(substanceB) over time; the model shows no overlapping window.")
-                }(),
+                value: data.overlap.map { w in
+                    Text("\(substanceA) and \(substanceB) over time; both active from \(formatHours(w.lowerBound)) to \(formatHours(w.upperBound)).")
+                } ?? Text("\(substanceA) and \(substanceB) over time; the model shows no overlapping window."),
             )
 
             HStack(spacing: Spacing.xxl) {
@@ -409,6 +482,15 @@ private struct TimelineChartCard: View {
                 legendItem(color: colorB, label: substanceB)
             }
             .font(.caption)
+
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
+                Text("Each curve is a percentage of its own peak.")
+                if let continuing = data.continuing {
+                    let name = continuing.substance == .a ? substanceA : substanceB
+                    Text("\(name) runs past the chart, to ~\(formatDuration(continuing.hours * 60)).")
+                }
+            }
+            .captionSecondary()
         }
         .padding()
         .themeCard()
@@ -458,7 +540,7 @@ private struct TimelineDetailsCard: View {
                 hasRecentEntry: hasRecentEntryB, params: paramsB,
             )
 
-            let window = overlapWindow(in: data)
+            let window = data.overlap
             Divider().padding(.leading, 22)
 
             HStack(spacing: Spacing.md) {
@@ -469,7 +551,7 @@ private struct TimelineDetailsCard: View {
                     .foregroundStyle(window != nil ? severity.labelColor : Theme.secondaryLabel)
                     .accessibilityHidden(true)
                 if let window {
-                    Text("Both active \(formatHours(window.start))–\(formatHours(window.end)) (\(formatHours(window.end - window.start)) overlap)")
+                    Text("Both active \(formatHours(window.lowerBound))–\(formatHours(window.upperBound)) (\(formatHours(window.upperBound - window.lowerBound)) overlap)")
                         .captionSecondary()
                 } else {
                     Text("No overlap shown by this model. The interaction may still apply.")
@@ -661,13 +743,6 @@ private struct TimelineAnalysisCard: View {
                 .captionSecondary()
         }
     }
-}
-
-// MARK: - Overlap Window
-
-private func overlapWindow(in data: ChartData) -> (start: Double, end: Double)? {
-    guard let first = data.overlap.first, let last = data.overlap.last else { return nil }
-    return (first.hours, last.hours)
 }
 
 // MARK: - Disclaimer (footer text, no card)

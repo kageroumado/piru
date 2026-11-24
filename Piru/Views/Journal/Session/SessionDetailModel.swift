@@ -134,8 +134,19 @@ final class SessionDetailModel {
     /// Synthetic vitals for on-simulator visual verification, gated behind the
     /// `-piruFakeVitals` launch argument. Never compiled into release builds. HR
     /// rises after each dose (stimulant/alcohol tachycardia) with a little wobble,
-    /// plus a couple of blood-pressure spot checks.
+    /// plus a couple of blood-pressure spot checks. The doses' responses add up to a
+    /// drive that saturates, so a session of twenty doses still peaks in a human
+    /// range (~110 bpm) rather than summing one rise per dose.
     enum DebugVitals {
+        /// Resting rate the series starts from, and the most the doses can add to it.
+        static let restingBpm: Double = 64
+        static let maximumRiseBpm: Double = 46
+
+        /// Heart rate for a summed dose `drive` (one dose at its peak is 1).
+        static func bpm(drive: Double) -> Double {
+            restingBpm + maximumRiseBpm * (1 - exp(-max(0, drive) / 2.5))
+        }
+
         static func synthetic(doses: [Date], start: Date, end: Date) -> SessionVitals {
             let totalMinutes = end.timeIntervalSince(start) / 60
             guard totalMinutes > 0 else { return .empty }
@@ -161,10 +172,8 @@ final class SessionDetailModel {
             var minute = -VitalsAnalysis.baselineLookback / 60
             var index = 0
             while minute <= totalMinutes {
-                var bpm = 64 - 0.01 * minute
-                for (position, dose) in doseMinutes.enumerated() {
-                    bpm += Double(9 + position * 4) * bump(minute, at: dose, rise: 30, fall: 160)
-                }
+                let drive = doseMinutes.reduce(0) { $0 + bump(minute, at: $1, rise: 30, fall: 160) }
+                var bpm = Self.bpm(drive: drive) - min(8, 0.01 * max(0, minute))
                 bpm += 2.4 * sin(Double(index) * 1.7) + 1.6 * sin(Double(index) * 0.9)
                 let running = workout.map { minute >= $0.start && minute <= $0.end } ?? false
                 if running { bpm += 52 }

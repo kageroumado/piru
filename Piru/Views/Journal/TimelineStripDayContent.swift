@@ -78,7 +78,7 @@ struct TimelineStripDayContent: View {
             }
             ForEach(day.cardGroups.filter(\.showsTimeLabel)) { group in
                 TimelineTimeCapsule(date: group.representativeTime)
-                    .offset(x: TimelineGutter.edgeInset, y: group.timeY - TimelineGutterMarkMetrics.singleLineHeight / 2)
+                    .offset(x: TimelineGutter.edgeInset, y: group.labelY - TimelineGutterMarkMetrics.singleLineHeight / 2)
             }
             if let y = day.nowY {
                 TimelineNowMark()
@@ -255,8 +255,8 @@ struct TimelineStripDayContent: View {
 
         // Hour gridlines across the strip, stopping short of the bubbles where
         // a card stands at that hour and running to the trailing edge where
-        // none does; in a compressed gap they bunch together, which is what
-        // says "time is squeezed here".
+        // none does; in a compressed gap they bunch together beside the axis
+        // break.
         let cardGridlineEnd = max(axisX, bubbleLeft - Self.gridlineInset)
         let openGridlineEnd = max(axisX, size.width - TimelineGutter.edgeInset)
         for tick in day.hourTicks where visibleY.contains(tick.y) {
@@ -538,6 +538,8 @@ struct TimelineStripDayContent: View {
 
     /// Length of the axis fade into a break below the slice.
     private static let axisFadeLength: CGFloat = 40
+    /// Half the gap the axis leaves at a compressed stretch.
+    private static let axisBreakHalfGap: CGFloat = 3
 
     /// The time axis, running the slice below any break at its top (bubbles
     /// can spill past the mapped span; the axis keeps going so the strip
@@ -549,9 +551,20 @@ struct TimelineStripDayContent: View {
     /// carries no direction marks of its own.
     private func drawAxis(in context: inout GraphicsContext, size: CGSize, axisX: CGFloat) {
         let axisTop: CGFloat = day.breakAbove + (day.showsLiveEdge ? 16 : 0)
-        let axisColor = Color.primary.opacity(day.showsLiveEdge ? 0.22 : 0.12)
+        // The live stretch, the newest slice and today's under it, draws heavier.
+        let isLive = day.showsLiveEdge || day.isToday
+        let axisColor = Color.primary.opacity(isLive ? 0.22 : 0.12)
+        // The axis breaks at each compressed stretch: a gap between two short
+        // slanted strokes, the chart convention for "time is cut here".
+        let breaks = day.compressionMarks.filter { $0 > axisTop + Self.axisBreakHalfGap }.sorted()
         var axisLine = Path()
-        axisLine.move(to: CGPoint(x: axisX, y: axisTop))
+        var segmentTop = axisTop
+        for y in breaks {
+            axisLine.move(to: CGPoint(x: axisX, y: segmentTop))
+            axisLine.addLine(to: CGPoint(x: axisX, y: y - Self.axisBreakHalfGap))
+            segmentTop = y + Self.axisBreakHalfGap
+        }
+        axisLine.move(to: CGPoint(x: axisX, y: segmentTop))
         axisLine.addLine(to: CGPoint(x: axisX, y: size.height))
         let shading: GraphicsContext.Shading = if day.fadesAxisBelow, size.height > axisTop + Self.axisFadeLength {
             .linearGradient(
@@ -566,7 +579,15 @@ struct TimelineStripDayContent: View {
         } else {
             .color(axisColor)
         }
-        context.stroke(axisLine, with: shading, lineWidth: day.showsLiveEdge ? 1 : 0.7)
+        context.stroke(axisLine, with: shading, lineWidth: isLive ? 1 : 0.7)
+        var breakMarks = Path()
+        for y in breaks {
+            for edge in [y - Self.axisBreakHalfGap, y + Self.axisBreakHalfGap] {
+                breakMarks.move(to: CGPoint(x: axisX - 4, y: edge + 1.5))
+                breakMarks.addLine(to: CGPoint(x: axisX + 4, y: edge - 1.5))
+            }
+        }
+        context.stroke(breakMarks, with: .color(Color.primary.opacity(0.35)), style: StrokeStyle(lineWidth: 1, lineCap: .round))
         if day.showsLiveEdge {
             var arrow = Path()
             arrow.move(to: CGPoint(x: axisX - 4.5, y: axisTop + 6))
