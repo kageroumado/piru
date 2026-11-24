@@ -141,7 +141,7 @@ PortableData must preserve these SwiftData behaviors. Tests use Piru's real `@Mo
 
 ## Distribution, signing and data
 
-- **Distribution.** GitHub releases carry APKs for direct installation or Obtainium, with the corresponding source branch published. About includes the Android dependency notices: MPL-2.0 Skip modules and their modified source, Apache NOTICE files, Unicode/ICU, curl/OpenSSL, BSD-2, and Material Symbols.
+- **Distribution.** GitHub releases carry APKs for direct installation or Obtainium, with the corresponding source branch published. About includes the Android dependency notices: the Skip modules under their own licenses (SkipUI and SkipFuseUI Apache-2.0 with Runtime Library Exception, the others MPL-2.0) and where their modified source is, Apache NOTICE files, Unicode/ICU, curl/OpenSSL, BSD-2, and Material Symbols.
 - **Signing.** The release key follows Android's current guidance (RSA 4096, a validity far
   past 25 years, APK Signature Scheme v2+v3 so it can rotate) and lives in the macOS keychain.
   The build reads it at signing time, and a release build fails without it. Losing it strands

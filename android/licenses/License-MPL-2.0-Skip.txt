@@ -1,7 +1,7 @@
-Skip (skip-lib, skip-foundation, skip-model, skip-ui, skip-unit, skip-bridge,
-skip-android-bridge, skip-fuse, skip-fuse-ui). Copyright Skip.
+Skip (skip-lib, skip-foundation, skip-model, skip-unit, skip-bridge,
+skip-android-bridge, skip-fuse). Copyright Skip.
 
-Piru for Android ships modified versions of skip-ui and skip-fuse-ui, built with a
+Piru for Android ships a modified version of skip-android-bridge, built with a
 modified skipstone. The Source Code Form of every modification is the set of patches
 in android/vendor/ of https://github.com/kageroumado/piru, applied to the upstream
 tags named in android/tools/stage.py, at the commit each release names.
