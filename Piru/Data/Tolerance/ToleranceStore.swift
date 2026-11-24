@@ -235,6 +235,20 @@ final class ToleranceStore {
     /// the tool or returning to it serves the warm snapshot instead of replaying the whole log again.
     @ObservationIgnored private var lastSignature: String?
 
+    /// The pharmacology last read by ``parameters(for:)``, with the logged names and source order it
+    /// was read for.
+    private struct ParametersMemo {
+        let names: Set<String>
+        let sourceOrder: [String]
+        let parameters: [String: PharmacologyParameters]
+    }
+
+    @ObservationIgnored private var parametersMemo: ParametersMemo?
+
+    /// How many times this store has read pharmacology from the database. Tests read it to check
+    /// that replays of one log share one read.
+    @ObservationIgnored private(set) var parameterReadCount = 0
+
     @ObservationIgnored private var container: ModelContainer?
     @ObservationIgnored private var context: ModelContext?
 
@@ -307,7 +321,7 @@ final class ToleranceStore {
     /// The replay's view of a dose log: every dose that carries a number. An
     /// unknown dose has no concentration to replay, so it is not in the log at
     /// all here — every entry point folds entries through this one function.
-    private nonisolated static func snapshots(of entries: [DoseEntry]) -> [DoseSnapshot] {
+    nonisolated static func snapshots(of entries: [DoseEntry]) -> [DoseSnapshot] {
         entries.compactMap { entry in
             entry.quantity.map { DoseSnapshot(substance: entry.substance, dose: $0, timestamp: entry.timestamp) }
         }
@@ -343,12 +357,7 @@ final class ToleranceStore {
         let doses = entries.map {
             SimDose(substance: $0.substance, amountMg: $0.dose.milligrams, timestamp: $0.timestamp)
         }
-        // Resolve pharmacology off the main actor: the per-substance Kᵢ/PK/molar-mass reads run on
-        // SubstanceStore's batch connection, not in a tight loop on main (the post-commit hang the
-        // 1.5 s launch delay only masked). The class representatives are resolved alongside the logged
-        // substances so the PK-less fallback has their PK template in `params`.
-        let uniqueNames = Array(Set(doses.map(\.substance) + SubstanceStore.shared.classRepresentativeNames()))
-        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
+        let params = await parameters(for: doses)
 
         let computed = await Self.computeOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
         states = computed
@@ -357,29 +366,23 @@ final class ToleranceStore {
         persist(computed, now: now)
     }
 
-    /// Forward relative-load curve for one class from `now` (∈ [0, 1], fraction of the user's recent peak
-    /// drive) — the saturation-immune clearance the withdrawal clock and the receptor-loading card read.
-    /// Resolves pharmacology + body weight exactly as ``recompute(from:now:)`` does, then evaluates the
-    /// class's active contributors off main.
-    func loadTrail(
-        for receptorClass: ReceptorClasses.ReceptorClass,
-        from entries: [DoseEntry],
-        now: Date = .now,
-        pastHorizon: TimeInterval = 0,
-        horizon: TimeInterval = 21 * 86_400,
-        step: TimeInterval = 3 * 3_600,
-    ) async -> [(date: Date, load: Double)] {
-        let weightKg = UserProfileStore.shared.effectiveWeightKg
-        let doses = Self.snapshots(of: entries).map {
-            SimDose(substance: $0.substance, amountMg: $0.dose.milligrams, timestamp: $0.timestamp)
+    /// The pharmacology every replay of `doses` reads: each logged substance and each class
+    /// representative, resolved off the main actor on SubstanceStore's batch connection. The last
+    /// read is held while the logged names and the source order stay the same, so the tool, Receptor
+    /// Load and the loading card replay one log on one read.
+    func parameters(for doses: [SimDose]) async -> [String: PharmacologyParameters] {
+        let logged = Set(doses.map(\.substance))
+        let order = SubstanceStore.shared.enabledSourceOrder
+        if let memo = parametersMemo, memo.names == logged, memo.sourceOrder == order {
+            return memo.parameters
         }
-        let uniqueNames = Array(Set(doses.map(\.substance) + SubstanceStore.shared.classRepresentativeNames()))
-        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
-        return Self.loadTrail(
-            doses: doses, params: params, now: now, weightKg: weightKg,
-            receptorClass: receptorClass, horizonMinutes: horizon / 60, stepMinutes: step / 60,
-            pastHorizonMinutes: pastHorizon / 60,
-        )
+        // The class representatives are resolved alongside the logged substances so the PK-less
+        // fallback has their PK template in `params`.
+        let names = Array(logged.union(SubstanceStore.shared.classRepresentativeNames()))
+        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: names)
+        parameterReadCount += 1
+        parametersMemo = ParametersMemo(names: logged, sourceOrder: order, parameters: params)
+        return params
     }
 
     /// Replay **each logged substance independently** — its own doses only — to populate
@@ -395,10 +398,8 @@ final class ToleranceStore {
         let doses = snapshots.map {
             SimDose(substance: $0.substance, amountMg: $0.dose.milligrams, timestamp: $0.timestamp)
         }
-        // Resolve pharmacology for every logged substance and the class representatives once (shared
-        // across the per-substance replays, exactly as the joint recompute does).
-        let uniqueNames = Array(Set(doses.map(\.substance) + SubstanceStore.shared.classRepresentativeNames()))
-        let params = await SubstanceStore.shared.pharmacologyParametersBatchOffMain(forNames: uniqueNames)
+        // One pharmacology read shared across the per-substance replays, as the joint recompute does.
+        let params = await parameters(for: doses)
 
         perSubstanceStates = await Self.computePerSubstanceOffMain(doses: doses, params: params, now: now, weightKg: weightKg)
         perSubstanceSignature = signature
@@ -1206,17 +1207,62 @@ final class ToleranceStore {
               let prepared = buildClassWork(doses: doses, params: params, now: now, weightKg: weightKg, lookbackDays: lookbackDays),
               let work = prepared.work.first(where: { $0.receptorClass == receptorClass })
         else { return [] }
-        let start = now.addingTimeInterval(-prepared.totalMinutes * 60)
+        return loadSamples(
+            work.contributors, now: now, totalMinutes: prepared.totalMinutes,
+            pastHorizonMinutes: pastHorizonMinutes, horizonMinutes: horizonMinutes,
+            stepMinutes: stepMinutes, endsAtHorizon: false,
+        )
+    }
+
+    /// ``loadTrail(doses:params:now:weightKg:receptorClass:horizonMinutes:stepMinutes:pastHorizonMinutes:lookbackDays:)``
+    /// for several classes over the past only, from one ``buildClassWork`` pass, each trail closing
+    /// with a sample at `now`. Keyed by class; a requested class no in-window dose drives has no key.
+    nonisolated static func loadTrails(
+        doses: [SimDose], params: [String: PharmacologyParameters], now: Date, weightKg: Double,
+        classes: Set<ReceptorClasses.ReceptorClass>, stepMinutes: Double, pastHorizonMinutes: Double,
+        lookbackDays: Double = defaultLookbackDays,
+    ) -> [ReceptorClasses.ReceptorClass: [(date: Date, load: Double)]] {
+        guard stepMinutes > 0, pastHorizonMinutes >= 0,
+              let prepared = buildClassWork(doses: doses, params: params, now: now, weightKg: weightKg, lookbackDays: lookbackDays)
+        else { return [:] }
+        var trails: [ReceptorClasses.ReceptorClass: [(date: Date, load: Double)]] = [:]
+        for work in prepared.work where classes.contains(work.receptorClass) {
+            trails[work.receptorClass] = loadSamples(
+                work.contributors, now: now, totalMinutes: prepared.totalMinutes,
+                pastHorizonMinutes: pastHorizonMinutes, horizonMinutes: 0,
+                stepMinutes: stepMinutes, endsAtHorizon: true,
+            )
+        }
+        return trails
+    }
+
+    /// One class's relative load sampled every `stepMinutes` from `pastHorizonMinutes` before the
+    /// replay's end (or its first dose, if later) to `horizonMinutes` after it. With `endsAtHorizon`
+    /// the last sample sits exactly on the horizon even when the step does not land there.
+    private nonisolated static func loadSamples(
+        _ contributors: [Contributor], now: Date, totalMinutes: Double,
+        pastHorizonMinutes: Double, horizonMinutes: Double, stepMinutes: Double, endsAtHorizon: Bool,
+    ) -> [(date: Date, load: Double)] {
+        let start = now.addingTimeInterval(-totalMinutes * 60)
         // Reference peak over the recent past (3 weeks) — long enough to catch the last real dosing spike,
         // short enough that a months-old course doesn't anchor "recent" load.
-        let peakDrive = recentPeakDrive(work.contributors, endMinutes: prepared.totalMinutes, windowMinutes: 21 * 24 * 60, stepMinutes: stepMinutes)
+        var peakDrive = recentPeakDrive(contributors, endMinutes: totalMinutes, windowMinutes: 21 * 24 * 60, stepMinutes: stepMinutes)
+        if endsAtHorizon {
+            // The step grid can stop short of now, and a dose still absorbing peaks at now.
+            peakDrive = Swift.max(peakDrive, combinedDrive(contributors, atMinutes: totalMinutes))
+        }
+        func load(at t: Double) -> Double {
+            peakDrive > 1e-9 ? Swift.min(1, combinedDrive(contributors, atMinutes: t) / peakDrive) : 0
+        }
         var points: [(date: Date, load: Double)] = []
-        var t = Swift.max(0, prepared.totalMinutes - pastHorizonMinutes)
-        let end = prepared.totalMinutes + horizonMinutes
+        var t = Swift.max(0, totalMinutes - pastHorizonMinutes)
+        let end = totalMinutes + horizonMinutes
         while t <= end {
-            let load = peakDrive > 1e-9 ? Swift.min(1, combinedDrive(work.contributors, atMinutes: t) / peakDrive) : 0
-            points.append((start.addingTimeInterval(t * 60), load))
+            points.append((start.addingTimeInterval(t * 60), load(at: t)))
             t += stepMinutes
+        }
+        if endsAtHorizon, let last = points.last, start.addingTimeInterval(end * 60).timeIntervalSince(last.date) > 1 {
+            points.append((start.addingTimeInterval(end * 60), load(at: end)))
         }
         return points
     }

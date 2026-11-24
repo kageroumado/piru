@@ -3,8 +3,8 @@ import SwiftUI
 import Testing
 @testable import Piru
 
-/// Which lanes the Modeled Levels chart draws: the six logged most by default,
-/// or the toolbar's pick, plus the series markers that keep a lane's dash and
+/// Which lanes the Modeled Levels chart draws: every active substance plus the
+/// ones logged most, six at least, by default, or the toolbar's pick, plus the series markers that keep a lane's dash and
 /// symbol stable whatever is picked.
 @MainActor
 @Suite("ModeledLevelsFilter")
@@ -37,6 +37,49 @@ struct ModeledLevelsFilterTests {
         let filter = ModeledLevelsFilter()
         #expect(names(filter.chartSeries(longTrail)) == ["S0", "S1", "S2", "S3", "S4", "S5"])
         #expect(filter.defaultNames(longTrail) == ["S0", "S1", "S2", "S3", "S4", "S5"])
+    }
+
+    /// The crowded-session case: 2C-B and GHB are listed under Modeled as Active
+    /// but logged less than six others, so the chart left them out.
+    @Test
+    func `Every active substance gets a lane past the six logged most`() {
+        let filter = ModeledLevelsFilter()
+        filter.setActiveNames(["S7", "s8", "S0"])
+        let drawn = filter.defaultNames(longTrail)
+        #expect(drawn.isSuperset(of: ["S7", "S8", "S0"]))
+        #expect(drawn == ["S0", "S7", "S8", "S1", "S2", "S3"])
+        filter.setActiveNames(Set(names(longTrail)))
+        #expect(filter.chartSeries(longTrail).count == 9)
+    }
+
+    @Test
+    func `Show all draws every lane and counts a two-unit substance once`() {
+        let doubled = longTrail + [series(9, "S0")]
+        let filter = ModeledLevelsFilter()
+        #expect(filter.substanceCount(doubled) == 9)
+        #expect(filter.substanceCount(filter.chartSeries(doubled)) == 6)
+        filter.showAll(doubled)
+        #expect(filter.isFiltering)
+        #expect(filter.chartSeries(doubled).count == 10)
+    }
+
+    /// The crowded-session readout listed four substances at "0 mg" beside the two present.
+    @Test
+    func `The readout leaves out traces below half a percent of a substance's peak`() {
+        let date = Date(timeIntervalSince1970: 0)
+        func lane(_ id: Int, _ name: String, amount: Double, peak: Double) -> BodyLoadTrail.Series {
+            BodyLoadTrail.Series(
+                id: id, displayName: name, color: .red, unit: "mg", peak: peak, doseCount: 1,
+                points: [BodyLoadTrail.Point(id: 0, date: date, amount: amount, fraction: amount / peak)],
+            )
+        }
+        let rows = BodyLoadReadout.rows([
+            lane(0, "MDMA", amount: 0.2, peak: 180),
+            lane(1, "Cannabis", amount: 2.8, peak: 3),
+            lane(2, "L-Theanine", amount: 0.07, peak: 200),
+            lane(3, "Caffeine", amount: 40, peak: 90),
+        ], at: date)
+        #expect(rows.map(\.series.displayName) == ["Caffeine", "Cannabis"])
     }
 
     @Test

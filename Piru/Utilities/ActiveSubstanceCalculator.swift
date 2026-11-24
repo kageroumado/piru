@@ -10,6 +10,10 @@ struct ActiveSubstance: Identifiable {
     let totalDosed: Double
     let totalRemaining: Double
     let doses: [DoseInfo]
+    /// When the last of these doses falls below ``ActiveSubstanceCalculator/activeFloor``
+    /// of its amount, leaving the substance off the active list if nothing else is
+    /// logged; `nil` when the model gives no time.
+    let activeUntil: Date?
 
     /// Identity carries the unit: a substance logged in both mL and mg yields two
     /// rows (they are not addable), and `ForEach` needs them to differ.
@@ -31,6 +35,9 @@ struct ActiveSubstance: Identifiable {
 // MARK: - Calculator
 
 enum ActiveSubstanceCalculator {
+    /// The share of a dose still in the body below which the dose no longer counts as active.
+    static let activeFloor = 0.03
+
     /// Computes the active substances at `now` (default: the present) from dose
     /// history using a one-compartment PK model. Parameterizing `now` is what
     /// lets a body-load readout be produced for any past — or projected future —
@@ -73,7 +80,7 @@ enum ActiveSubstanceCalculator {
             let name: String
             let family: DoseQuantity.Family
         }
-        var grouped: [GroupKey: (name: String, unit: String, unitOf: DoseQuantity, halfLife: Double, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double)] = [:]
+        var grouped: [GroupKey: (name: String, unit: String, unitOf: DoseQuantity, halfLife: Double, doses: [ActiveSubstance.DoseInfo], totalDosed: Double, totalRemaining: Double, activeUntil: Date?)] = [:]
 
         for entry in entries {
             let substance = cachedLookup(entry.substance)
@@ -112,7 +119,9 @@ enum ActiveSubstanceCalculator {
             let remaining = entry.amount * PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka)
             let fraction = remaining / entry.amount
 
-            guard fraction > 0.03 else { continue }
+            guard fraction > activeFloor else { continue }
+            let activeUntil = PKModel.minutesUntilRemaining(activeFloor, ke: ke, ka: ka)
+                .map { entry.timestamp.addingTimeInterval($0 * 60) }
 
             let name = substance?.name ?? entry.substance
             let key = GroupKey(name: name, family: dose.family)
@@ -129,6 +138,7 @@ enum ActiveSubstanceCalculator {
                 ))
                 existing.totalDosed += amount
                 existing.totalRemaining += converted
+                existing.activeUntil = [existing.activeUntil, activeUntil].compactMap(\.self).max()
                 grouped[key] = existing
             } else {
                 grouped[key] = (
@@ -146,6 +156,7 @@ enum ActiveSubstanceCalculator {
                     )],
                     totalDosed: entry.amount,
                     totalRemaining: remaining,
+                    activeUntil: activeUntil,
                 )
             }
         }
@@ -160,6 +171,7 @@ enum ActiveSubstanceCalculator {
                 totalDosed: info.totalDosed,
                 totalRemaining: info.totalRemaining,
                 doses: info.doses.sorted { $0.timestamp > $1.timestamp },
+                activeUntil: info.activeUntil,
             )
         }
         .sorted { $0.eliminatedFraction < $1.eliminatedFraction }

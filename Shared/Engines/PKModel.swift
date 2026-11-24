@@ -181,6 +181,27 @@ enum PKModel {
         return min(1, max(0, result))
     }
 
+    /// Minutes after a dose at which ``fractionRemainingInBody(at:ke:ka:)`` first falls to `fraction`.
+    /// The remaining fraction only ever falls, so a bisection finds it; `nil` when the rate constants
+    /// are not positive or `fraction` is outside `(0, 1)`.
+    nonisolated static func minutesUntilRemaining(_ fraction: Double, ke: Double, ka: Double) -> Double? {
+        guard ke > 0, ka > 0, fraction > 0, fraction < 1 else { return nil }
+        var lo = 0.0
+        var hi = log(2) / ke
+        var doublings = 0
+        while fractionRemainingInBody(at: hi, ke: ke, ka: ka) > fraction {
+            lo = hi
+            hi *= 2
+            doublings += 1
+            if doublings > 60 { return nil }
+        }
+        for _ in 0 ..< 60 where hi - lo > 0.5 {
+            let mid = (lo + hi) / 2
+            if fractionRemainingInBody(at: mid, ke: ke, ka: ka) > fraction { lo = mid } else { hi = mid }
+        }
+        return hi
+    }
+
     /// Time (in minutes) at which concentration drops to `fraction` of Cmax (on the descending side).
     /// Useful for determining chart x-axis range.
     nonisolated static func timeToFraction(_ fraction: Double, ke: Double, ka: Double, maxMinutes: Double = 50_000) -> Double {
