@@ -277,6 +277,19 @@ struct DoseEntryTests {
 - Notifications use `threadIdentifier` for session-based grouping (6-hour windows)
 - `nonisolated(unsafe)` in LiveActivityManager is intentional (Apple's Activity API not Sendable)
 
+## Performance anti-patterns
+
+Each rule below cost a measured stall in a long journal. Evidence and before/after numbers are in the 2026-11-24 perf review; the pipeline is `pipeline/perf/` (usage in its `README.md`).
+
+- **The whole dose log is read through `DoseLogEntries.shared.entries(in:)`**, never an unbounded `@Query` or `fetch` in a view. The shared read costs one identifier fetch per commit; each view's own query re-sorts the table on the main actor after every save.
+- **Read the window the screen shows.** A card about this week fetches this week, not the history.
+- **What a body needs is computed once per change** (a replay, a refresh, a revision) and stored. A body never loops the journal, the My Meds schedule or the catalog per pass or per row. Two callers that need the same expensive read await one task.
+- **A long build on the main actor runs in yielding chunks** and stops when its input revision moves.
+- **An offscreen render is cached under a key of everything it shows** (skin, wording, scale), made one per frame, and skipped when its caller is gone.
+- **On Android, every per-element bridge call is a JNI call.** A PortableData pass (filter, sort, merge) reports no reads to Skip's registrar, and a view repeated per row keeps its modifiers few, since each one builds a Java view.
+- **Measure Android on a phone with a `PIRU_PROFILE=profileable` build.** The emulator renders every frame slowly, so compare it only with itself.
+- **A perf finding cites its step's counters (`lookup`, SQL, `resolveFull`) before its times.** Counts stay put under host load; times move.
+
 ## Multiplatform (iOS + macOS)
 
 The app builds for both iOS and native macOS (not Catalyst) from a single target. Platform-specific code uses a naming convention enforced by `EXCLUDED_SOURCE_FILE_NAMES` in the build settings — no `#if` wrappers needed in these files.
