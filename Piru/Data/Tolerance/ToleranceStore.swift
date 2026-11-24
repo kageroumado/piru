@@ -1154,8 +1154,10 @@ final class ToleranceStore {
     private static func logKey(entries: [DoseSnapshot], weightKg: Double, now: Date) -> String {
         let cutoff = now.addingTimeInterval(-defaultLookbackDays * 86_400)
         // Order-independent: the tool passes a reverse-chron `@Query` while the background path fetches in
-        // store order, so combine per-entry hashes with XOR (commutative) rather than a sequential
-        // `Hasher`, which would differ by iteration order. `count` guards adds/removes.
+        // store order, so combine per-entry hashes with a wrapping sum (commutative) rather than a
+        // sequential `Hasher`, which would differ by iteration order. A sum, never XOR: two identical
+        // doses would cancel under XOR, so swapping one identical pair for another went unseen.
+        // `count` guards adds/removes.
         var combined: UInt64 = 0
         var count = 0
         for entry in entries where entry.timestamp <= now && entry.timestamp >= cutoff {
@@ -1164,7 +1166,7 @@ final class ToleranceStore {
             hasher.combine(entry.substance)
             hasher.combine(entry.dose)
             hasher.combine(entry.timestamp)
-            combined ^= UInt64(bitPattern: Int64(hasher.finalize()))
+            combined &+= UInt64(bitPattern: Int64(hasher.finalize()))
         }
         return "\(count)|\(combined)|\(weightKg)"
     }
