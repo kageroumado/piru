@@ -26,6 +26,17 @@ final class JournalModel {
     }
 
     private(set) var derived: [PersistentIdentifier: EntryDerived] = [:]
+    /// Each dose as the Grouped view prints it, with the ``fingerprints``
+    /// value it was read under: a row whose dose's fingerprint has moved since
+    /// is read again (``row(for:)``). The Grouped buckets hold these, never
+    /// the `DoseEntry`: a row drawn between a deletion and the regroup that
+    /// follows it reads its own copy.
+    @ObservationIgnored private var rows: [PersistentIdentifier: CachedRow] = [:]
+
+    private struct CachedRow {
+        let fingerprint: Int
+        let row: JournalEntryRow
+    }
     /// Categories present in the data, for the filter menu.
     private(set) var categories: [SubstanceCategory] = []
     /// Distinct tags across all entries, most-used first, for the filter menu.
@@ -57,6 +68,90 @@ final class JournalModel {
     /// Whether the derived data is already current for the dose log at `revision`.
     func isDerived(atLogRevision revision: Int) -> Bool {
         hasDerivedOnce && builtLogRevision == revision
+    }
+
+    // MARK: - Hand-over
+
+    /// What a finished derive resolved: everything here but the selection and
+    /// the buckets built under it.
+    private struct Resolved {
+        let derived: [PersistentIdentifier: EntryDerived]
+        let rows: [PersistentIdentifier: CachedRow]
+        let fingerprints: [PersistentIdentifier: Int]
+        let colorSignature: Int?
+        let categories: [SubstanceCategory]
+        let tags: [String]
+        let routes: [RouteOfAdministration]
+        let logRevision: Int
+        /// ``resolutionInputs`` when it was resolved.
+        let inputs: ResolutionInputs
+    }
+
+    /// What resolution reads beside the dose log and the colors, as the
+    /// launch cache keys it: the body weight scaling dose intensity, the
+    /// custom-substance overlay, and the substance database.
+    private struct ResolutionInputs: Equatable {
+        let weightKg: Double
+        let customSignature: Int
+        let databaseSignature: String
+
+        static var current: ResolutionInputs {
+            ResolutionInputs(
+                weightKg: UserProfileStore.shared.effectiveWeightKg,
+                customSignature: LaunchCacheInputs.customSubstanceSignature,
+                databaseSignature: LaunchCacheInputs.databaseSignature,
+            )
+        }
+    }
+
+    /// The last finished derive and the store it read. A Journal made after it
+    /// (the Search tab's, or every Journal once a chosen skin re-creates the
+    /// app's root) starts from this instead of resolving the whole log again.
+    private static var handover: Resolved?
+    private weak static var handoverContext: ModelContext?
+
+    /// Leaves this model's resolved state for the next Journal over
+    /// `context`'s store. Call it after a derive finishes.
+    func handOver(in context: ModelContext) {
+        guard let builtLogRevision else { return }
+        Self.handoverContext = context
+        Self.handover = Resolved(
+            derived: derived, rows: rows, fingerprints: fingerprints, colorSignature: lastColorSignature,
+            categories: categories, tags: tags, routes: routes, logRevision: builtLogRevision,
+            inputs: .current,
+        )
+    }
+
+    /// Starts a model that has resolved nothing from the state the last derive
+    /// over `context`'s store left, and returns whether that state is current:
+    /// built from the dose log at `revision` under `colors`, so no derive is
+    /// owed. A state that is behind on the log or the colors is still taken,
+    /// and the derive that follows re-resolves only the doses whose
+    /// fingerprints moved; one resolved under another weight, custom-substance
+    /// overlay or database is left, since no fingerprint records those.
+    func takeOver(in context: ModelContext, revision: Int, colors: [SubstanceColor]) -> Bool {
+        guard fingerprints.isEmpty, !hasDerivedOnce,
+              Self.handoverContext === context, let resolved = Self.handover,
+              resolved.inputs == .current else { return false }
+        derived = resolved.derived
+        rows = resolved.rows
+        fingerprints = resolved.fingerprints
+        lastColorSignature = resolved.colorSignature
+        categories = resolved.categories
+        tags = resolved.tags
+        routes = resolved.routes
+        derivedRevision += 1
+        guard resolved.logRevision == revision,
+              resolved.colorSignature == LaunchCacheInputs.colorSignature(colors) else { return false }
+        markDerived(logRevision: revision)
+        return true
+    }
+
+    /// Forgets the state left for the next Journal: the journal it was
+    /// resolved from is gone.
+    static func dropHandover() {
+        handover = nil
+        handoverContext = nil
     }
 
     // MARK: - Selection
@@ -112,8 +207,8 @@ final class JournalModel {
     /// The current filter result, plus the grouping buckets derived from it.
     private(set) var filtered: [DoseEntry] = []
     private(set) var sessionDays: [SessionDay] = []
-    private(set) var substanceGroups: [(name: String, entries: [DoseEntry])] = []
-    private(set) var categoryGroups: [(category: SubstanceCategory, entries: [DoseEntry])] = []
+    private(set) var substanceGroups: [(name: String, rows: [JournalEntryRow])] = []
+    private(set) var categoryGroups: [(category: SubstanceCategory, rows: [JournalEntryRow])] = []
 
     /// The Day list is *windowed*: only the most recent `sessionWindow` sessions
     /// are turned into `SessionCard`s + rendered `Section`s, so a 149-session
@@ -204,10 +299,11 @@ final class JournalModel {
         return keys
     }
 
-    /// The fields `derived` actually depends on, hashed cheaply (no SQL / PK).
-    /// Drives the diff: an entry whose fingerprint is unchanged keeps its cached
-    /// `EntryDerived` instead of re-resolving the substance + timeline. Stable
-    /// across processes, so a fingerprint read back from ``JournalDeriveCache``
+    /// The fields `derived` and the dose's ``JournalEntryRow`` depend on,
+    /// hashed cheaply (no SQL / PK). Drives the diff: an entry whose
+    /// fingerprint is unchanged keeps its cached `EntryDerived` and row
+    /// instead of re-resolving the substance + timeline. Stable across
+    /// processes, so a fingerprint read back from ``JournalDeriveCache``
     /// compares against the live row.
     private static func fingerprint(_ entry: DoseEntry) -> Int {
         var hasher = StableHasher()
@@ -221,7 +317,21 @@ final class JournalModel {
         hasher.combine(entry.releaseForm ?? "")
         hasher.combine(entry.displayNameSnapshot ?? "")
         hasher.combine(entry.mealRaw ?? "")
+        hasher.combine(entry.productName ?? "")
         return hasher.finalize()
+    }
+
+    /// `entry` as the Grouped view prints it, read again only when its
+    /// fingerprint has moved since the cached row was read. A dose the derive
+    /// has not reached yet has no fingerprint, and its row is read fresh.
+    /// Call it while `entry` is known to be live.
+    private func row(for entry: DoseEntry) -> JournalEntryRow {
+        let id = entry.persistentModelID
+        guard let fingerprint = fingerprints[id] else { return JournalEntryRow(entry) }
+        if let cached = rows[id], cached.fingerprint == fingerprint { return cached.row }
+        let row = JournalEntryRow(entry)
+        rows[id] = CachedRow(fingerprint: fingerprint, row: row)
+        return row
     }
 
     /// Everything the resolution reads that lives outside the dose log and the
@@ -416,6 +526,8 @@ final class JournalModel {
         for id in removed {
             newDerived[id] = nil
         }
+        // A deleted dose's row goes with it.
+        self.rows = self.rows.filter { newFingerprints[$0.key] != nil }
 
         // Nothing actually changed — bail before touching published state so a
         // no-op trigger doesn't invalidate the views downstream.
@@ -624,19 +736,27 @@ final class JournalModel {
             )
 
         case .grouped:
+            // Rows are read here, while their doses are known to be live:
+            // `result` comes from this pass's `entries`.
             switch groupKey {
             case .substance:
-                let grouped = Dictionary(grouping: result, by: \.substance)
+                var grouped: [String: [JournalEntryRow]] = [:]
+                for entry in result {
+                    let row = row(for: entry)
+                    grouped[row.substance, default: []].append(row)
+                }
                 substanceGroups = grouped.sorted { $0.value.count > $1.value.count }
-                    .map { (name: $0.key, entries: $0.value) }
+                    .map { (name: $0.key, rows: $0.value) }
 
             case .category:
-                let grouped = Dictionary(grouping: result) { entry in
-                    derived[entry.persistentModelID]?.category ?? .other
+                var grouped: [SubstanceCategory: [JournalEntryRow]] = [:]
+                for entry in result {
+                    let id = entry.persistentModelID
+                    grouped[derived[id]?.category ?? .other, default: []].append(row(for: entry))
                 }
                 categoryGroups = SubstanceCategory.allCases.compactMap { cat in
-                    guard let entries = grouped[cat], !entries.isEmpty else { return nil }
-                    return (category: cat, entries: entries)
+                    guard let rows = grouped[cat], !rows.isEmpty else { return nil }
+                    return (category: cat, rows: rows)
                 }
             }
         }

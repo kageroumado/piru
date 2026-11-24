@@ -150,15 +150,19 @@ enum InventoryMath {
     /// helpers above, so the semantics cannot drift between the two paths.
     /// Reads the item's own store when it has one, so an item shared from
     /// another profile never counts the active journal's doses as its owner's.
-    static func doses(for item: InventoryItem, in ctx: ModelContext) -> [DoseEntry] {
+    ///
+    /// `earliest` narrows the read to the doses on or after it, for a caller
+    /// that looks at a recent window only (``runOut(for:in:now:)``).
+    static func doses(for item: InventoryItem, in ctx: ModelContext, since earliest: Date = .distantPast) -> [DoseEntry] {
         let ctx = item.modelContext ?? ctx
         let key = matchKey(for: item.substance)
         let siblings = ((try? ctx.fetch(FetchDescriptor<InventoryItem>())) ?? [])
             .filter { $0.saltForm == item.saltForm && matchKey(for: $0.substance) == key }
         let all = siblings.contains { $0 === item } ? siblings : siblings + [item]
         // Each dose's owner is decided by that dose alone, so doses older than
-        // this item's own start can never be its.
-        let buckets = dosesByMatchKey(since: item.trackingStart, in: ctx)
+        // this item's own start can never be its, and a later `earliest`
+        // drops doses without moving any of the rest to another owner.
+        let buckets = dosesByMatchKey(since: max(item.trackingStart, earliest), in: ctx)
         return assignedDoses(for: all, in: buckets)[ObjectIdentifier(item)] ?? []
     }
 
@@ -202,11 +206,16 @@ enum InventoryMath {
     }
 
     /// Every dose that draws `item` down, as snapshots: the ones in its own
-    /// store (``doses(for:in:)``) and, for a shared item, the ones its other
+    /// store (``doses(for:in:since:)``) and, for a shared item, the ones its other
     /// profiles logged (``SharedInventory/foreignDoses(for:)``).
-    static func consumption(for item: InventoryItem, in ctx: ModelContext) -> [DoseSnapshot] {
-        doses(for: item, in: ctx).map { DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp) }
-            + SharedInventory.foreignDoses(for: item).map(\.snapshot)
+    ///
+    /// With `earliest`, only the doses on or after it: the item's own store is
+    /// read from there, where an unbounded read walks every dose since the
+    /// item's tracking began.
+    static func consumption(for item: InventoryItem, in ctx: ModelContext, since earliest: Date = .distantPast) -> [DoseSnapshot] {
+        let own = doses(for: item, in: ctx, since: earliest).map { DoseSnapshot(amount: $0.amount, unit: $0.unit, timestamp: $0.timestamp) }
+        let foreign = SharedInventory.foreignDoses(for: item).map(\.snapshot)
+        return own + (earliest == .distantPast ? foreign : foreign.filter { $0.timestamp >= earliest })
     }
 
     /// Stock = replay(manual events ∪ converted doses), floored at 0 on the way
@@ -310,7 +319,7 @@ enum InventoryMath {
     static func runOut(for item: InventoryItem, in ctx: ModelContext, now: Date = .now) -> RunOut? {
         let calendar = Calendar.current
         guard let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) else { return nil }
-        let recent = consumption(for: item, in: ctx).filter { $0.timestamp >= weekAgo && $0.timestamp <= now }
+        let recent = consumption(for: item, in: ctx, since: weekAgo).filter { $0.timestamp >= weekAgo && $0.timestamp <= now }
         let boundaryHour = Calendar.sessionDayBoundaryHour
         let daysWithADose = Set(recent.map { calendar.journalDay(for: $0.timestamp, boundaryHour: boundaryHour) }).count
         guard daysWithADose >= 5 else { return nil }

@@ -17,6 +17,14 @@ struct TimelineStripBuilder {
     /// duration data have no state and appear as dots/cards only, exactly as
     /// they render as markers elsewhere.
     private let statesBySubstance: [String: [ActiveSubstanceState]]
+    /// Every state in ``statesBySubstance``, by dose time: a slice's
+    /// milestones and the live edge's word read the few states near them by
+    /// binary search, never the whole log per slice.
+    private let statesByTime: [ActiveSubstanceState]
+    /// The longest effect window (``milestoneWindow(_:)``) among
+    /// ``statesByTime``, in seconds: a state ending inside a range started at
+    /// most this long before it.
+    private let longestWindowSeconds: TimeInterval
     /// Effect mode under a relative ``TimelineCurveScale``: per substance, each
     /// state's weight divided by its reference crest, parallel to
     /// ``statesBySubstance``. Empty under ``TimelineCurveScale/doseStrength``,
@@ -99,6 +107,120 @@ struct TimelineStripBuilder {
         slices.count
     }
 
+    // MARK: Per-dose resolution
+
+    /// What the strip reads about each dose: its effect state, its share
+    /// still in the body, its bubble, its journal day and its session.
+    struct Resolved {
+        var states: [PersistentIdentifier: ActiveSubstanceState] = [:]
+        var remainingFractions: [PersistentIdentifier: Double] = [:]
+        var items: [PersistentIdentifier: TimelineDayLayout.CardItem] = [:]
+        var days: [PersistentIdentifier: Date] = [:]
+        /// Each dose's ``Session/id``, for a dose in a session.
+        var sessionIDs: [PersistentIdentifier: UUID] = [:]
+        /// Every session holding one of the doses, by id.
+        var sessions: [UUID: Session] = [:]
+        /// The doses that hold the axis open: every one but a background med.
+        var protecting: Set<PersistentIdentifier> = []
+    }
+
+    /// Doses resolved between yields: a slice of the main actor short enough
+    /// to keep a frame.
+    private static let resolveChunk = 250
+
+    /// ``Resolved`` for `entries` under `colors`, in chunks with a yield
+    /// between them, so a long log is resolved without holding the main
+    /// actor. `nil` when the task was cancelled meanwhile.
+    static func resolve(
+        _ entries: [DoseEntry], colors: [SubstanceColor], colorMap: [String: Color], sessions: [PersistentIdentifier: Session],
+    ) async -> Resolved? {
+        var resolver = Resolver(tintMap: colors.tintMap, colorMap: colorMap, sessionsByID: sessions)
+        var index = 0
+        while index < entries.count {
+            let end = min(index + resolveChunk, entries.count)
+            resolver.resolve(entries[index ..< end])
+            index = end
+            if index < entries.count {
+                await Task.yield()
+                if Task.isCancelled { return nil }
+            }
+        }
+        return resolver.resolved
+    }
+
+    /// Resolves doses one by one, each substance and each title once: a log
+    /// holds thousands of doses of a few dozen substances.
+    private struct Resolver {
+        let tintMap: [String: P3Color]
+        let colorMap: [String: Color]
+        let sessionsByID: [PersistentIdentifier: Session]
+        let now = DebugClock.now
+        let calendar = Calendar.current
+        let boundaryHour = Calendar.sessionDayBoundaryHour
+        var resolved = Resolved()
+        private var substances: [String: Substance?] = [:]
+        private var titles: [String: String] = [:]
+
+        init(tintMap: [String: P3Color], colorMap: [String: Color], sessionsByID: [PersistentIdentifier: Session]) {
+            self.tintMap = tintMap
+            self.colorMap = colorMap
+            self.sessionsByID = sessionsByID
+        }
+
+        mutating func resolve(_ entries: ArraySlice<DoseEntry>) {
+            for entry in entries where !entry.isDeleted {
+                let id = entry.persistentModelID
+                let substance = substance(named: entry.substance)
+                let tint = SubstancePalette.tint(for: entry.substance, tintMap: tintMap)
+                let state = ActiveSubstanceState.from(entry: entry, substance: substance, tint: tint)
+                if let state {
+                    resolved.states[id] = state
+                }
+                let fraction = TimelineStripBuilder.remainingFraction(of: entry, substance: substance, now: now)
+                if let fraction {
+                    resolved.remainingFractions[id] = fraction
+                }
+                // The bubble's phase progress reads the state while its effects run.
+                let running = state.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) > now } ?? false
+                resolved.items[id] = TimelineDayLayout.CardItem(
+                    entry: entry,
+                    displayName: title(of: entry),
+                    color: SubstancePalette.color(for: entry.substance, colorMap: colorMap),
+                    remainingFraction: fraction,
+                    state: running ? state : nil,
+                )
+                resolved.days[id] = calendar.journalDay(for: entry.timestamp, boundaryHour: boundaryHour)
+                if let session = TimelineStripBuilder.session(of: entry, in: sessionsByID) {
+                    resolved.sessionIDs[id] = session.id
+                    resolved.sessions[session.id] = session
+                }
+                if !entry.isBackgroundMed {
+                    resolved.protecting.insert(id)
+                }
+            }
+        }
+
+        private mutating func substance(named name: String) -> Substance? {
+            if let known = substances[name] { return known }
+            let substance = SubstanceLibrary.lookup(name)
+            substances[name] = substance
+            return substance
+        }
+
+        /// ``DoseTitle/resolve(for:)``, once per distinct set of the fields
+        /// it reads.
+        private mutating func title(of entry: DoseEntry) -> String {
+            let key = [
+                entry.substance, entry.productName ?? "", entry.namesAForm ? "1" : "0", entry.isomer ?? "",
+                entry.releaseForm ?? "", entry.saltForm ?? "", entry.displayNameSnapshot ?? "",
+            ].joined(separator: "\u{1F}")
+            if let known = titles[key] { return known }
+            let title = DoseTitle.resolve(for: entry)
+            titles[key] = title
+            return title
+        }
+    }
+
     init?(
         entries: [DoseEntry],
         colors: [SubstanceColor],
@@ -109,6 +231,7 @@ struct TimelineStripBuilder {
         curveScale: TimelineCurveScale = .doseStrength,
         heartRate: [HeartRateSample] = [],
         sessions: [PersistentIdentifier: Session] = [:],
+        resolved: Resolved? = nil,
     ) {
         // A dose with a non-finite timestamp has no place on any axis.
         let entries = entries.filter(\.timestamp.timeIntervalSinceReferenceDate.isFinite)
@@ -117,13 +240,17 @@ struct TimelineStripBuilder {
         self.style = style
         sessionsByID = sessions
         self.heartRate = heartRate.sorted { $0.date < $1.date }
-        remainingFractions = Self.computeRemainingFractions(entries: entries)
+        let resolved = resolved ?? {
+            var resolver = Resolver(tintMap: colors.tintMap, colorMap: colorMap, sessionsByID: sessions)
+            resolver.resolve(entries[...])
+            return resolver.resolved
+        }()
+        remainingFractions = resolved.remainingFractions
 
         // One state per dose that resolves duration data — the curves' input
         // and, per entry, the bubble's phase progress.
-        let tintMap = colors.tintMap
         var states: [ActiveSubstanceState] = []
-        var statesByEntry: [PersistentIdentifier: ActiveSubstanceState] = [:]
+        let statesByEntry = resolved.states
         // The doses whose spans may hold the axis open. A background med is
         // a baseline by declaration — `TimelineWindowModel` keeps it off the
         // window graph the same way — so it draws but never protects.
@@ -131,17 +258,17 @@ struct TimelineStripBuilder {
         for entry in entries {
             // Depot doses get no effect state (ActiveSubstanceState.from returns nil
             // for them centrally) — no acute curve or phase, just the dose bubble.
-            let tint = SubstancePalette.tint(for: entry.substance, tintMap: tintMap)
-            guard let state = ActiveSubstanceState.from(entry: entry, tint: tint) else { continue }
+            guard let state = statesByEntry[entry.persistentModelID] else { continue }
             states.append(state)
-            statesByEntry[entry.persistentModelID] = state
-            if !entry.isBackgroundMed {
+            if resolved.protecting.contains(entry.persistentModelID) {
                 protectingStates.append(state)
             }
         }
         let grouped = Dictionary(grouping: states) { $0.substanceName.lowercased() }
             .mapValues { $0.sorted { $0.doseTimestamp < $1.doseTimestamp } }
         statesBySubstance = grouped
+        statesByTime = states.sorted { $0.doseTimestamp < $1.doseTimestamp }
+        longestWindowSeconds = states.map { Self.milestoneWindow($0).duration }.max() ?? 0
         let relative: [String: [Double]] = if let lookback = curveScale.lookback, !style.pkMode {
             grouped.mapValues { Self.relativeWeights(states: $0, lookback: lookback) }
         } else {
@@ -164,9 +291,13 @@ struct TimelineStripBuilder {
             })
         })
         curveEndsBySubstance = drawnEnds
-        var bySubstance = Dictionary(grouping: entries) { $0.substance.lowercased() }
-        for k in bySubstance.keys {
-            bySubstance[k]?.sort { $0.timestamp < $1.timestamp }
+        // Body-load mode's input; effect mode never reads it.
+        var bySubstance: [String: [DoseEntry]] = [:]
+        if style.pkMode {
+            bySubstance = Dictionary(grouping: entries) { $0.substance.lowercased() }
+            for k in bySubstance.keys {
+                bySubstance[k]?.sort { $0.timestamp < $1.timestamp }
+            }
         }
         entriesBySubstance = bySubstance
         var weights: [PersistentIdentifier: Double] = [:]
@@ -181,13 +312,7 @@ struct TimelineStripBuilder {
         }
         pkDoseWeights = weights
 
-        var sessions: [UUID: Session] = [:]
-        for entry in entries {
-            if let session = Self.session(of: entry, in: sessionsByID) {
-                sessions[session.id] = session
-            }
-        }
-        notes = sessions.values
+        notes = resolved.sessions.values
             .flatMap { session in
                 (session.notes ?? [])
                     .filter { $0.kind != .summary }
@@ -207,7 +332,9 @@ struct TimelineStripBuilder {
         // day is named after, spanning from its Day Starts At hour to the next.
         let calendar = Calendar.current
         let boundaryHour = Calendar.sessionDayBoundaryHour
-        let byDay = Dictionary(grouping: entries) { calendar.journalDay(for: $0.timestamp, boundaryHour: boundaryHour) }
+        let byDay = Dictionary(grouping: entries) {
+            resolved.days[$0.persistentModelID] ?? calendar.journalDay(for: $0.timestamp, boundaryHour: boundaryHour)
+        }
         // Today always gets a slice, dosed or not: the live edge lies in it,
         // and a slice tagged with the last dosed day would otherwise run past
         // the day's start and call this morning "Yesterday".
@@ -272,9 +399,8 @@ struct TimelineStripBuilder {
             let bottomTime = day == oldestDay ? globalStart : dayStart(day)
             let groups = Self.makeGroups(
                 dayEntries: byDay[day] ?? [],
+                resolved: resolved,
                 colorMap: colorMap,
-                remainingFractions: remainingFractions,
-                statesByEntry: statesByEntry,
                 sessions: sessionsByID,
                 cardHeight: cardHeight,
                 now: currentTime,
@@ -658,10 +784,7 @@ struct TimelineStripBuilder {
     ) -> [TimelineDayLayout.Milestone] {
         let cardSpans = groups.map { (top: $0.topY, bottom: $0.bottomY) }
             + envelopes.map { (top: $0.yStart, bottom: $0.yEnd) }
-        let all = statesBySubstance.values.flatMap(\.self)
-        func window(_ state: ActiveSubstanceState) -> DateInterval {
-            DateInterval(start: state.doseTimestamp, duration: max(state.totalMinutes, 1) * 60)
-        }
+        let window = Self.milestoneWindow
         var wakePromoting: [String: Bool] = [:]
         func affectsSleep(_ name: String) -> Bool {
             let key = name.lowercased()
@@ -673,10 +796,10 @@ struct TimelineStripBuilder {
         }
 
         var result: [TimelineDayLayout.Milestone] = []
-        for state in all {
+        for state in states(endingAfter: slice.bottomTime, startingBy: slice.topTime) {
             let own = window(state)
             guard own.end >= slice.bottomTime, own.start <= slice.topTime else { continue }
-            let alone = !all.contains { other in
+            let alone = !states(endingAfter: own.start, startingBy: own.end).contains { other in
                 guard other.doseTimestamp != state.doseTimestamp || other.substanceName != state.substanceName else { return false }
                 return window(other).intersects(own)
             }
@@ -709,6 +832,22 @@ struct TimelineStripBuilder {
         return TimelineMilestoneLane.thinned(result)
     }
 
+    /// A state's effect window, as the milestones read it: from the dose to
+    /// the end of its effects, a minute at the least.
+    private static func milestoneWindow(_ state: ActiveSubstanceState) -> DateInterval {
+        DateInterval(start: state.doseTimestamp, duration: max(state.totalMinutes, 1) * 60)
+    }
+
+    /// The states that can overlap `[start, end]`: dosed by `end`, and no
+    /// earlier than the longest window before `start`. A superset; callers
+    /// test each one's own window.
+    private func states(endingAfter start: Date, startingBy end: Date) -> ArraySlice<ActiveSubstanceState> {
+        let from = start.addingTimeInterval(-longestWindowSeconds)
+        let lower = Self.firstIndex(in: statesByTime) { $0.doseTimestamp >= from }
+        let upper = Self.firstIndex(in: statesByTime) { $0.doseTimestamp > end }
+        return lower < upper ? statesByTime[lower ..< upper] : []
+    }
+
     /// The gutter word for the one dose running at `now`: nothing while
     /// several are running, and nothing when the row it would take is already
     /// spoken for by an hour label or a dose capsule. It is a courtesy on a
@@ -720,7 +859,7 @@ struct TimelineStripBuilder {
         mapHeight: CGFloat,
     ) -> TimelineDayLayout.WordState? {
         guard style.showsAxis, !pkCurves, let nowY else { return nil }
-        let running = statesBySubstance.values.flatMap(\.self).filter { state in
+        let running = states(endingAfter: now, startingBy: now).filter { state in
             let elapsed = now.timeIntervalSince(state.doseTimestamp) / 60
             return elapsed >= 0 && elapsed <= state.totalMinutes
         }
@@ -1208,91 +1347,79 @@ struct TimelineStripBuilder {
 
     private static func makeGroups(
         dayEntries: [DoseEntry],
+        resolved: Resolved,
         colorMap: [String: Color],
-        remainingFractions: [PersistentIdentifier: Double],
-        statesByEntry: [PersistentIdentifier: ActiveSubstanceState],
         sessions: [PersistentIdentifier: Session],
         cardHeight: CGFloat,
         now: Date,
     ) -> [TimelineDayLayout.CardGroup] {
-        let sorted = dayEntries.sorted { $0.timestamp < $1.timestamp }
+        // A dose the resolver skipped (deleted while it ran) is read here.
+        let dayItems = dayEntries.map { entry -> (item: TimelineDayLayout.CardItem, sessionID: UUID?) in
+            let id = entry.persistentModelID
+            if let item = resolved.items[id] { return (item, resolved.sessionIDs[id]) }
+            let state = resolved.states[id]
+            let running = state.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) > now } ?? false
+            let item = TimelineDayLayout.CardItem(
+                entry: entry,
+                displayName: DoseTitle.resolve(for: entry),
+                color: SubstancePalette.color(for: entry.substance, colorMap: colorMap),
+                remainingFraction: resolved.remainingFractions[id],
+                state: running ? state : nil,
+            )
+            return (item, session(of: entry, in: sessions)?.id)
+        }
+        .sorted { $0.item.timestamp < $1.item.timestamp }
         var groups: [TimelineDayLayout.CardGroup] = []
-        var currentBatch: [DoseEntry] = []
+        var currentBatch: [(item: TimelineDayLayout.CardItem, sessionID: UUID?)] = []
         func flushBatch() {
-            guard !currentBatch.isEmpty else { return }
-            let repTime = currentBatch[currentBatch.count / 2].timestamp
+            guard let first = currentBatch.first else { return }
             groups.append(TimelineDayLayout.CardGroup(
-                id: currentBatch[0].id,
-                items: currentBatch.reversed().map { entry in
-                    let state = statesByEntry[entry.persistentModelID]
-                    let running = state.map { $0.doseTimestamp.addingTimeInterval($0.totalMinutes * 60) > now } ?? false
-                    return TimelineDayLayout.CardItem(
-                        entry: entry,
-                        displayName: DoseTitle.resolve(for: entry),
-                        color: SubstancePalette.color(for: entry.substance, colorMap: colorMap),
-                        remainingFraction: remainingFractions[entry.persistentModelID],
-                        state: running ? state : nil,
-                    )
-                },
-                representativeTime: repTime,
-                sessionID: session(of: currentBatch[0], in: sessions)?.id,
+                id: first.item.id,
+                items: currentBatch.reversed().map(\.item),
+                representativeTime: currentBatch[currentBatch.count / 2].item.timestamp,
+                sessionID: first.sessionID,
                 cardHeight: cardHeight,
             ))
             currentBatch = []
         }
-        for entry in sorted {
+        for dose in dayItems {
             if let prev = currentBatch.last,
-               entry.timestamp.timeIntervalSince(prev.timestamp) > 5 * 60 {
+               dose.item.timestamp.timeIntervalSince(prev.item.timestamp) > 5 * 60 {
                 flushBatch()
             }
-            currentBatch.append(entry)
+            currentBatch.append(dose)
         }
         flushBatch()
         return groups.reversed()
     }
 
-    /// Fraction of each dose still in the body, keyed by entry identity.
-    /// Mirrors ``ActiveSubstanceCalculator``'s gates (``Substance/modelsBodyLoad`` and unmodeled
-    /// forms contribute nothing; ≤3% counts as cleared) so the card badge and
-    /// the In Your System readout can never disagree about what is active — depot
-    /// doses included, on their long depot half-life (PKResolver).
-    private static func computeRemainingFractions(entries: [DoseEntry]) -> [PersistentIdentifier: Double] {
-        var result: [PersistentIdentifier: Double] = [:]
-        var substanceCache: [String: Substance?] = [:]
-        let now = DebugClock.now
-
+    /// The fraction of `entry` still in the body at `now`, or `nil` when it
+    /// is cleared or not modeled. Mirrors ``ActiveSubstanceCalculator``'s gates
+    /// (``Substance/modelsBodyLoad`` and unmodeled forms contribute nothing;
+    /// ≤3% counts as cleared) so the card badge and the In Your System readout
+    /// can never disagree about what is active — depot doses included, on
+    /// their long depot half-life (PKResolver). `substance` is the catalog's
+    /// resolve of `entry.substance`.
+    static func remainingFraction(of entry: DoseEntry, substance: Substance?, now: Date) -> Double? {
         // An unknown dose has no amount to eliminate; its bubble shows no
         // remaining percentage.
-        for entry in entries where !entry.isUnknownDose {
-            let key = entry.substance.lowercased()
-            let substance: Substance?
-            if let cached = substanceCache[key] {
-                substance = cached
-            } else {
-                substance = SubstanceLibrary.lookup(entry.substance)
-                substanceCache[key] = substance
-            }
+        guard !entry.isUnknownDose else { return nil }
+        if substance?.modelsBodyLoad == false { return nil }
+        let isDepot = PKResolver.isDepot(entry: entry)
+        let productDuration = entry.productDuration
+        if !isDepot, productDuration == nil, entry.namesUnmodeledForm { return nil }
+        guard let halfLife = PKResolver.halfLifeMinutes(for: entry, substance: substance) else { return nil }
 
-            if substance?.modelsBodyLoad == false { continue }
-            let isDepot = PKResolver.isDepot(entry: entry)
-            let productDuration = entry.productDuration
-            if !isDepot, productDuration == nil, entry.namesUnmodeledForm { continue }
-            guard let halfLife = PKResolver.halfLifeMinutes(for: entry, substance: substance) else { continue }
+        let elapsed = now.timeIntervalSince(entry.timestamp) / 60
+        guard elapsed >= 0, elapsed < halfLife * 6 else { return nil }
 
-            let elapsed = now.timeIntervalSince(entry.timestamp) / 60
-            guard elapsed >= 0, elapsed < halfLife * 6 else { continue }
-
-            let (ke, ka) = PKResolver.rateConstants(
-                halfLifeMinutes: halfLife,
-                duration: isDepot ? nil : entry.applyingMeal(to: productDuration ?? substance?.resolveDuration(
-                    for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
-                )),
-            )
-            let fraction = PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka)
-            if fraction > 0.03 {
-                result[entry.persistentModelID] = fraction
-            }
-        }
-        return result
+        let (ke, ka) = PKResolver.rateConstants(
+            halfLifeMinutes: halfLife,
+            duration: isDepot ? nil : entry.applyingMeal(to: productDuration ?? substance?.resolveDuration(
+                for: entry.route, saltForm: entry.saltForm, isomer: entry.isomer,
+            )),
+        )
+        let fraction = PKModel.fractionRemainingInBody(at: elapsed, ke: ke, ka: ka)
+        return fraction > 0.03 ? fraction : nil
     }
 }

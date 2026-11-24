@@ -29,6 +29,7 @@ enum AllDataDeletion {
         #endif
         ActiveSessionManager.shared.clearSession()
         DayResolveCache.shared.clear()
+        JournalModel.dropHandover()
         NotificationPreferencesStore.shared.resetAfterDeletion()
         CustomSubstanceStore.shared.resetAfterDeletion()
         CustomUnitStore.shared.configure(container: context.container)

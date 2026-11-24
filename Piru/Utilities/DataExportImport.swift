@@ -414,6 +414,7 @@ enum DataExportImport {
 
     static func deleteAll(context: ModelContext) throws {
         try PiruSchema.deleteAll(in: context)
+        DoseLogEntries.shared.invalidate()
     }
 
     static var exportFilename: String {

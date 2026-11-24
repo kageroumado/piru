@@ -21,7 +21,13 @@ import SwiftUI
 /// envelope, so that bubble opens the session itself
 /// (``TimelineDayLayout/CardGroup/sessionOpenedByBubble``).
 struct UnifiedTimelineView: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var entries: [DoseEntry]
+    @Environment(\.modelContext) private var modelContext
+    /// Every dose, newest first, current for the dose log's revision
+    /// (``DoseLogEntries``), shared with the Journal.
+    private var entries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
+    }
+
     @Query private var substanceColors: [SubstanceColor]
     @State private var model = UnifiedTimelineModel()
     /// Bubble heights grow with the text size, so a change re-lays the strip.
@@ -101,6 +107,22 @@ struct UnifiedTimelineView: View {
                 }
             }
             .task(id: rebuildKey) {
+                // The launch cache first, as the Journal's strip does: a hit
+                // paints without building the strip on the main actor.
+                if model.days.isEmpty,
+                   await model.restoreCached(
+                       container: modelContext.container,
+                       revision: rebuildKey.hashValue,
+                       zoom: zoom,
+                       compressGaps: compressGaps,
+                       pkCurves: pkCurves,
+                       curveScale: curveScale,
+                       showsAxis: showsAxis,
+                       bubbleStyle: bubbleStyle,
+                       showsVitals: showsVitals,
+                   ) {
+                    return
+                }
                 await model.rebuild(
                     entries: entries,
                     colors: substanceColors,

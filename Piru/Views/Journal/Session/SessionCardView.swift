@@ -74,8 +74,8 @@ struct SessionCardView: View, Equatable {
                             : "\(card.timeLabel)  ·  \(card.doseCountText)",
                     )
                     .captionSecondary()
-                    if let session = card.session {
-                        SharedSessionMark(sessionID: session.id, diameter: 16)
+                    if let sessionID = card.sessionID {
+                        SharedSessionMark(sessionID: sessionID, diameter: 16)
                     }
                 }
                 HStack(spacing: Spacing.sm) {

@@ -105,8 +105,17 @@ final class FeltPatternsModel {
     static func ratedDays(
         sessions: [Session], entries: [DoseEntry], calendar: Calendar,
     ) -> [RatedDay] {
+        // A log names a few dozen substances over thousands of doses: each
+        // name is resolved once.
+        var canonical: [String: String?] = [:]
+        func canonicalName(_ logged: String) -> String? {
+            if let known = canonical[logged] { return known }
+            let name = SubstanceLibrary.lookup(logged)?.name
+            canonical[logged] = name
+            return name
+        }
         let caffeineTimes = entries
-            .filter { SubstanceLibrary.lookup($0.substance)?.name.lowercased() == "caffeine" }
+            .filter { canonicalName($0.substance)?.lowercased() == "caffeine" }
             .map(\.timestamp)
             .sorted()
 
@@ -119,7 +128,7 @@ final class FeltPatternsModel {
             for note in session.orderedNotes {
                 guard let rating = note.worked else { continue }
                 guard let dose = doses.last(where: { $0.timestamp <= note.timestamp }) else { continue }
-                guard let substance = SubstanceLibrary.lookup(dose.substance)?.name else { continue }
+                guard let substance = canonicalName(dose.substance) else { continue }
                 let day = calendar.journalDay(for: dose.timestamp, boundaryHour: boundaryHour)
                 let key = "\(day.timeIntervalSince1970)|\(substance.lowercased())"
                 if var bucket = buckets[key] {
@@ -132,7 +141,7 @@ final class FeltPatternsModel {
         }
 
         return buckets.values.compactMap { bucket in
-            guard let substance = SubstanceLibrary.lookup(bucket.dose.substance)?.name else { return nil }
+            guard let substance = canonicalName(bucket.dose.substance) else { return nil }
             let mean = Double(bucket.ratings.reduce(0, +)) / Double(bucket.ratings.count)
             let hour = Double(calendar.component(.hour, from: bucket.dose.timestamp))
                 + Double(calendar.component(.minute, from: bucket.dose.timestamp)) / 60

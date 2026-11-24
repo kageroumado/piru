@@ -93,6 +93,9 @@ extension SubstanceStore {
     /// PK interaction rows for one substance, highest-evidence source first.
     func pkInteractions(forSubstanceName name: String) -> [PKInteractionHit] {
         guard let substanceID = substanceID(forNameOrAlias: name) else { return [] }
-        return SubstanceReadModel.pkInteractionRows(substanceID: substanceID, db: substancesDB, order: enabledSourceOrder)
+        if let cached = pkInteractionsByID[substanceID] { return cached }
+        let rows = SubstanceReadModel.pkInteractionRows(substanceID: substanceID, db: substancesDB, order: enabledSourceOrder)
+        pkInteractionsByID[substanceID] = rows
+        return rows
     }
 }

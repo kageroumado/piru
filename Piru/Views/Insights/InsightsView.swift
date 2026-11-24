@@ -121,7 +121,12 @@ final class InsightsModel {
 /// insight's headline graph (or calendar) inline, tapping through to the full
 /// detail screen.
 struct InsightsView: View {
-    @Query(sort: \DoseEntry.timestamp, order: .reverse) private var allEntries: [DoseEntry]
+    @Environment(\.modelContext) private var modelContext
+    /// Every dose, newest first, current for the dose log's revision
+    /// (``DoseLogEntries``), shared with every other screen that reads it.
+    private var allEntries: [DoseEntry] {
+        DoseLogEntries.shared.entries(in: modelContext)
+    }
     @Query(sort: \DailyDoseItem.sortOrder) private var dailyItems: [DailyDoseItem]
     @Query private var substanceColors: [SubstanceColor]
     /// Any note carrying a "did it work?" answer. The card appears once there

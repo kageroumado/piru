@@ -83,8 +83,8 @@ private struct JournalSessionRow: View {
 
     var body: some View {
         Button {
-            if let session = card.session {
-                navigator.openRecord(.session(id: session.id), besideList: opensRecordsBesideList)
+            if let sessionID = card.sessionID {
+                navigator.openRecord(.session(id: sessionID), besideList: opensRecordsBesideList)
             }
         } label: {
             SessionCardView(card: card, colorMap: colorMap, inGroup: true)
@@ -137,14 +137,14 @@ struct JournalSubstanceSections: View {
     var body: some View {
         let model = model
         ForEach(model.substanceGroups, id: \.name) { @Sendable group in
-            JournalSubstanceSection(name: group.name, entries: group.entries, model: model)
+            JournalSubstanceSection(name: group.name, rows: group.rows, model: model)
         }
     }
 }
 
 private nonisolated struct JournalSubstanceSection: View {
     let name: String
-    let entries: [DoseEntry]
+    let rows: [JournalEntryRow]
     let model: JournalModel
 
     @MainActor var body: some View {
@@ -152,8 +152,8 @@ private nonisolated struct JournalSubstanceSection: View {
         let colorMap = model.colorMap
         Section {
             if !isCollapsed {
-                ForEach(entries) { @Sendable entry in
-                    JournalEntryRow(entry: entry, colorMap: colorMap)
+                ForEach(rows) { @Sendable row in
+                    JournalEntryRowView(row: row, colorMap: colorMap)
                 }
             }
         } header: {
@@ -161,7 +161,7 @@ private nonisolated struct JournalSubstanceSection: View {
                 withAnimation(.snappy) { model.toggleCollapsed(substance: name) }
             } label: {
                 HStack(spacing: Spacing.md) {
-                    SubstanceGroupHeader(name: name, count: entries.count, colorMap: colorMap)
+                    SubstanceGroupHeader(name: name, count: rows.count, colorMap: colorMap)
                     Spacer()
                     SectionDisclosureChevron(isCollapsed: isCollapsed)
                 }
@@ -180,14 +180,14 @@ struct JournalCategorySections: View {
     var body: some View {
         let model = model
         ForEach(model.categoryGroups, id: \.category) { @Sendable group in
-            JournalCategorySection(category: group.category, entries: group.entries, model: model)
+            JournalCategorySection(category: group.category, rows: group.rows, model: model)
         }
     }
 }
 
 private nonisolated struct JournalCategorySection: View {
     let category: SubstanceCategory
-    let entries: [DoseEntry]
+    let rows: [JournalEntryRow]
     let model: JournalModel
 
     @MainActor var body: some View {
@@ -195,8 +195,8 @@ private nonisolated struct JournalCategorySection: View {
         let colorMap = model.colorMap
         Section {
             if !isCollapsed {
-                ForEach(entries) { @Sendable entry in
-                    JournalEntryRow(entry: entry, colorMap: colorMap)
+                ForEach(rows) { @Sendable row in
+                    JournalEntryRowView(row: row, colorMap: colorMap)
                 }
             }
         } header: {
@@ -205,7 +205,7 @@ private nonisolated struct JournalCategorySection: View {
             } label: {
                 HStack(spacing: Spacing.md) {
                     Label {
-                        Text("\(String(localized: category.displayName)) (\(entries.count))")
+                        Text("\(String(localized: category.displayName)) (\(rows.count))")
                     } icon: {
                         Image(systemName: category.icon)
                             .foregroundStyle(category.labelColor)
@@ -236,29 +236,29 @@ private struct SectionDisclosureChevron: View {
 
 /// One dose entry as a tappable card row (chevron-free, pushes to detail).
 /// Shared by the substance- and category-keyed Grouped lists.
-private nonisolated struct JournalEntryRow: View {
-    let entry: DoseEntry
+private nonisolated struct JournalEntryRowView: View {
+    let row: JournalEntryRow
     let colorMap: [String: Color]
 
     @MainActor var body: some View {
-        JournalEntryButton(entry: entry, colorMap: colorMap)
+        JournalEntryButton(row: row, colorMap: colorMap)
     }
 }
 
-/// The row's button, apart from ``JournalEntryRow`` because its environment
+/// The row's button, apart from ``JournalEntryRowView`` because its environment
 /// reads are main-actor: the row itself is built off main.
 private struct JournalEntryButton: View {
     @Environment(\.appNavigator) private var navigator
     @Environment(\.opensRecordsBesideList) private var opensRecordsBesideList
 
-    let entry: DoseEntry
+    let row: JournalEntryRow
     let colorMap: [String: Color]
 
     var body: some View {
         Button {
-            navigator.openRecord(.entry(timestamp: entry.timestamp, id: entry.id), besideList: opensRecordsBesideList)
+            navigator.openRecord(.entry(timestamp: row.timestamp, id: row.id), besideList: opensRecordsBesideList)
         } label: {
-            SubstanceEntryRow(entry: entry, colorMap: colorMap)
+            SubstanceEntryRow(row: row, colorMap: colorMap)
         }
         .buttonStyle(.plain)
         .padding(.vertical, 5)
@@ -266,11 +266,11 @@ private struct JournalEntryButton: View {
 }
 
 private struct SubstanceEntryRow: View {
-    let entry: DoseEntry
+    let row: JournalEntryRow
     let colorMap: [String: Color]
 
     private var color: Color {
-        SubstancePalette.color(for: entry.substance, colorMap: colorMap)
+        SubstancePalette.color(for: row.substance, colorMap: colorMap)
     }
 
     var body: some View {
@@ -279,16 +279,16 @@ private struct SubstanceEntryRow: View {
                 .fill(color)
                 .frame(width: 10, height: 10)
             VStack(alignment: .leading, spacing: Spacing.xs) {
-                Text(DoseTitle.resolve(for: entry))
+                Text(row.title)
                     .sectionLabel()
-                Text("\(entry.amountDisplay) \(entry.unit) · \(String(localized: entry.route.localizedName))")
+                Text("\(row.amountDisplay) \(row.unit) · \(String(localized: row.route.localizedName))")
                     .captionSecondary()
             }
             Spacer(minLength: Spacing.md)
             VStack(alignment: .trailing, spacing: Spacing.xs) {
-                Text(entry.timestamp.formatted(.dateTime.month(.abbreviated).day()))
+                Text(row.timestamp.formatted(.dateTime.month(.abbreviated).day()))
                     .font(.caption)
-                Text(entry.timestamp.formatted(date: .omitted, time: .shortened))
+                Text(row.timestamp.formatted(date: .omitted, time: .shortened))
                     .font(.caption2)
             }
             .foregroundStyle(Theme.secondaryLabel)
