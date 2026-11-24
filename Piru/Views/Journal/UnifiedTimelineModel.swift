@@ -17,9 +17,16 @@ final class UnifiedTimelineModel {
     /// ahead, effect curves a few hours), so the screens re-open at Now on it.
     private(set) var builtPreferences: String?
 
+    /// Whether a build has run to the end. With `days` empty, it tells a log
+    /// whose every entry is hidden from one still being laid out.
+    var hasBuilt: Bool {
+        builtKey != nil
+    }
+
     /// `cacheable` is true only for the unfiltered journal strip: the launch
     /// cache (``TimelineStripCache``) is keyed by the whole log, so a filtered
-    /// or searched strip must neither read nor write it.
+    /// or searched strip must neither read nor write it. Neither does one with
+    /// classes hidden (`hiding`, ``JournalVisibility``).
     func rebuild(
         entries: [DoseEntry],
         colors: [SubstanceColor],
@@ -32,6 +39,7 @@ final class UnifiedTimelineModel {
         showsAxis: Bool,
         bubbleStyle: TimelineBubbleStyle,
         showsVitals: Bool,
+        hiding hiddenCategories: Set<SubstanceCategory> = [],
         cacheable: Bool = true,
     ) async {
         let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(curveScale.rawValue)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(TimelineDoseBubble.heightScale)"
@@ -55,6 +63,7 @@ final class UnifiedTimelineModel {
         )
         await SubstanceStore.shared.ensureAllLoaded()
         guard !logMoved() else { return }
+        let entries = JournalVisibility.visible(entries, hiding: hiddenCategories)
         let sessions = Self.sessionsByID(of: entries)
 
         let heartRate = showsAxis && HealthKitVitals.shared.isOn(overlay: showsVitals) ? await Self.recentHeartRate(entries: entries) : []
@@ -110,7 +119,7 @@ final class UnifiedTimelineModel {
         days = built
         builtKey = key
         builtPreferences = preferences
-        if cacheable {
+        if cacheable, hiddenCategories.isEmpty {
             TimelineStripCache.save(built, key: cacheKey, now: now)
         }
     }
@@ -120,7 +129,7 @@ final class UnifiedTimelineModel {
     /// comes from a `COUNT` and a one-row fetch on ``DatabaseActor``, so a hit
     /// never materializes the dose log on the main actor; the file decodes
     /// off the main actor. `false` on a miss, leaving the build to
-    /// ``rebuild(entries:colors:colorMap:revision:zoom:compressGaps:pkCurves:curveScale:showsAxis:bubbleStyle:showsVitals:cacheable:)``.
+    /// ``rebuild(entries:colors:colorMap:revision:zoom:compressGaps:pkCurves:curveScale:showsAxis:bubbleStyle:showsVitals:hiding:cacheable:)``.
     func restoreCached(
         container: ModelContainer,
         revision: Int,

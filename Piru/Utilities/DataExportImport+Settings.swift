@@ -76,6 +76,8 @@ enum ExportedSettings {
         .init(key: "journalGrouping", domain: .appGroup, kind: .string),
         .init(key: "journalGroupKey", domain: .appGroup, kind: .string),
         .init(key: Calendar.dayBoundaryHourKey, domain: .appGroup, kind: .int),
+        .init(key: JournalVisibility.hidesSupplementsKey, domain: .appGroup, kind: .bool),
+        .init(key: JournalVisibility.hidesMedsKey, domain: .appGroup, kind: .bool),
         .init(key: LaneModeDefaults.enabledKey, domain: .appGroup, kind: .bool),
         .init(key: LaneModeDefaults.thresholdKey, domain: .appGroup, kind: .int),
         .init(key: SessionGraphDefaults.enlargedKey, domain: .appGroup, kind: .bool),

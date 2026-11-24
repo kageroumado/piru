@@ -46365,6 +46365,118 @@
         }
       }
     },
+    "Hidden Classes" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clases ocultas"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clases ocultas"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱藏類別"
+          }
+        }
+      }
+    },
+    "Hidden entries stay recorded. Search, Insights, and exports still include them." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los registros ocultos se conservan. La búsqueda, Tendencias y las exportaciones los siguen incluyendo."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los registros ocultos se conservan. La búsqueda, Tendencias y las exportaciones los siguen incluyendo."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏的记录仍会保留，搜索、洞察和导出中依然包含它们。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱藏的記錄仍會保留，搜尋、洞察和匯出中依然包含它們。"
+          }
+        }
+      }
+    },
+    "Hide Meds & Other Classes" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar fármacos y otras clases"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar fármacos y otras clases"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏药品及其他类别"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱藏藥品及其他類別"
+          }
+        }
+      }
+    },
+    "Hide Supplements" : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar suplementos"
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ocultar suplementos"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏膳食补充剂"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隱藏膳食補充劑"
+          }
+        }
+      }
+    },
     "Hides the elimination curve" : {
       "localizations" : {
         "es" : {
@@ -51447,6 +51559,62 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "記錄你服用了什麼、何時服用，點一下即可設定溫和的提醒。處方藥、補劑、維生素：任何按計劃服用的東西。"
+          }
+        }
+      }
+    },
+    "Keeps Peptides, Mind & Cognition, Pharmaceuticals, and Other / Miscellaneous entries out of the Journal." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los registros de Péptidos, Mente y cognición, Fármacos y Otros / Varios no aparecen en el Diario."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los registros de Péptidos, Mente y cognición, Fármacos y Otros / Varios no aparecen en el Diario."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肽类、精神与认知、药品以及其他 / 杂项的记录不在日记中显示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "肽類、精神與認知、藥品以及其他 / 雜項的記錄不在日記中顯示。"
+          }
+        }
+      }
+    },
+    "Keeps supplement entries out of the Journal." : {
+      "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los registros de suplementos no aparecen en el Diario."
+          }
+        },
+        "es-ES" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los registros de suplementos no aparecen en el Diario."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "膳食补充剂的记录不在日记中显示。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "膳食補充劑的記錄不在日記中顯示。"
           }
         }
       }

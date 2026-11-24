@@ -47,12 +47,14 @@ struct UnifiedTimelineView: View {
     @AppStorage("timelineShowsAxis", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var showsAxis = true
     @AppStorage("timelineBubbleStyle", store: UserDefaults(suiteName: AppIdentity.appGroup)) private var bubbleStyle = TimelineBubbleStyle.full
     @AppStorage(HealthKitVitals.overlayKey, store: HealthKitVitals.settingsStore) private var showsVitals = false
+    @AppStorage(JournalVisibility.hidesSupplementsKey, store: UserDefaults(suiteName: JournalVisibility.suite)) private var hidesSupplements = false
+    @AppStorage(JournalVisibility.hidesMedsKey, store: UserDefaults(suiteName: JournalVisibility.suite)) private var hidesMeds = false
 
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    if entries.isEmpty {
+                    if entries.isEmpty || (model.days.isEmpty && model.hasBuilt) {
                         emptyState
                     } else if model.days.isEmpty {
                         ProgressView()
@@ -113,9 +115,11 @@ struct UnifiedTimelineView: View {
                 proxy.scrollTo(target.id, anchor: target.anchor)
             }
             .task(id: rebuildKey) {
+                let hidden = JournalVisibility.hiddenCategories(supplements: hidesSupplements, meds: hidesMeds)
                 // The launch cache first, as the Journal's strip does: a hit
-                // paints without building the strip on the main actor.
-                if model.days.isEmpty,
+                // paints without building the strip on the main actor. It holds
+                // the whole log, so a strip with classes hidden builds instead.
+                if hidden.isEmpty, model.days.isEmpty,
                    await model.restoreCached(
                        container: modelContext.container,
                        revision: rebuildKey.hashValue,
@@ -141,13 +145,14 @@ struct UnifiedTimelineView: View {
                     showsAxis: showsAxis,
                     bubbleStyle: bubbleStyle,
                     showsVitals: showsVitals,
+                    hiding: hidden,
                 )
             }
         }
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(curveScale.rawValue)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(dynamicTypeSize)|\(clockTick)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(curveScale.rawValue)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(hidesSupplements)|\(hidesMeds)|\(dynamicTypeSize)|\(clockTick)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers

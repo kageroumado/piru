@@ -188,6 +188,19 @@ final class JournalModel {
         filterRoutes = []
     }
 
+    /// The classes Settings ▸ Journal ▸ Hidden Classes keeps out of the list
+    /// (``JournalVisibility``). A standing preference rather than a funnel
+    /// facet: it never counts as an active filter, and the facet menus list
+    /// only what is left.
+    private(set) var hiddenCategories: Set<SubstanceCategory> = []
+
+    func setHiddenCategories(_ hidden: Set<SubstanceCategory>, entries: [DoseEntry]) {
+        guard hidden != hiddenCategories else { return }
+        hiddenCategories = hidden
+        filterCategories.subtract(hidden)
+        rebuildFacets(entries: entries)
+    }
+
     func toggleCollapsed(substance: String) {
         if collapsedSubstances.contains(substance) {
             collapsedSubstances.remove(substance)
@@ -578,7 +591,9 @@ final class JournalModel {
         var tagCounts: [String: Int] = [:]
         var seenRoutes = Set<RouteOfAdministration>()
         for entry in entries {
-            if let category = derived[entry.persistentModelID]?.category, seen.insert(category).inserted {
+            let category = derived[entry.persistentModelID]?.category
+            if let category, hiddenCategories.contains(category) { continue }
+            if let category, seen.insert(category).inserted {
                 cats.append(category)
             }
             for tag in entry.tags {
@@ -613,6 +628,7 @@ final class JournalModel {
             filterTags: filterTags,
             filterCategories: filterCategories,
             filterRoutes: filterRoutes,
+            hiddenCategories: hiddenCategories,
             stackRedoses: stackRedoses,
             revision: revision,
             dayBoundaryHour: dayBoundaryHour,
@@ -630,6 +646,7 @@ final class JournalModel {
         filterTags: Set<String>,
         filterCategories: Set<SubstanceCategory>,
         filterRoutes: Set<RouteOfAdministration>,
+        hiddenCategories: Set<SubstanceCategory> = [],
         stackRedoses: Bool,
         revision: Int,
         dayBoundaryHour: Int = Calendar.sessionDayBoundaryHour,
@@ -643,6 +660,7 @@ final class JournalModel {
         sigHasher.combine(filterTags)
         sigHasher.combine(filterCategories)
         sigHasher.combine(filterRoutes)
+        sigHasher.combine(hiddenCategories)
         // Fold the dose-log revision in so a change that affects *grouping*
         // but not per-entry resolution — a session split/merge, a moved
         // timestamp — still re-buckets. (The derive step may legitimately no-op
@@ -673,6 +691,7 @@ final class JournalModel {
             filterTags: filterTags,
             filterCategories: filterCategories,
             filterRoutes: filterRoutes,
+            hiddenCategories: hiddenCategories,
         )
         filtered = result
 
@@ -776,8 +795,18 @@ final class JournalModel {
         filterTags: Set<String>,
         filterCategories: Set<SubstanceCategory>,
         filterRoutes: Set<RouteOfAdministration>,
+        hiddenCategories: Set<SubstanceCategory>,
     ) -> [DoseEntry] {
         var result = entries
+
+        // A hidden class never shows, whatever the facets select. An entry
+        // not resolved yet waits for its category rather than flashing in.
+        if !hiddenCategories.isEmpty {
+            result = result.filter { entry in
+                guard let category = derived[entry.persistentModelID]?.category else { return false }
+                return !hiddenCategories.contains(category)
+            }
+        }
 
         // Within a facet the selected values OR together (any matching tag);
         // across facets they AND (must match tag *and* category *and* route).
