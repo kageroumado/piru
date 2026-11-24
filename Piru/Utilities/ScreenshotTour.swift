@@ -951,6 +951,11 @@
                     visit(root)
                     return best
                 }
+            #else
+                /// The Mac tour has no window of its own to present over.
+                func hostInteractionTimeline(_ first: String, _ second: String) {
+                    print("ScreenshotTour: the interaction timeline for \(first) and \(second) is hosted on iOS only")
+                }
             #endif
 
             func tab(_ tab: TabID) {
