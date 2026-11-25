@@ -3,21 +3,34 @@ import SwiftUI
 /// The watch's home screen: a tap-to-log grid of the user's favorites + recents, pushed from
 /// the phone. No search, no library — if a substance isn't a favorite/recent, that's a phone
 /// task. A mass tile opens a Crown amount adjust; an alcohol tile opens the drink-preset flow.
+/// While meds are due today, My Meds heads the list.
 struct QuickLogWatchView: View {
     @Environment(WatchSyncCoordinator.self) private var sync
 
     var body: some View {
         NavigationStack {
-            content
-                .navigationTitle("Quick Log")
+            // Re-read every minute, so My Meds turns over with the journal day.
+            TimelineView(.everyMinute) { context in
+                content(at: context.date)
+            }
+            .navigationTitle("Quick Log")
         }
         .id(sync.manifest?.journalGeneration ?? 0)
     }
 
     @ViewBuilder
-    private var content: some View {
-        if let items = sync.manifest?.items, !items.isEmpty {
+    private func content(at date: Date) -> some View {
+        let items = sync.manifest?.items ?? []
+        let medDay = sync.manifest?.medDay(containing: date).flatMap { $0.slots.isEmpty ? nil : $0 }
+        if !items.isEmpty || medDay != nil {
             List {
+                if let medDay {
+                    NavigationLink {
+                        MyMedsWatchView()
+                    } label: {
+                        MyMedsTile(takenCount: medDay.slots.count { sync.isTaken($0, in: medDay) }, total: medDay.slots.count)
+                    }
+                }
                 if sync.pendingCount > 0 {
                     Label("^[\(sync.pendingCount) entry](inflect: true) syncing", systemImage: "arrow.triangle.2.circlepath")
                         .font(.caption2)
@@ -47,6 +60,32 @@ struct QuickLogWatchView: View {
         } else {
             AmountLogView(item: item)
         }
+    }
+}
+
+/// The My Meds row: a pill (a check once everything is taken) and today's taken count.
+struct MyMedsTile: View {
+    let takenCount: Int
+    let total: Int
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: takenCount == total ? "checkmark.circle.fill" : "pills.fill")
+                .font(.caption)
+                .foregroundStyle(takenCount == total ? Color.green : Color.logButton)
+                .frame(width: 12)
+            VStack(alignment: .leading, spacing: 1) {
+                Text("My Meds")
+                    .font(.headline)
+                Text("\(takenCount) of \(total) taken")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer(minLength: 0)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("My Meds")
+        .accessibilityValue("\(takenCount) of \(total) taken")
     }
 }
 

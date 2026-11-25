@@ -18,6 +18,8 @@ final class PhoneSyncCoordinator: NSObject {
 
     private var container: ModelContainer?
     private var changeObserver: Task<Void, Never>?
+    /// A push is asked for and not yet built (see `pushManifest`).
+    private var pushPending = false
 
     /// Bind the coordinator to the store and activate the session. No-op on devices without
     /// WatchConnectivity (iPad, Mac). Idempotent.
@@ -40,17 +42,30 @@ final class PhoneSyncCoordinator: NSObject {
 
     // MARK: - Phone → Watch
 
+    /// Ask for the manifest to be pushed. One change asks more than once — a dose from the
+    /// wrist through its message, its change signal, and the reminder resync that follows
+    /// its commit — and the asks of a second fold into one build.
+    func pushManifest() {
+        guard !pushPending else { return }
+        pushPending = true
+        Task { @MainActor in
+            try? await Task.sleep(for: .seconds(1))
+            self.pushPending = false
+            self.pushNow()
+        }
+    }
+
     /// Build the current manifest and hand it to the OS to deliver to the watch. Latest-wins:
     /// a newer context silently replaces an undelivered one, which is exactly right for a
     /// snapshot of "your current favorites/recents."
-    func pushManifest() {
+    private func pushNow() {
         // The manifest resolves reference doses and favorite defaults from the
         // batch cache; the watch session can activate before the launch prewarm
         // lands, and a cold build here stalled the main actor. Defer once.
         guard SubstanceStore.shared.isBatchCacheWarm else {
             Task { @MainActor in
                 await SubstanceStore.shared.ensureAllLoaded()
-                self.pushManifest()
+                self.pushNow()
             }
             return
         }
@@ -73,6 +88,11 @@ final class PhoneSyncCoordinator: NSObject {
                 return DoseStepping.step(referenceDose: reference, amount: amount)
             },
         )
+        // The owner's meds, like the doses the watch sends (see `receive`).
+        manifest.medDays = ProfileScope.$pinned.withValue(ProfileDirectory.shared.owner.id) {
+            QuickLogManifestBuilder.medDays(in: context, now: manifest.generatedAt, displayName: \.displayName)
+        }
+        manifest.handledMedChange = WatchMedChange.last()
         manifest.journalGeneration = JournalResetGeneration.current()
         for index in manifest.items.indices {
             manifest.items[index].journalGeneration = manifest.journalGeneration
@@ -110,18 +130,27 @@ final class PhoneSyncCoordinator: NSObject {
 
     // MARK: - Watch → Phone
 
+    /// Handle a watch message — `kind`, a dose or an untake — the moment it arrives, in
+    /// the order it came: once its delegate call returns the system never delivers it
+    /// again, so it never waits in memory for anything. `change` is its number when it
+    /// is a My Meds tick or untick.
+    ///
     /// A watch dose is the owner's, whoever's journal is open: the container is
     /// the owner's store, and the scope keeps its reminders and store
     /// generation the owner's too.
-    private func receive(_ payload: WatchDosePayload) {
+    private func receive(_ kind: String, change: Int?, _ handle: (ModelContext, _ journalGeneration: Int) -> Any) {
         guard let context = container?.mainContext else { return }
         let outcome = ProfileScope.$pinned.withValue(ProfileDirectory.shared.owner.id) {
-            WatchDoseReceiver.ingest(payload, in: context, journalGeneration: JournalResetGeneration.current())
+            handle(context, JournalResetGeneration.current())
         }
         // Count/outcome only — never the substance or amount (this is a device log).
-        Logger.watchSync.notice("received watch dose → \(String(describing: outcome), privacy: .public)")
-        // The received dose is a new recent; the change signal from `DoseLogService.log`
-        // already re-pushes the manifest via `changeObserver`.
+        Logger.watchSync.notice("received watch \(kind, privacy: .public) → \(String(describing: outcome), privacy: .public)")
+        // Logged or refused, the change is handled, and the next manifest answers it. A
+        // dose the phone logs or removes re-pushes through the change signal, but a
+        // refused one (a slot taken or skipped already, nothing to remove) changes
+        // nothing: push anyway, so the watch drops its own state for the phone's.
+        if let change { WatchMedChange.record(change) }
+        pushManifest()
     }
 }
 
@@ -140,8 +169,15 @@ extension PhoneSyncCoordinator: WCSessionDelegate {
     nonisolated func session(_: WCSession, didReceiveUserInfo userInfo: [String: Any]) {
         // Decode off the delegate queue: the dictionary isn't Sendable, but the resulting
         // payload is — so only the payload crosses onto the main actor.
-        guard let payload = WatchDosePayload(userInfo: userInfo) else { return }
-        Task { @MainActor in self.receive(payload) }
+        if let payload = WatchDosePayload(userInfo: userInfo) {
+            Task { @MainActor in
+                self.receive("dose", change: payload.medChange) { WatchDoseReceiver.ingest(payload, in: $0, journalGeneration: $1) }
+            }
+        } else if let untake = WatchMedUntake(userInfo: userInfo) {
+            Task { @MainActor in
+                self.receive("untake", change: untake.medChange) { WatchDoseReceiver.untake(untake, in: $0, journalGeneration: $1) }
+            }
+        }
     }
 
     /// Required on iOS: after a session deactivates (the user switched paired watches),

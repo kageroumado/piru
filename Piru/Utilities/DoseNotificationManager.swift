@@ -195,6 +195,7 @@ enum DoseNotificationManager {
     static func syncMedReminders(in context: ModelContext) {
         RoutineOccurrenceService.reconcile(in: context)
         scheduleMedReminders(in: context)
+        pushMedsToWatch()
     }
 
     /// ``syncMedReminders(in:)`` for launch and foreground: the reconcile's
@@ -204,8 +205,20 @@ enum DoseNotificationManager {
     static func syncMedRemindersIfNeeded(container: ModelContainer) async {
         if await RoutineOccurrenceService.needsReconcile(container: container) {
             RoutineOccurrenceService.reconcile(in: container.mainContext)
+            // Only a changed day changes the watch's checklist; the watch session
+            // pushes once of its own as it activates at launch.
+            pushMedsToWatch()
         }
         scheduleMedReminders(in: container.mainContext)
+    }
+
+    /// The watch's My Meds checklist comes from the phone's manifest, and a med
+    /// added, edited or deleted, a Skip Today, or a new day changes it without a
+    /// dose: the reminder resyncs refresh the watch too.
+    private static func pushMedsToWatch() {
+        #if os(iOS)
+            PhoneSyncCoordinator.shared.pushManifest()
+        #endif
     }
 
     private static func scheduleMedReminders(in context: ModelContext) {

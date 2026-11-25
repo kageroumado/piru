@@ -16,6 +16,13 @@ enum WatchDoseFormat {
     static func route(_ rawValue: String) -> String {
         rawValue.prefix(1).uppercased() + rawValue.dropFirst()
     }
+
+    /// A reminder time (minutes from midnight) on the watch's clock, as the phone card
+    /// shows it.
+    static func time(_ minutes: Int) -> String {
+        let date = Calendar.current.date(bySettingHour: minutes / 60, minute: minutes % 60, second: 0, of: .now) ?? .now
+        return date.formatted(date: .omitted, time: .shortened)
+    }
 }
 
 /// Brief full-screen confirmation shown after a dose is queued, before the log screen

@@ -185,6 +185,107 @@ enum QuickLogManifestBuilder {
     }
 }
 
+// MARK: - My Meds
+
+extension QuickLogManifestBuilder {
+    /// Today's and tomorrow's My Meds checklists, slot for slot as the phone card derives
+    /// them (``MyMedsModel/slots(items:occurrences:boundaryHour:now:)``). Today's states
+    /// come from its occurrence rows, reconciled first: `logBatch` reconciles only after
+    /// the change signal that triggers this push. Nothing has happened tomorrow yet, so
+    /// its slots are all open.
+    static func medDays(
+        in context: ModelContext,
+        now: Date,
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
+        displayName: (DailyMedSnapshot) -> String = { $0.productName ?? $0.substance },
+    ) -> [ManifestMedDay] {
+        RoutineOccurrenceService.reconcile(in: context, now: now)
+        let items = (try? context.fetch(FetchDescriptor<DailyDoseItem>(sortBy: [SortDescriptor(\.sortOrder)]))) ?? []
+        let today = Calendar.current.journalDay(for: now, boundaryHour: boundaryHour)
+        let occurrences = (try? context.fetch(FetchDescriptor<RoutineOccurrence>(
+            predicate: #Predicate { $0.dueDay == today },
+        ))) ?? []
+        return medDays(items: items, todayOccurrences: occurrences, now: now, boundaryHour: boundaryHour, displayName: displayName)
+    }
+
+    /// Pure assembly over already-fetched rows — the unit-testable core.
+    static func medDays(
+        items: [DailyDoseItem],
+        todayOccurrences: [RoutineOccurrence],
+        now: Date,
+        boundaryHour: Int = Calendar.sessionDayBoundaryHour,
+        displayName: (DailyMedSnapshot) -> String = { $0.productName ?? $0.substance },
+    ) -> [ManifestMedDay] {
+        let calendar = Calendar.current
+        let today = calendar.journalDay(for: now, boundaryHour: boundaryHour)
+        let tomorrow = calendar.journalDay(after: today)
+        let todayStart = calendar.journalDayStart(of: today, boundaryHour: boundaryHour)
+        let tomorrowStart = calendar.journalDayStart(of: tomorrow, boundaryHour: boundaryHour)
+        let dayAfterStart = calendar.journalDayStart(of: calendar.journalDay(after: tomorrow), boundaryHour: boundaryHour)
+        let itemsByID = Dictionary(items.map { ($0.persistentModelID, $0) }, uniquingKeysWith: { first, _ in first })
+
+        func day(start: Date, end: Date, occurrences: [RoutineOccurrence]) -> ManifestMedDay {
+            // Two meds alike in everything share an id, and one row: a dose of either is
+            // the same dose, ticking the one occurrence they share.
+            var ids: Set<String> = []
+            let slots = MyMedsModel.slots(items: items, occurrences: occurrences, boundaryHour: boundaryHour, now: start)
+                .compactMap { slot in itemsByID[slot.itemID].map { medSlot(slot, of: $0, displayName: displayName(slot.med)) } }
+                .filter { ids.insert($0.id).inserted }
+            return ManifestMedDay(start: start, end: end, slots: slots)
+        }
+        return [
+            day(start: todayStart, end: tomorrowStart, occurrences: todayOccurrences),
+            day(start: tomorrowStart, end: dayAfterStart, occurrences: []),
+        ]
+    }
+
+    private static func medSlot(_ slot: MyMedsCard.MedSlot, of item: DailyDoseItem, displayName: String) -> ManifestMedSlot {
+        ManifestMedSlot(
+            id: ManifestMedSlot.id(of: item, slotMinutes: slot.time),
+            substance: item.substance,
+            displayName: displayName,
+            route: item.route.rawValue,
+            amount: item.amount,
+            unit: item.unit,
+            slotMinutes: slot.time,
+            isQuiet: item.isQuiet,
+            taken: slot.state == .taken,
+            skipped: slot.state == .skipped,
+            substanceUID: item.substanceUID,
+            isomer: item.isomer,
+            releaseForm: item.releaseForm,
+            saltForm: item.saltForm,
+            productName: item.productName,
+        )
+    }
+}
+
+// MARK: - Med slots → wire id
+
+extension ManifestMedSlot {
+    /// The id of `item`'s slot at `slotMinutes`: what the med is (identity, route, dose
+    /// and product word) and the reminder time. Nothing in it moves when another med is
+    /// added, deleted or reordered, so a tick from a wrist holding an older manifest
+    /// still names its med; and two strengths of one med at one time, which share a slot
+    /// key (`RoutineOccurrenceService.slotKey`), each keep their own.
+    static func id(of item: DailyDoseItem, slotMinutes: Int?) -> String {
+        id(item.identityKey, item.route, item.amount, item.unit, item.productName, slotMinutes)
+    }
+
+    /// The id of the slot at `slotMinutes` whose med `dose` is a dose of, as
+    /// ``DoseEntry/init(medication:timestamp:slotMinutes:displayNameSnapshot:)`` builds one.
+    static func id(of dose: DoseEntry, slotMinutes: Int?) -> String {
+        id(dose.identityKey, dose.route, dose.amount, dose.unit, dose.productName, slotMinutes)
+    }
+
+    private static func id(
+        _ identityKey: String, _ route: RouteOfAdministration, _ amount: Double, _ unit: String,
+        _ productName: String?, _ slotMinutes: Int?,
+    ) -> String {
+        "\(identityKey)|\(route.rawValue)|\(amount)|\(unit)|\(productName ?? "")|\(slotMinutes.map(String.init) ?? "any")"
+    }
+}
+
 // MARK: - Drink presets → wire form
 
 extension ManifestDrinkPreset {
