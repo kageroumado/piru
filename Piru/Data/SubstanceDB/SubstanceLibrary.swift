@@ -281,11 +281,31 @@ enum SubstanceLibrary {
         // store found nothing under it — a hit means the catalog already answered.
         let trimmed = query.trimmingCharacters(in: .whitespaces)
         if !trimmed.isEmpty, !out.contains(where: { $0.substance.displayTitle.localizedCaseInsensitiveContains(trimmed) }),
-           let byPersonalName = lookup(trimmed),
+           let byPersonalName = unrankedMatch(for: trimmed),
            !out.contains(where: { $0.substance.name == byPersonalName.name }) {
             out.insert(SubstanceMatch(substance: byPersonalName, matchedAlias: nil), at: 0)
         }
         return out
+    }
+
+    /// What `query` names exactly that the ranked search may not have listed:
+    /// a spelling only the batch projection keys, or the user's own name for a
+    /// substance. Resolved from in-memory indexes only.
+    ///
+    /// Never ``lookup(_:)`` on the query itself: this runs on the main actor on
+    /// every search keystroke, and for any key the batch projection lacks (every
+    /// localized title — "ketamina" in an English app) its fallback is the
+    /// ~21-statement per-field resolve, whose result the ranked search already
+    /// holds and the caller throws away.
+    private static func unrankedMatch(for query: String) -> Substance? {
+        if let row = SubstanceStore.shared.timelineRow(query) {
+            return overlayCustom(library: row, query: query)
+        }
+        let customs = CustomSubstanceStore.shared
+        guard let custom = customs.first(whereName: query) ?? customs.first(whereDisplayName: query) else { return nil }
+        // By canonical name, so an override of a shipped substance lands on the
+        // batch row; a net-new custom resolves to its own entry.
+        return lookup(custom.name)
     }
 
     /// ``search(_:limit:)``, keeping the alias each hit matched so the caller can
