@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Replications — Piru prototype</title>
+<style>
+/* The viewfinder chrome is dark in both themes, like a camera app: the controls sit on live
+   video, so their contrast is set against the image, not the page. */
+:root {
+  --ground: oklch(0.13 0.008 280);
+  --material: oklch(0.19 0.01 280 / 0.82);
+  --material-solid: oklch(0.2 0.01 280);
+  --hairline: oklch(0.36 0.01 280);
+  --text: oklch(0.97 0.004 280);
+  --text-2: oklch(0.80 0.008 280);
+  --text-3: oklch(0.66 0.01 280);
+  --fill: oklch(0.30 0.01 280);
+  --fill-strong: oklch(0.40 0.012 280);
+  --accent: oklch(0.86 0.15 85);
+  --on-accent: oklch(0.2 0.03 85);
+  --r-s: 8px; --r-m: 12px; --r-l: 18px;
+  --pad: 14px;
+  color-scheme: dark;
+  font: 15px/1.35 system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; height: 100%; background: var(--ground); color: var(--text); overflow: hidden; }
+button { font: inherit; color: inherit; }
+
+.app { display: grid; height: 100dvh; grid-template-columns: minmax(0, 1fr) 360px; }
+.stage { position: relative; min-width: 0; min-height: 0; background: var(--ground); touch-action: none; }
+canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.topbar { position: absolute; top: max(12px, env(safe-area-inset-top)); left: 12px; right: 12px;
+  display: flex; gap: 8px; justify-content: space-between; align-items: center; pointer-events: none; }
+.topbar > * { pointer-events: auto; }
+
+.seg { display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; background: var(--material);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+.seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  color: var(--text-2); font-size: 13px; font-weight: 550; white-space: nowrap; min-height: 32px; }
+.seg button[aria-pressed="true"], .seg button[aria-selected="true"] { background: var(--fill-strong); color: var(--text); }
+
+.pill { border: 0; border-radius: 999px; background: var(--material); backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px); padding: 6px 14px; min-height: 38px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.pill[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+
+.divider { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--text);
+  pointer-events: none; }
+.divider::after { content: ""; position: absolute; top: 50%; left: 50%; width: 28px; height: 28px; margin: -14px;
+  border-radius: 50%; background: var(--text); }
+.split-labels { position: absolute; bottom: 14px; left: 12px; right: 12px; display: flex; justify-content: space-between;
+  font-size: 12px; font-weight: 600; pointer-events: none; }
+.split-labels span { background: var(--material); padding: 3px 9px; border-radius: 999px; }
+
+.notice { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: 300px; text-align: center;
+  background: var(--material-solid); padding: 16px 18px; border-radius: var(--r-m); color: var(--text-2); }
+
+.dock { min-width: 0; background: var(--material-solid); border-left: 1px solid var(--hairline); display: flex; flex-direction: column;
+  min-height: 0; }
+.effects { display: flex; flex-wrap: wrap; gap: 6px; padding: var(--pad); border-bottom: 1px solid var(--hairline); }
+.effects button { flex: none; border: 0; border-radius: 999px; background: var(--fill); color: var(--text-2);
+  padding: 8px 13px 8px 11px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 7px; min-height: 38px; }
+.effects button[aria-selected="true"] { background: var(--text); color: var(--ground); }
+.effects .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--fill-strong); }
+.effects .on .dot { background: var(--accent); }
+
+.panel { padding: var(--pad); overflow-y: auto; display: grid; gap: 16px; align-content: start; }
+.panel h2 { margin: 0; font-size: 20px; font-weight: 650; letter-spacing: -0.01em; }
+.def { margin: 4px 0 0; color: var(--text-2); }
+.levels { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; padding: 3px; background: var(--fill); border-radius: var(--r-s); }
+.levels button { border: 0; background: transparent; border-radius: 6px; padding: 8px 0; font-weight: 650; color: var(--text-2);
+  cursor: pointer; font-variant-numeric: tabular-nums; min-height: 36px; }
+.levels button[aria-pressed="true"] { background: var(--text); color: var(--ground); }
+.leveltext { margin: 0; color: var(--text-2); min-height: 2.7em; }
+.leveltext b { color: var(--text); font-weight: 650; }
+
+.controls { display: grid; gap: 14px; }
+.group { display: grid; gap: 10px; padding-top: 14px; border-top: 1px solid var(--hairline); }
+.group-head { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 650; color: var(--text); }
+.ctl { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; }
+.ctl label { font-size: 13px; color: var(--text-2); }
+.ctl output { font-size: 13px; color: var(--text); font-variant-numeric: tabular-nums; }
+.ctl input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); margin: 0; }
+.ctl .seg { grid-column: 1 / -1; background: var(--fill); backdrop-filter: none; justify-self: start; flex-wrap: wrap; border-radius: var(--r-s); }
+.ctl .seg button { border-radius: 6px; }
+.marks { grid-column: 1 / -1; font-size: 12px; color: var(--text-3); }
+.switch { appearance: none; width: 40px; height: 24px; border-radius: 999px; background: var(--fill-strong); position: relative; cursor: pointer; margin: 0; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--text); transition: transform .15s; }
+.switch:checked { background: var(--accent); }
+.switch:checked::after { transform: translateX(16px); background: var(--on-accent); }
+
+.pill.small { min-height: 32px; padding: 4px 12px; background: var(--fill-strong); color: var(--text); }
+.status { font-size: 12px; color: var(--text-2); background: var(--fill); border-radius: var(--r-s); padding: 8px 10px; overflow-wrap: anywhere; }
+.status code { font: 11px/1.4 ui-monospace, monospace; color: var(--text); }
+.sources { margin: 0; padding: 14px 0 0; border-top: 1px solid var(--hairline); font-size: 12px; color: var(--text-3); list-style: none; display: grid; gap: 4px; }
+.sources a { color: var(--text-2); }
+
+@media (max-width: 760px) {
+  .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; }
+  .dock { border-left: 0; border-top: 1px solid var(--hairline); max-height: 46dvh; padding-bottom: env(safe-area-inset-bottom); }
+  .panel { gap: 12px; }
+  .effects { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <main class="stage" id="stage">
+    <canvas id="view"></canvas>
+    <div class="divider" id="divider" hidden></div>
+    <div class="split-labels" id="splitLabels" hidden><span>Original</span><span>Replication</span></div>
+    <div class="topbar">
+      <div class="seg" role="group" aria-label="Source" id="sourceSeg">
+        <button data-source="scene" aria-pressed="true">Test scene</button>
+        <button data-source="camera" aria-pressed="false">Camera</button>
+        <button data-source="file" aria-pressed="false">File</button>
+      </div>
+      <button class="pill" id="compareBtn" aria-pressed="false">Compare</button>
+    </div>
+    <div class="notice" id="notice" hidden></div>
+    <input type="file" id="fileInput" accept="video/*,image/*" hidden>
+  </main>
+  <aside class="dock">
+    <div class="effects" role="tablist" id="effectTabs"></div>
+    <div class="panel" id="panel"></div>
+  </aside>
+</div>
+
+<script>
+"use strict";
+
+/* ───────────────────────── Data model ─────────────────────────
+   One object per effect: its definition, its level presets, and its controls.
+   Levels for Tracers, Drifting and Geometry follow PsychonautWiki's scales;
+   Color and Symmetry have no published scale, so their levels are this tool's. */
+
+const HZ_MARKS = "Reported strobe rates: LSD 15–20 Hz, DMT 25–30 Hz (QRI); 15–20 Hz average in Dubois & VanRullen 2011.";
+
+const EFFECTS = [
+  {
+    id: "tracers", name: "Tracers",
+    def: "Moving things leave trails behind them, like a long-exposure photo.",
+    scale: "PsychonautWiki",
+    levels: [
+      ["Subtle", "almost transparent, fades fast, drags close behind the object."],
+      ["Distinct", "trails about half the distance the object moved, partly transparent."],
+      ["Intense", "mostly opaque, sharp-edged copies that linger for seconds."],
+      ["All-encompassing", "the whole field smears; trails linger almost indefinitely."],
+    ],
+    presets: [
+      { trailOn: 1, trailInt: 0.45, trailHalf: 0.08, strobeOn: 0, replayOn: 0, scope: 0, cpAmt: 0 },
+      { trailOn: 1, trailInt: 0.7, trailHalf: 0.2, strobeOn: 0, replayOn: 1, replayHz: 12, replayInt: 0.35, replayCopies: 2, replayDecay: 0.6, scope: 0, cpAmt: 0 },
+      { trailOn: 1, trailInt: 0.55, trailHalf: 0.7, strobeOn: 1, strobeHz: 16, strobeInt: 0.85, strobeCopies: 4, strobeDecay: 0.8, replayOn: 0, scope: 0.15, cpAmt: 0.15 },
+      { trailOn: 1, trailInt: 0.9, trailHalf: 2.5, strobeOn: 1, strobeHz: 16, strobeInt: 0.9, strobeCopies: 4, strobeDecay: 0.85, replayOn: 1, replayHz: 6, replayInt: 0.4, replayCopies: 3, replayDecay: 0.7, scope: 1, cpAmt: 0.35 },
+    ],
+    groups: [
+      { title: "Trails", toggle: "trailOn", note: "Continuous reverb: each frame fades exponentially.", controls: [
+        { k: "trailInt", label: "Strength", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "trailHalf", label: "Half-life", min: 0.03, max: 4, step: 0.01, fmt: v => v.toFixed(2) + " s", log: true },
+      ]},
+      { title: "Strobe", toggle: "strobeOn", note: "Snapshots taken at a fixed rate and held, like chronophotography.", controls: [
+        { k: "strobeHz", label: "Rate", min: 2, max: 40, step: 0.1, fmt: hz, marks: HZ_MARKS },
+        { k: "strobeInt", label: "Strength", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "strobeCopies", label: "Copies", min: 1, max: 4, step: 1, fmt: v => String(v) },
+        { k: "strobeDecay", label: "Falloff per copy", min: 0.2, max: 1, step: 0.01, fmt: pct },
+      ]},
+      { title: "Replay", toggle: "replayOn", note: "Delayed copies of the live image that keep moving.", controls: [
+        { k: "replayHz", label: "Rate", min: 2, max: 30, step: 0.1, fmt: hz },
+        { k: "replayInt", label: "Strength", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "replayCopies", label: "Copies", min: 1, max: 3, step: 1, fmt: v => String(v) },
+        { k: "replayDecay", label: "Falloff per copy", min: 0.2, max: 1, step: 0.01, fmt: pct },
+      ]},
+      { title: "Shared", controls: [
+        { k: "scope", label: "Moving objects ↔ whole field", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "cpAmt", label: "Color pulse", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "cpHz", label: "Color pulse rate", min: 0.2, max: 40, step: 0.1, fmt: hz },
+      ]},
+    ],
+    defaults: { trailOn: 1, trailInt: 0.6, trailHalf: 0.2, strobeOn: 0, strobeHz: 16, strobeInt: 0.8, strobeCopies: 4, strobeDecay: 0.8,
+      replayOn: 0, replayHz: 12, replayInt: 0.5, replayCopies: 2, replayDecay: 0.6, scope: 0, cpAmt: 0, cpHz: 1.6 },
+    sources: [
+      ["PsychonautWiki: Tracers", "https://psychonautwiki.org/wiki/Tracers"],
+      ["QRI Tracer Replication Tool (2020)", "https://qualiacomputing.com/2020/10/09/modeling-psychedelic-tracers-with-qris-psychophysics-toolkit-the-tracer-replication-tool/"],
+      ["Dubois & VanRullen 2011, PLoS Biology", "https://doi.org/10.1371/journal.pbio.1001056"],
+    ],
+  },
+  {
+    id: "drift", name: "Drifting",
+    def: "Surfaces and textures breathe, morph or flow while staying in place.",
+    scale: "PsychonautWiki",
+    levels: [
+      ["Peripheral", "straight lines wiggle at the edge of vision."],
+      ["Direct", "textures move where you look, gently."],
+      ["Distinct", "large, obvious warping of surfaces and objects."],
+      ["All-encompassing", "every surface moves; the scene is hard to hold still."],
+    ],
+    presets: [
+      { style: 1, amt: 0.003, size: 5, speed: 0.25, jitter: 0, periphery: 1 },
+      { style: 0, amt: 0.006, size: 4, speed: 0.25, jitter: 0, periphery: 0.4 },
+      { style: 1, amt: 0.013, size: 3, speed: 0.35, jitter: 0, periphery: 0 },
+      { style: 2, amt: 0.024, size: 2.5, speed: 0.4, jitter: 0, periphery: 0 },
+    ],
+    groups: [
+      { title: "Motion", controls: [
+        { k: "style", label: "Style", seg: ["Breathing", "Morphing", "Flowing"] },
+        { k: "amt", label: "Amount", min: 0, max: 0.04, step: 0.0005, fmt: v => (v * 100).toFixed(1) + "% of frame" },
+        { k: "size", label: "Feature size", min: 1, max: 10, step: 0.1, fmt: v => v.toFixed(1), invert: true },
+        { k: "speed", label: "Speed", min: 0.05, max: 1.5, step: 0.01, fmt: v => v.toFixed(2) },
+        { k: "jitter", label: "Frame rate", seg: ["Smooth", "Jittery"] },
+        { k: "periphery", label: "Center ↔ periphery only", min: 0, max: 1, step: 0.01, fmt: pct },
+      ]},
+    ],
+    defaults: { style: 0, amt: 0.006, size: 4, speed: 0.25, jitter: 0, periphery: 0 },
+    sources: [["PsychonautWiki: Drifting", "https://psychonautwiki.org/wiki/Drifting"]],
+  },
+  {
+    id: "color", name: "Color",
+    def: "Colors grow brighter and more vivid, and hues can wander across the scene.",
+    scale: "this tool",
+    levels: [
+      ["Slight", "a little more saturation and contrast."],
+      ["Clear", "vivid color; hues start to shift at the edges of objects."],
+      ["Strong", "saturated, glowing color with slow hue drift."],
+      ["Extreme", "hues cycle across the whole scene."],
+    ],
+    presets: [
+      { sat: 1.15, contrast: 1.05, shift: 0, shiftSpeed: 0.3 },
+      { sat: 1.35, contrast: 1.1, shift: 0.08, shiftSpeed: 0.3 },
+      { sat: 1.65, contrast: 1.15, shift: 0.25, shiftSpeed: 0.4 },
+      { sat: 2.0, contrast: 1.2, shift: 0.7, shiftSpeed: 0.5 },
+    ],
+    groups: [
+      { title: "Enhancement", controls: [
+        { k: "sat", label: "Vividness", min: 0.5, max: 2.5, step: 0.01, fmt: v => "×" + v.toFixed(2) },
+        { k: "contrast", label: "Contrast", min: 0.7, max: 1.6, step: 0.01, fmt: v => "×" + v.toFixed(2) },
+      ]},
+      { title: "Shifting", controls: [
+        { k: "shift", label: "Hue shift", min: 0, max: 1, step: 0.01, fmt: v => Math.round(v * 180) + "°" },
+        { k: "shiftSpeed", label: "Speed", min: 0.05, max: 2, step: 0.01, fmt: v => v.toFixed(2) },
+      ]},
+    ],
+    defaults: { sat: 1.35, contrast: 1.1, shift: 0, shiftSpeed: 0.3 },
+    sources: [
+      ["PsychonautWiki: Color enhancement", "https://psychonautwiki.org/wiki/Color_enhancement"],
+      ["PsychonautWiki: Color shifting", "https://psychonautwiki.org/wiki/Color_shifting"],
+    ],
+  },
+  {
+    id: "symmetry", name: "Symmetry",
+    def: "Rough textures mirror across themselves into repeating symmetric patterns.",
+    scale: "this tool",
+    levels: [
+      ["Faint", "small mirrored cells flicker in the busiest textures."],
+      ["Clear", "carpets, grass and foliage fold into symmetric tiles."],
+      ["Strong", "large, stable tiling on every textured surface."],
+      ["Complete", "tiling spreads across smooth surfaces too."],
+    ],
+    presets: [
+      { amount: 0.35, cell: 24, gate: 0.6, spin: 0.02 },
+      { amount: 0.65, cell: 40, gate: 0.45, spin: 0.03 },
+      { amount: 0.85, cell: 56, gate: 0.6, spin: 0.03 },
+      { amount: 1, cell: 84, gate: 0.05, spin: 0.06 },
+    ],
+    groups: [
+      { title: "Tiling", controls: [
+        { k: "amount", label: "Amount", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "cell", label: "Cell size", min: 8, max: 160, step: 1, fmt: v => v + " px" },
+        { k: "gate", label: "Textured surfaces only", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "spin", label: "Grid drift", min: 0, max: 0.3, step: 0.005, fmt: v => v.toFixed(3) },
+      ]},
+    ],
+    defaults: { amount: 0.65, cell: 40, gate: 0.45, spin: 0.03 },
+    sources: [["PsychonautWiki: Symmetrical texture repetition", "https://psychonautwiki.org/wiki/Symmetrical_texture_repetition"]],
+  },
+  {
+    id: "geometry", name: "Geometry",
+    def: "Geometric form constants — lattices, tunnels, spirals — appear over the visual field.",
+    scale: "PsychonautWiki, levels 1–4 of 8",
+    levels: [
+      ["Visual noise", "fine, shifting grain across the field."],
+      ["Motion and color", "soft colored blobs drift and pulse."],
+      ["Partial 2D geometry", "faint patterns sit on textured surfaces."],
+      ["Full 2D geometry", "crisp, bright patterns cover the field."],
+    ],
+    presets: [
+      { grain: 0.12, phos: 0, opacity: 0, coverage: 0 },
+      { grain: 0.08, phos: 0.35, opacity: 0, coverage: 0 },
+      { grain: 0.04, phos: 0.15, opacity: 0.4, coverage: 0.1, density: 14 },
+      { grain: 0.02, phos: 0.1, opacity: 0.8, coverage: 1, density: 18 },
+    ],
+    groups: [
+      { title: "Form constant", note: "Drawn as stripes and lattices in cortical coordinates, then mapped to the visual field through the log-polar retinotopic map (Bressloff et al. 2001).", controls: [
+        { k: "form", label: "Form", seg: ["Lattice", "Tunnel", "Spiral", "Funnel", "Cobweb"] },
+        { k: "opacity", label: "Pattern strength", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "density", label: "Density", min: 4, max: 40, step: 0.5, fmt: v => v.toFixed(1) },
+        { k: "speed", label: "Speed", min: 0, max: 3, step: 0.01, fmt: v => v.toFixed(2) },
+        { k: "coverage", label: "Surfaces ↔ whole field", min: 0, max: 1, step: 0.01, fmt: pct },
+      ]},
+      { title: "Lower levels", controls: [
+        { k: "grain", label: "Visual noise", min: 0, max: 0.3, step: 0.005, fmt: pct },
+        { k: "phos", label: "Color blobs", min: 0, max: 1, step: 0.01, fmt: pct },
+      ]},
+    ],
+    defaults: { form: 0, opacity: 0, density: 14, speed: 0.8, coverage: 0, grain: 0.1, phos: 0 },
+    sources: [
+      ["PsychonautWiki: Geometry", "https://psychonautwiki.org/wiki/Geometry"],
+      ["Bressloff et al. 2001, Phil. Trans. R. Soc. B", "https://doi.org/10.1098/rstb.2000.0769"],
+    ],
+  },
+  {
+    id: "prior", name: "Hallucination",
+    def: "Expectation fills in what the eyes report: faces in textures, objects that turn into others.",
+    scale: "this tool",
+    levels: [
+      ["Pareidolia", "forms flicker in busy textures and at the edge of vision."],
+      ["Transformation", "textures and peripheral objects become what the prior expects."],
+      ["Reinterpretation", "the whole scene is re-seen through the prior; its layout holds."],
+      ["Prior-dominated", "what is expected outweighs what is seen."],
+    ],
+    presets: [
+      { strength: 0.35, vis: 0.75, kTex: 0.6, kPer: 0.5, kAll: 0, mode: 0, stare: 1 },
+      { strength: 0.45, vis: 0.9, kTex: 0.8, kPer: 0.7, kAll: 0.05, mode: 0, stare: 1 },
+      { strength: 0.55, vis: 0.9, kTex: 0.6, kPer: 0.6, kAll: 0.55, mode: 0, stare: 1 },
+      { strength: 0.7, vis: 1, kTex: 0.5, kPer: 0.5, kAll: 1, mode: 1, stare: 0 },
+    ],
+    groups: [
+      { title: "Prior", status: true, note: "A generative model (SD-Turbo img2img) stands in for high-level expectation. It re-imagines each frame toward what the prior predicts.", controls: [
+        { k: "content", label: "What the prior expects", seg: ["Faces", "Creatures", "Ornament", "Architecture", "Scene only"] },
+        { k: "strength", label: "Prior strength", min: 0.2, max: 0.85, step: 0.01, fmt: pct },
+        { k: "seed", label: "Interpretation", action: "Reroll" },
+      ]},
+      { title: "Precision map", note: "Where sensory evidence is weak, the prior wins: busy textures, the low-acuity periphery, and the scene after a long stare.", controls: [
+        { k: "kTex", label: "Textured surfaces", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "kPer", label: "Periphery", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "kAll", label: "Everywhere", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "vis", label: "Overall", min: 0, max: 1, step: 0.01, fmt: pct },
+        { k: "stare", label: "Builds while still", seg: ["Off", "On"] },
+        { k: "view", label: "Show", seg: ["Scene", "Precision map"] },
+      ]},
+      { title: "Blend", controls: [
+        { k: "mode", label: "Prior applied as", seg: ["Change over live image", "Replacement"] },
+      ]},
+    ],
+    defaults: { content: 0, strength: 0.45, seed: 7, vis: 0.9, kTex: 0.8, kPer: 0.7, kAll: 0.05, mode: 0, stare: 1, view: 0 },
+    sources: [
+      ["Suzuki et al. 2017, Hallucination Machine (Sci. Rep.)", "https://doi.org/10.1038/s41598-017-16316-2"],
+      ["Carhart-Harris & Friston 2019, REBUS (Pharmacol. Rev.)", "https://doi.org/10.1124/pr.118.017160"],
+      ["Corlett et al. 2019, Hallucinations and strong priors (TiCS)", "https://doi.org/10.1016/j.tics.2018.12.001"],
+    ],
+  },
+];
+
+const PRIOR_PROMPTS = [
+  "faces and eyes emerging from every surface and texture, detailed",
+  "living creatures, insects and animals woven into every surface, organic",
+  "intricate ornamental fractal patterns, arabesque, mandala, jewel colors",
+  "vast impossible architecture, temples, arches and corridors",
+  "",
+];
+
+function pct(v) { return Math.round(v * 100) + "%"; }
+function hz(v) { return v.toFixed(1) + " Hz"; }
+
+const state = {
+  source: "scene",
+  selected: "tracers",
+  compare: false,
+  split: 0.5,
+  fx: Object.fromEntries(EFFECTS.map(e => [e.id, { level: 0, p: { ...e.defaults } }])),
+};
+setLevel("tracers", 3);
+
+function setLevel(id, level) {
+  const e = EFFECTS.find(x => x.id === id);
+  const f = state.fx[id];
+  f.level = level;
+  if (level > 0) Object.assign(f.p, e.presets[level - 1]);
+}
+const isOn = id => state.fx[id].level !== 0;
+
+/* ───────────────────────── UI ───────────────────────── */
+
+const $ = s => document.querySelector(s);
+const tabs = $("#effectTabs"), panel = $("#panel");
+
+function renderTabs() {
+  tabs.innerHTML = "";
+  for (const e of EFFECTS) {
+    const b = document.createElement("button");
+    b.role = "tab";
+    b.setAttribute("aria-selected", String(state.selected === e.id));
+    b.className = isOn(e.id) ? "on" : "";
+    b.innerHTML = `<span class="dot"></span>${e.name}`;
+    b.onclick = () => { state.selected = e.id; renderTabs(); renderPanel(); };
+    tabs.append(b);
+  }
+}
+
+function renderPanel() {
+  const e = EFFECTS.find(x => x.id === state.selected);
+  const f = state.fx[e.id];
+  const lv = f.level;
+  const levelText = lv === 0 ? "Off." : lv === -1 ? "<b>Custom</b> — adjusted by hand."
+    : `<b>${lv} · ${e.levels[lv - 1][0]}</b> — ${e.levels[lv - 1][1]}`;
+  panel.innerHTML = `
+    <div><h2>${e.name}</h2><p class="def">${e.def}</p></div>
+    <div class="levels" role="group" aria-label="Level (${e.scale})">
+      ${["Off", 1, 2, 3, 4].map((l, i) => `<button data-level="${i}" aria-pressed="${lv === i}">${l}</button>`).join("")}
+    </div>
+    <p class="leveltext">${levelText}</p>
+    <div class="controls">${e.groups.map(g => groupHTML(g, f.p)).join("")}</div>
+    <ul class="sources"><li>Level scale: ${e.scale}</li>${e.sources.map(([t, u]) => `<li><a href="${u}" target="_blank" rel="noopener">${t}</a></li>`).join("")}</ul>`;
+
+  panel.querySelectorAll("[data-level]").forEach(b => b.onclick = () => {
+    setLevel(e.id, +b.dataset.level); renderTabs(); renderPanel();
+  });
+  panel.querySelectorAll("input[type=range]").forEach(inp => inp.oninput = () => {
+    const c = findControl(e, inp.dataset.k);
+    const v = c.log ? Math.exp(+inp.value) : +inp.value;
+    setParam(e, c.k, v);
+    inp.closest(".ctl").querySelector("output").textContent = c.fmt(v);
+    panel.querySelector(".leveltext").innerHTML = "<b>Custom</b> — adjusted by hand.";
+    panel.querySelectorAll("[data-level]").forEach(b => b.setAttribute("aria-pressed", "false"));
+  });
+  panel.querySelectorAll("[data-segk]").forEach(b => b.onclick = () => {
+    setParam(e, b.dataset.segk, +b.dataset.v); renderTabs(); renderPanel();
+  });
+  panel.querySelectorAll("input.switch").forEach(sw => sw.onchange = () => {
+    setParam(e, sw.dataset.k, sw.checked ? 1 : 0); renderTabs(); renderPanel();
+  });
+  panel.querySelectorAll("[data-action]").forEach(b => b.onclick = () => {
+    f.p[b.dataset.action] = Math.floor(Math.random() * 1e6);
+  });
+}
+
+function priorStatusText() {
+  if (prior.status === "on") return prior.ms ? `Prior running · ${prior.ms} ms per frame (${(1000 / prior.ms).toFixed(1)} fps)` : "Prior connected";
+  return "Prior server not running. Start it:<br><code>.venv/bin/python prior_server.py</code> (setup in README.md)";
+}
+
+function setParam(e, k, v) {
+  const f = state.fx[e.id];
+  f.p[k] = v;
+  if (f.level !== -1) { f.level = -1; renderTabs(); }
+}
+
+function findControl(e, k) { for (const g of e.groups) for (const c of g.controls) if (c.k === k) return c; }
+
+function groupHTML(g, p) {
+  const sw = g.toggle ? `<input type="checkbox" class="switch" data-k="${g.toggle}" ${p[g.toggle] ? "checked" : ""} aria-label="${g.title}">` : "";
+  const showControls = !g.toggle || p[g.toggle];
+  return `<div class="group"><div class="group-head"><span>${g.title}</span>${sw}</div>
+    ${g.note ? `<div class="marks">${g.note}</div>` : ""}
+    ${g.status ? `<div class="status" id="priorStatus">${priorStatusText()}</div>` : ""}
+    ${showControls ? g.controls.map(c => controlHTML(c, p)).join("") : ""}</div>`;
+}
+
+function controlHTML(c, p) {
+  if (c.action) {
+    return `<div class="ctl"><label>${c.label}</label><button class="pill small" data-action="${c.k}">${c.action}</button></div>`;
+  }
+  if (c.seg) {
+    return `<div class="ctl"><label>${c.label}</label><span></span><div class="seg">${c.seg.map((s, i) =>
+      `<button data-segk="${c.k}" data-v="${i}" aria-pressed="${p[c.k] === i}">${s}</button>`).join("")}</div></div>`;
+  }
+  const v = p[c.k];
+  const [min, max, val, step] = c.log ? [Math.log(c.min), Math.log(c.max), Math.log(v), 0.001] : [c.min, c.max, v, c.step];
+  return `<div class="ctl"><label for="r-${c.k}">${c.label}</label><output>${c.fmt(v)}</output>
+    <input id="r-${c.k}" type="range" data-k="${c.k}" min="${min}" max="${max}" step="${step}" value="${val}">
+    ${c.marks ? `<div class="marks">${c.marks}</div>` : ""}</div>`;
+}
+
+/* Compare split */
+const stage = $("#stage"), divider = $("#divider"), splitLabels = $("#splitLabels");
+$("#compareBtn").onclick = ev => {
+  state.compare = !state.compare;
+  ev.currentTarget.setAttribute("aria-pressed", String(state.compare));
+  divider.hidden = splitLabels.hidden = !state.compare;
+  placeDivider();
+};
+function placeDivider() { divider.style.left = (state.split * 100) + "%"; }
+let dragging = false;
+stage.addEventListener("pointerdown", ev => { if (state.compare && ev.target === canvas) { dragging = true; moveSplit(ev); } });
+addEventListener("pointermove", ev => dragging && moveSplit(ev));
+addEventListener("pointerup", () => dragging = false);
+function moveSplit(ev) {
+  const r = stage.getBoundingClientRect();
+  state.split = Math.min(1, Math.max(0, (ev.clientX - r.left) / r.width));
+  placeDivider();
+}
+
+/* Sources */
+const notice = $("#notice");
+$("#sourceSeg").onclick = ev => {
+  const b = ev.target.closest("button"); if (!b) return;
+  const s = b.dataset.source;
+  if (s === "file") { $("#fileInput").click(); return; }
+  useSource(s);
+};
+$("#fileInput").onchange = ev => {
+  const file = ev.target.files[0]; if (!file) return;
+  const url = URL.createObjectURL(file);
+  if (file.type.startsWith("image/")) {
+    const img = new Image(); img.onload = () => { media.el = img; media.mirror = false; useSource("file", true); }; img.src = url;
+  } else {
+    const v = document.createElement("video");
+    Object.assign(v, { src: url, loop: true, muted: true, playsInline: true });
+    v.play(); v.onloadeddata = () => { media.el = v; media.mirror = false; useSource("file", true); };
+  }
+};
+
+const media = { el: null, mirror: false, stream: null };
+async function useSource(s, ready) {
+  notice.hidden = true;
+  if (media.stream && s !== "camera") { media.stream.getTracks().forEach(t => t.stop()); media.stream = null; }
+  if (s === "scene") { media.el = scene.canvas; media.mirror = false; }
+  if (s === "camera") {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+      const v = document.createElement("video");
+      Object.assign(v, { srcObject: stream, muted: true, playsInline: true });
+      await v.play();
+      media.stream = stream; media.el = v;
+      media.mirror = stream.getVideoTracks()[0].getSettings().facingMode !== "environment";
+    } catch (err) {
+      notice.textContent = "Camera unavailable: " + err.message + ". The test scene is still running.";
+      notice.hidden = false;
+      return;
+    }
+  }
+  if (s === "file" && !ready) return;
+  state.source = s;
+  document.querySelectorAll("#sourceSeg button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.source === s)));
+  pipeline.reset = true;
+}
+
+/* ───────────────────────── Test scene ─────────────────────────
+   Textured regions (carpet, foliage, shelf, flat wall) so surface-gated effects have
+   somewhere to act, plus moving objects so tracers have motion to trail. */
+
+const scene = (() => {
+  const W = 960, H = 540;
+  const canvas = document.createElement("canvas"); canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext("2d");
+  const bg = document.createElement("canvas"); bg.width = W; bg.height = H;
+  const b = bg.getContext("2d");
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+  const wall = b.createLinearGradient(0, 0, 0, H * 0.62);
+  wall.addColorStop(0, "#d9d2c3"); wall.addColorStop(1, "#c4bba8");
+  b.fillStyle = wall; b.fillRect(0, 0, W, H * 0.62);
+  b.fillStyle = "#5a3f2e"; b.fillRect(40, 70, 300, 230);
+  const books = ["#b8402f", "#2f5fa8", "#e0b23c", "#3f8a55", "#7b4aa0", "#d46f2a", "#1f7f86", "#c2c2c2"];
+  for (let shelf = 0; shelf < 3; shelf++) {
+    let x = 50; const y = 80 + shelf * 74;
+    while (x < 330) {
+      const w = 10 + rnd() * 16, h = 46 + rnd() * 20;
+      b.fillStyle = books[Math.floor(rnd() * books.length)];
+      b.fillRect(x, y + 66 - h, Math.min(w, 330 - x), h); x += w + 1;
+    }
+    b.fillStyle = "#3e2a1e"; b.fillRect(40, y + 66, 300, 8);
+  }
+  b.fillStyle = "#2e3b2a"; b.fillRect(700, 40, 220, 300);
+  for (let i = 0; i < 2600; i++) {
+    const x = 700 + rnd() * 220, y = 40 + rnd() * 300, a = rnd() * Math.PI;
+    b.strokeStyle = `hsl(${95 + rnd() * 40} ${35 + rnd() * 35}% ${22 + rnd() * 35}%)`;
+    b.lineWidth = 1 + rnd() * 2; b.beginPath(); b.moveTo(x, y); b.lineTo(x + Math.cos(a) * 10, y + Math.sin(a) * 14); b.stroke();
+  }
+  b.fillStyle = "#6e5a7d"; b.fillRect(0, H * 0.62, W, H * 0.38);
+  for (let i = 0; i < 26000; i++) {
+    const x = rnd() * W, y = H * 0.62 + rnd() * H * 0.38;
+    b.fillStyle = `hsl(${265 + rnd() * 50} ${20 + rnd() * 30}% ${25 + rnd() * 40}%)`;
+    b.fillRect(x, y, 2, 2);
+  }
+  b.strokeStyle = "#2a2230"; b.lineWidth = 3;
+  for (let x = 380; x < 680; x += 30) { b.beginPath(); b.moveTo(x, 60); b.lineTo(x, 330); b.stroke(); }
+
+  function draw(t) {
+    ctx.drawImage(bg, 0, 0);
+    const bx = W * 0.5 + Math.sin(t * 0.9) * W * 0.36, by = H * 0.42 + Math.sin(t * 1.8) * H * 0.18;
+    ctx.fillStyle = "#f2f2f2"; ctx.beginPath(); ctx.arc(bx, by, 30, 0, 7); ctx.fill();
+    ctx.fillStyle = "#e0402a"; ctx.beginPath(); ctx.arc(bx - 7, by - 7, 13, 0, 7); ctx.fill();
+    const a = Math.sin(t * 2.2) * 0.9, px = W * 0.52, py = H * 0.96;
+    ctx.save(); ctx.translate(px, py); ctx.rotate(a);
+    ctx.fillStyle = "#e9b98f"; ctx.fillRect(-16, -260, 32, 260);
+    ctx.fillStyle = "#c58c62"; for (let i = 0; i < 4; i++) ctx.fillRect(-16 + i * 9, -300, 7, 44);
+    ctx.restore();
+    const lx = W * 0.5 + Math.cos(t * 3.1) * 140, ly = H * 0.3 + Math.sin(t * 3.1) * 70;
+    const g = ctx.createRadialGradient(lx, ly, 0, lx, ly, 26);
+    g.addColorStop(0, "#fffbe0"); g.addColorStop(0.4, "#ffd34d"); g.addColorStop(1, "rgba(255,180,0,0)");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(lx, ly, 26, 0, 7); ctx.fill();
+  }
+  return { canvas, draw };
+})();
+media.el = scene.canvas;
+
+/* ───────────────────────── WebGL pipeline ─────────────────────────
+   per frame:  source → [warp: drift + symmetry + color] → P
+               P → bg (slow average)   P → trail (exponential reverb)
+               P → history ring (replay)   P → snapshot ring (strobe, at its rate)
+               P + copies + geometry → screen                                     */
+
+const canvas = $("#view");
+const gl = canvas.getContext("webgl2", { antialias: false, premultipliedAlpha: false, preserveDrawingBuffer: true });
+if (!gl) { notice.textContent = "This prototype needs WebGL 2."; notice.hidden = false; }
+const floatOK = !!gl.getExtension("EXT_color_buffer_float");
+gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+
+const VS = `#version 300 es
+out vec2 v_uv;
+void main(){ vec2 p = vec2((gl_VertexID<<1)&2, gl_VertexID&2); v_uv = p; gl_Position = vec4(p*2.-1.,0,1); }`;
+
+const COMMON = `#version 300 es
+precision highp float;
+in vec2 v_uv; out vec4 o;
+uniform float u_time; uniform float u_aspect;
+float hash(vec2 p){ p = fract(p*vec2(123.34,456.21)); p += dot(p,p+45.32); return fract(p.x*p.y); }
+float vnoise(vec2 p){ vec2 i=floor(p), f=fract(p); vec2 u=f*f*(3.-2.*f);
+  return mix(mix(hash(i),hash(i+vec2(1,0)),u.x), mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x), u.y)*2.-1.; }
+float fbm(vec2 p){ float a=.5, s=0.; for(int i=0;i<3;i++){ s+=a*vnoise(p); p=p*2.03+17.1; a*=.5; } return s; }
+vec2 curl(vec2 p){ float e=.04;
+  return vec2(fbm(p+vec2(0,e))-fbm(p-vec2(0,e)), -(fbm(p+vec2(e,0))-fbm(p-vec2(e,0))))/(2.*e); }
+vec3 toLin(vec3 c){ return pow(max(c,0.), vec3(2.2)); }
+vec3 toSrgb(vec3 c){ return pow(max(c,0.), vec3(1./2.2)); }
+vec3 oklab(vec3 c){ c = toLin(c);
+  vec3 lms = mat3(0.4122214708,0.2119034982,0.0883024619, 0.5363325363,0.6806995451,0.2817188376, 0.0514459929,0.1073969566,0.6299787005)*c;
+  lms = pow(lms, vec3(1./3.));
+  return mat3(0.2104542553,1.9779984951,0.0259040371, 0.7936177850,-2.4285922050,0.7827717662, -0.0040720468,0.4505937099,-0.8086757660)*lms; }
+vec3 fromOklab(vec3 l){
+  vec3 lms = mat3(1.,1.,1., 0.3963377774,-0.1055613458,-0.0894841775, 0.2158037573,-0.0638541728,-1.2914855480)*l;
+  lms = lms*lms*lms;
+  return toSrgb(mat3(4.0767416621,-1.2684380046,-0.0041960863, -3.3077115913,2.6097574011,-0.7034186147, 0.2309699292,-0.3413193965,1.7076147010)*lms); }
+vec2 rot(vec2 v, float a){ float c=cos(a), s=sin(a); return vec2(c*v.x-s*v.y, s*v.x+c*v.y); }
+float luma(vec3 c){ return dot(c, vec3(.299,.587,.114)); }
+`;
+
+const FS_WARP = COMMON + `
+uniform sampler2D u_src; uniform vec2 u_texel; uniform float u_mirror;
+uniform vec4 u_drift;   // amount, featureScale, speed, style
+uniform vec2 u_drift2;  // jitter, periphery
+uniform vec4 u_sym;     // amount, cellPx, gate, spin
+uniform vec4 u_col;     // saturation, contrast, hueShift, hueSpeed
+uniform vec2 u_res;
+uniform sampler2D u_genA, u_genB, u_sentA, u_sentB;
+uniform float u_fade;
+uniform vec4 u_prior;      // overall visibility × stare, textures, periphery, everywhere
+uniform vec2 u_prior2;     // mode (0 change over live, 1 replace), show precision map
+
+float g_pm;                // precision-map weight of the prior at this pixel
+
+vec3 raw(vec2 uv){ uv.x = mix(uv.x, 1.-uv.x, u_mirror); return texture(u_src, clamp(uv, 0., 1.)).rgb; }
+
+// The sensory image as perceived: the live frame, with the prior's prediction filling in
+// wherever the precision map says sensory evidence is weak.
+vec3 src(vec2 uv){
+  vec3 c = raw(uv);
+  if (g_pm <= 0.) return c;
+  vec2 m = clamp(vec2(mix(uv.x, 1.-uv.x, u_mirror), uv.y), 0., 1.);
+  vec3 g = mix(texture(u_genA, m).rgb, texture(u_genB, m).rgb, u_fade);
+  vec3 s = mix(texture(u_sentA, m).rgb, texture(u_sentB, m).rgb, u_fade);
+  // Where the scene has changed since the prior last saw it, the senses carry fresh evidence
+  // (a large prediction error), so the prior gives way there: moving things stay real.
+  float fresh = smoothstep(.06, .22, distance(c, s));
+  if (u_prior2.x < .5) return clamp(c + g_pm*(1. - fresh)*(g - s), 0., 1.);
+  return mix(c, g, g_pm*(1. - .7*fresh));
+}
+
+float textureMask(vec2 uv){
+  vec2 d = u_texel*2.;
+  float gx = luma(raw(uv+vec2(d.x,0)))-luma(raw(uv-vec2(d.x,0)));
+  float gy = luma(raw(uv+vec2(0,d.y)))-luma(raw(uv-vec2(0,d.y)));
+  vec2 D = u_texel*7.;
+  float gx2 = luma(raw(uv+vec2(D.x,0)))-luma(raw(uv-vec2(D.x,0)));
+  float gy2 = luma(raw(uv+vec2(0,D.y)))-luma(raw(uv-vec2(0,D.y)));
+  float g = length(vec2(gx,gy))*.6 + length(vec2(gx2,gy2))*.4;
+  return smoothstep(.03, .16, g);
+}
+
+vec3 symSample(vec2 uv, float tmask){
+  vec3 base = src(uv);
+  if (u_sym.x <= 0.) return base;
+  vec2 px = uv*u_res;
+  vec2 c = u_res*.5;
+  vec2 q = rot(px-c, u_time*u_sym.w) + c;
+  float cell = u_sym.y*(1.+.15*sin(u_time*.4));
+  vec2 id = floor(q/cell), f = fract(q/cell);
+  vec2 folded = .5-abs(f-.5);
+  vec2 sq = (id+folded)*cell;
+  vec2 suv = (rot(sq-c, -u_time*u_sym.w)+c)/u_res;
+  float m = u_sym.x*mix(1., tmask, u_sym.z>0. ? smoothstep(0., 1., u_sym.z*1.4) : 0.);
+  return mix(base, src(suv), clamp(m, 0., 1.));
+}
+
+void main(){
+  vec2 uv = v_uv;
+  float tmask = textureMask(uv);
+  vec2 p = uv*vec2(u_aspect, 1.);
+  float t = u_time*u_drift.z;
+  if (u_drift2.x > 0.) t = floor(t*6./max(u_drift.z,.05))*max(u_drift.z,.05)/6.;
+  float r = length((uv-.5)*vec2(u_aspect,1.));
+  g_pm = u_prior.x*clamp(u_prior.w + u_prior.z*smoothstep(.3, .95, r) + u_prior.y*tmask, 0., 1.);
+  float amp = u_drift.x*mix(.4, 1., tmask)*mix(1., smoothstep(.18, .6, r), u_drift2.y);
+  vec2 s = p*u_drift.y;
+  vec3 col;
+  if (u_drift.x <= 0.) {
+    col = symSample(uv, tmask);
+  } else if (u_drift.w < .5) {
+    vec2 dir = vec2(fbm(s+3.1), fbm(s+7.7));
+    vec2 off = amp*dir*sin(6.2832*.22*u_time*max(u_drift.z,.05)*4. + fbm(s*.5)*2.)*1.6;
+    col = symSample(uv + off/vec2(u_aspect,1.), tmask);
+  } else if (u_drift.w < 1.5) {
+    vec2 c1 = curl(s + vec2(.31,.17)*t*3.);
+    vec2 c2 = curl(s*1.7 - vec2(.23,.29)*t*3. + 9.);
+    vec2 off = amp*(c1*.6 + c2*.4)*.35;
+    col = symSample(uv + off/vec2(u_aspect,1.), tmask);
+  } else {
+    vec2 dir = curl(s*.7 + 4.)*.35;
+    float ph = fract(t*.8);
+    vec2 o1 = amp*3.*dir*ph, o2 = amp*3.*dir*fract(ph+.5);
+    float w = abs(ph*2.-1.);
+    col = mix(symSample(uv - o1/vec2(u_aspect,1.), tmask), symSample(uv - o2/vec2(u_aspect,1.), tmask), w);
+  }
+  vec3 lab = oklab(col);
+  lab.x = (lab.x-.6)*u_col.y + .6;
+  lab.yz *= u_col.x;
+  float hue = u_col.z*3.1416*sin(u_time*u_col.w + fbm(p*1.5)*3. + lab.x*2.);
+  lab.yz = rot(lab.yz, hue);
+  vec3 outc = clamp(fromOklab(lab), 0., 1.);
+  if (u_prior2.y > .5) outc = mix(vec3(luma(outc))*.3, vec3(1., .78, .25), g_pm);
+  o = vec4(outc, tmask);
+}`;
+
+const FS_EMA = COMMON + `
+uniform sampler2D u_new, u_prev; uniform float u_keep;
+void main(){ o = mix(texture(u_new, v_uv), texture(u_prev, v_uv), u_keep); }`;
+
+const FS_FINAL = COMMON + `
+uniform sampler2D u_proc, u_bg, u_raw;
+uniform sampler2D u_c0, u_c1, u_c2, u_c3, u_c4, u_c5, u_c6, u_c7;
+uniform float u_w[8];
+uniform float u_scope;       // 0 = moving objects only, 1 = whole field
+uniform vec2 u_cp;           // color pulse amount, rate Hz
+uniform vec2 u_cover;        // scale, offset for object-fit: cover
+uniform vec2 u_coverOff;
+uniform float u_split;       // < 0: no compare
+uniform float u_rawMirror;
+uniform vec4 u_geo;          // opacity, density, speed, coverage
+uniform vec3 u_geo2;         // form, grain, phosphenes
+uniform vec2 u_res;
+
+vec3 pulse(vec3 c, float k){
+  if (u_cp.x <= 0.) return c;
+  vec3 l = oklab(c);
+  float a = 3.1416*u_cp.x*(.5+.5*sin(6.2832*u_cp.y*u_time - k*.9));
+  l.yz = rot(l.yz, a);
+  return clamp(fromOklab(l), 0., 1.);
+}
+
+float objMask(vec3 c, vec3 bg){ return smoothstep(.05, .2, distance(c, bg)); }
+
+vec3 layer(vec3 outc, sampler2D T, vec2 uv, float w, float k, vec3 bg, float curObj){
+  if (w <= 0.) return outc;
+  vec3 c = texture(T, uv).rgb;
+  float m = mix(objMask(c, bg), 1., u_scope)*(1. - .8*curObj);
+  return mix(outc, pulse(c, k), clamp(w*m, 0., 1.));
+}
+
+float geoPattern(vec2 p, float t){
+  float r = length(p)+1e-4, th = atan(p.y, p.x), x = log(r);
+  float D = u_geo.y; int form = int(u_geo2.x+.5);
+  if (form == 0) { float m = max(1., floor(D*.866+.5));
+    return (cos(D*x - t) + cos(-.5*D*x + m*th + t*.5) + cos(-.5*D*x - m*th + t*.5))/3.; }
+  if (form == 1) return cos(D*x - 2.*t);
+  if (form == 2) return cos(D*x + floor(D*.5)*th - 2.*t);
+  if (form == 3) return cos(floor(D)*th + sin(x*2. - t));
+  return cos(D*x - t)*cos(floor(D*.7)*th);
+}
+
+void main(){
+  vec2 suv = v_uv;
+  vec2 uv = (suv - .5)*u_cover + .5 + u_coverOff;
+  if (u_split >= 0. && suv.x < u_split) {
+    vec2 ruv = uv; ruv.x = mix(ruv.x, 1.-ruv.x, u_rawMirror);
+    o = vec4(texture(u_raw, ruv).rgb, 1.); return;
+  }
+  vec4 P = texture(u_proc, uv);
+  vec3 cur = P.rgb, bg = texture(u_bg, uv).rgb;
+  float curObj = objMask(cur, bg);
+  vec3 outc = cur;
+  // Oldest at the bottom, newest on top: trail, then replay copies, then strobe snapshots.
+  outc = layer(outc, u_c0, uv, u_w[0], 0., bg, curObj);
+  outc = layer(outc, u_c7, uv, u_w[7], 7., bg, curObj);
+  outc = layer(outc, u_c6, uv, u_w[6], 6., bg, curObj);
+  outc = layer(outc, u_c5, uv, u_w[5], 5., bg, curObj);
+  outc = layer(outc, u_c4, uv, u_w[4], 4., bg, curObj);
+  outc = layer(outc, u_c3, uv, u_w[3], 3., bg, curObj);
+  outc = layer(outc, u_c2, uv, u_w[2], 2., bg, curObj);
+  outc = layer(outc, u_c1, uv, u_w[1], 1., bg, curObj);
+
+  vec2 p = (uv - .5)*vec2(u_aspect, 1.);
+  float tmask = P.a;
+  float cover = mix(tmask, 1., u_geo.w);
+  if (u_geo2.y > 0.) {
+    vec3 n = vec3(hash(suv*u_res + fract(u_time*7.3)*91.), hash(suv*u_res + 3.1 + fract(u_time*5.1)*77.), hash(suv*u_res + 7.7 + fract(u_time*3.7)*53.));
+    outc += (n - .5)*u_geo2.y;
+  }
+  if (u_geo2.z > 0.) {
+    float b = fbm(p*2.5 + vec2(u_time*.15, -u_time*.11));
+    float blob = smoothstep(.15, .5, b)*(.6+.4*sin(u_time*1.7 + b*6.));
+    vec3 hueC = fromOklab(vec3(.75, .14*cos(u_time*.3 + b*4.), .14*sin(u_time*.3 + b*4.)));
+    outc = 1. - (1. - outc)*(1. - hueC*blob*u_geo2.z);
+  }
+  if (u_geo.x > 0.) {
+    float r = length(p);
+    float g = geoPattern(p, u_time*u_geo.z);
+    float line = 1. - smoothstep(0., fwidth(g)*1.6 + .02, abs(g));
+    float fill = smoothstep(.55, 1., g)*.35;
+    float th = atan(p.y, p.x);
+    vec3 sceneL = oklab(cur);
+    float hueA = th*2. + log(r+1e-3)*1.5 - u_time*.4;
+    vec3 gc = fromOklab(vec3(.82, .16*cos(hueA) + sceneL.y*.6, .16*sin(hueA) + sceneL.z*.6));
+    float a = (line*.9 + fill)*u_geo.x*cover*smoothstep(.015, .1, r);
+    outc = 1. - (1. - outc)*(1. - gc*clamp(a, 0., 1.));
+  }
+  o = vec4(clamp(outc, 0., 1.), 1.);
+}`;
+
+function program(fs) {
+  const p = gl.createProgram();
+  for (const [type, src] of [[gl.VERTEX_SHADER, VS], [gl.FRAGMENT_SHADER, fs]]) {
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+    gl.attachShader(p, s);
+  }
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  const locs = {};
+  p.u = n => (n in locs) ? locs[n] : (locs[n] = gl.getUniformLocation(p, n));
+  return p;
+}
+
+function target(w, h, hdr) {
+  const tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, hdr && floatOK ? gl.RGBA16F : gl.RGBA8, w, h, 0, gl.RGBA, hdr && floatOK ? gl.HALF_FLOAT : gl.UNSIGNED_BYTE, null);
+  for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+  const fb = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+  return { tex, fb, w, h };
+}
+
+const HISTORY = 90, SNAPS = 4;
+const pipeline = { reset: true, w: 0, h: 0 };
+let progWarp, progEma, progFinal, srcTex;
+if (gl) {
+  progWarp = program(FS_WARP); progEma = program(FS_EMA); progFinal = program(FS_FINAL);
+  srcTex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, srcTex);
+  for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+}
+
+function mediaSize() {
+  const el = media.el;
+  return el instanceof HTMLVideoElement ? [el.videoWidth, el.videoHeight] : [el.naturalWidth || el.width, el.naturalHeight || el.height];
+}
+
+function allocate(sw, sh) {
+  const s = Math.min(1, 960 / Math.max(sw, sh));
+  const w = Math.round(sw * s), h = Math.round(sh * s);
+  if (w === pipeline.w && h === pipeline.h) return;
+  for (const k of ["P", "bgA", "bgB", "trA", "trB"]) if (pipeline[k]) { gl.deleteTexture(pipeline[k].tex); gl.deleteFramebuffer(pipeline[k].fb); }
+  for (const t of [...(pipeline.H || []), ...(pipeline.S || [])]) { gl.deleteTexture(t.tex); gl.deleteFramebuffer(t.fb); }
+  const hw = Math.round(w / 2), hh = Math.round(h / 2);
+  Object.assign(pipeline, {
+    w, h, P: target(w, h), bgA: target(hw, hh, true), bgB: target(hw, hh, true), trA: target(w, h, true), trB: target(w, h, true),
+    H: Array.from({ length: HISTORY }, () => target(hw, hh)), S: Array.from({ length: SNAPS }, () => target(hw, hh)),
+    head: 0, filled: 0, sHead: 0, sFilled: 0, lastSnap: -1, reset: true,
+  });
+}
+
+function pass(prog, fb, w, h) { gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.viewport(0, 0, w, h); gl.useProgram(prog); }
+function bindTex(prog, name, unit, tex) { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex); gl.uniform1i(prog.u(name), unit); }
+function blit(from, to) {
+  gl.bindFramebuffer(gl.READ_FRAMEBUFFER, from.fb); gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER, to.fb);
+  gl.blitFramebuffer(0, 0, from.w, from.h, 0, 0, to.w, to.h, gl.COLOR_BUFFER_BIT, gl.LINEAR);
+}
+
+/* ───────────────────────── Generative prior ─────────────────────────
+   One frame in flight at a time. Each answer cross-fades in over roughly the time the next
+   one takes, so a 2 fps prior reads as a slow drift rather than a slideshow. The frame that
+   was sent is kept beside its answer, so "change over live image" can add only what the
+   prior changed (answer − sent) to the current live frame. */
+
+const prior = {
+  ws: null, status: "off", busy: false, ms: 0, id: 0, retryAt: 0,
+  fadeStart: 0, fadeDur: 500, stare: 0, motion: 0,
+  send: Object.assign(document.createElement("canvas"), { width: 512, height: 288 }),
+  probe: Object.assign(document.createElement("canvas"), { width: 32, height: 18 }),
+  probePrev: null,
+};
+const blankTex = () => {
+  const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]));
+  for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+  return t;
+};
+if (gl) Object.assign(prior, { genA: blankTex(), genB: blankTex(), sentA: blankTex(), sentB: blankTex(), sentStage: blankTex() });
+
+function upload(tex, source) { gl.bindTexture(gl.TEXTURE_2D, tex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source); }
+
+function setPriorStatus(s) {
+  prior.status = s;
+  const el = document.getElementById("priorStatus"); if (el) el.innerHTML = priorStatusText();
+}
+
+function priorConnect(now) {
+  if (prior.ws || now < prior.retryAt) return;
+  const ws = new WebSocket("ws://127.0.0.1:8799");
+  ws.binaryType = "arraybuffer";
+  prior.ws = ws;
+  ws.onopen = () => setPriorStatus("on");
+  ws.onclose = () => { prior.ws = null; prior.busy = false; prior.retryAt = performance.now() + 3000; setPriorStatus("off"); };
+  ws.onmessage = async ev => {
+    const buf = new Uint8Array(ev.data);
+    const n = new DataView(ev.data).getUint32(0);
+    const header = JSON.parse(new TextDecoder().decode(buf.subarray(4, 4 + n)));
+    const bitmap = await createImageBitmap(new Blob([buf.subarray(4 + n)], { type: "image/jpeg" }), { imageOrientation: "flipY" });
+    [prior.genA, prior.genB] = [prior.genB, prior.genA];
+    [prior.sentA, prior.sentB, prior.sentStage] = [prior.sentB, prior.sentStage, prior.sentA];
+    upload(prior.genB, bitmap);
+    const t = performance.now();
+    prior.fadeDur = Math.min(900, Math.max(200, t - prior.sentAt));
+    prior.fadeStart = t;
+    prior.ms = header.ms; prior.busy = false; prior.received = (prior.received || 0) + 1;
+    setPriorStatus("on");
+  };
+}
+
+function priorTick(p, dt, now) {
+  if (!p) return;
+  priorConnect(now);
+
+  const pc = prior.probe.getContext("2d", { willReadFrequently: true });
+  pc.drawImage(media.el, 0, 0, 32, 18);
+  const px = pc.getImageData(0, 0, 32, 18).data;
+  if (prior.probePrev) {
+    let d = 0; for (let i = 0; i < px.length; i += 4) d += Math.abs(px[i + 1] - prior.probePrev[i + 1]);
+    prior.motion = prior.motion * 0.8 + (d / (px.length / 4) / 255) * 0.2;
+  }
+  prior.probePrev = px;
+  // Holding still lets the prior build over ~6 s; a glance away (camera motion) resets it fast.
+  prior.stare = prior.motion < 0.035 ? Math.min(1, prior.stare + dt / 6) : Math.max(0, prior.stare - dt / 0.4);
+
+  if (prior.status !== "on" || prior.busy) return;
+  const s = prior.send, sc = s.getContext("2d");
+  const [sw, sh] = mediaSize();
+  s.height = Math.max(64, Math.round(512 * sh / sw / 8) * 8);
+  sc.drawImage(media.el, 0, 0, s.width, s.height);
+  upload(prior.sentStage, s);
+  prior.busy = true; prior.sentAt = now;
+  s.toBlob(async blob => {
+    const header = new TextEncoder().encode(JSON.stringify({ prompt: PRIOR_PROMPTS[p.content], strength: p.strength, seed: p.seed, id: ++prior.id }));
+    const jpeg = new Uint8Array(await blob.arrayBuffer());
+    const msg = new Uint8Array(4 + header.length + jpeg.length);
+    new DataView(msg.buffer).setUint32(0, header.length);
+    msg.set(header, 4); msg.set(jpeg, 4 + header.length);
+    if (prior.ws && prior.ws.readyState === 1) prior.ws.send(msg); else prior.busy = false;
+  }, "image/jpeg", 0.85);
+}
+
+let last = performance.now(), fps = 60;
+function frame(now) {
+  requestAnimationFrame(frame);
+  if (!gl || !media.el) return;
+  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  fps = fps * 0.95 + (1 / Math.max(dt, 1e-3)) * 0.05;
+  const t = now / 1000;
+  if (state.source === "scene") scene.draw(t);
+  const [sw, sh] = mediaSize(); if (!sw || !sh) return;
+  allocate(sw, sh);
+  const pl = pipeline, aspect = pl.w / pl.h;
+
+  gl.bindTexture(gl.TEXTURE_2D, srcTex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, media.el);
+
+  const fx = id => isOn(id) ? state.fx[id].p : null;
+  const tr = fx("tracers"), dr = fx("drift"), co = fx("color"), sy = fx("symmetry"), ge = fx("geometry"), pr = fx("prior");
+  priorTick(pr, dt, now);
+  const priorLive = pr && prior.received > 0;
+
+  pass(progWarp, pl.P.fb, pl.w, pl.h);
+  bindTex(progWarp, "u_src", 0, srcTex);
+  bindTex(progWarp, "u_genA", 11, prior.genA); bindTex(progWarp, "u_genB", 12, prior.genB);
+  bindTex(progWarp, "u_sentA", 13, prior.sentA); bindTex(progWarp, "u_sentB", 14, prior.sentB);
+  gl.uniform1f(progWarp.u("u_fade"), prior.received > 1 ? Math.min(1, (now - prior.fadeStart) / prior.fadeDur) : 1);
+  const stareGain = pr && pr.stare ? 0.3 + 0.7 * prior.stare : 1;
+  gl.uniform4f(progWarp.u("u_prior"), priorLive || (pr && pr.view) ? pr.vis * stareGain : 0, pr ? pr.kTex : 0, pr ? pr.kPer : 0, pr ? pr.kAll : 0);
+  gl.uniform2f(progWarp.u("u_prior2"), pr ? pr.mode : 0, pr ? pr.view : 0);
+  gl.uniform1f(progWarp.u("u_time"), t); gl.uniform1f(progWarp.u("u_aspect"), aspect);
+  gl.uniform2f(progWarp.u("u_texel"), 1 / pl.w, 1 / pl.h); gl.uniform2f(progWarp.u("u_res"), pl.w, pl.h);
+  gl.uniform1f(progWarp.u("u_mirror"), media.mirror ? 1 : 0);
+  gl.uniform4f(progWarp.u("u_drift"), dr ? dr.amt : 0, dr ? 11 - dr.size : 1, dr ? dr.speed : 0, dr ? dr.style : 0);
+  gl.uniform2f(progWarp.u("u_drift2"), dr ? dr.jitter : 0, dr ? dr.periphery : 0);
+  gl.uniform4f(progWarp.u("u_sym"), sy ? sy.amount : 0, sy ? sy.cell : 40, sy ? sy.gate : 0, sy ? sy.spin : 0);
+  gl.uniform4f(progWarp.u("u_col"), co ? co.sat : 1, co ? co.contrast : 1, co ? co.shift : 0, co ? co.shiftSpeed : 0);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+  const reset = pl.reset; pl.reset = false;
+  if (reset) { pl.filled = 0; pl.sFilled = 0; pl.lastSnap = -1; }
+
+  pass(progEma, pl.bgB.fb, pl.bgB.w, pl.bgB.h);
+  bindTex(progEma, "u_new", 0, pl.P.tex); bindTex(progEma, "u_prev", 1, pl.bgA.tex);
+  gl.uniform1f(progEma.u("u_keep"), reset ? 0 : Math.exp(-dt / 1.0));
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  [pl.bgA, pl.bgB] = [pl.bgB, pl.bgA];
+
+  const half = tr ? tr.trailHalf : 0.1;
+  pass(progEma, pl.trB.fb, pl.w, pl.h);
+  bindTex(progEma, "u_new", 0, pl.P.tex); bindTex(progEma, "u_prev", 1, pl.trA.tex);
+  gl.uniform1f(progEma.u("u_keep"), reset ? 0 : Math.pow(0.5, dt / half));
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  [pl.trA, pl.trB] = [pl.trB, pl.trA];
+
+  blit(pl.P, pl.H[pl.head]); pl.head = (pl.head + 1) % HISTORY; pl.filled = Math.min(HISTORY, pl.filled + 1);
+  const strobeHz = tr && tr.strobeOn ? tr.strobeHz : 16;
+  if (pl.lastSnap < 0 || t - pl.lastSnap >= 1 / strobeHz) {
+    blit(pl.P, pl.S[pl.sHead]); pl.sHead = (pl.sHead + 1) % SNAPS; pl.sFilled = Math.min(SNAPS, pl.sFilled + 1);
+    pl.lastSnap = pl.lastSnap < 0 || t - pl.lastSnap > 0.5 ? t : pl.lastSnap + 1 / strobeHz;
+  }
+
+  const w = new Float32Array(8), copies = new Array(8).fill(pl.P.tex);
+  if (tr) {
+    if (tr.trailOn) { w[0] = tr.trailInt; copies[0] = pl.trA.tex; }
+    if (tr.strobeOn) for (let k = 0; k < tr.strobeCopies; k++) {
+      if (k >= pl.sFilled) break;
+      copies[1 + k] = pl.S[(pl.sHead - 1 - k + SNAPS * 2) % SNAPS].tex;
+      w[1 + k] = tr.strobeInt * Math.pow(tr.strobeDecay, k);
+    }
+    if (tr.replayOn) for (let k = 0; k < tr.replayCopies; k++) {
+      const d = Math.round((k + 1) * fps / tr.replayHz);
+      if (d >= pl.filled) break;
+      copies[5 + k] = pl.H[(pl.head - 1 - d + HISTORY * 2) % HISTORY].tex;
+      w[5 + k] = tr.replayInt * Math.pow(tr.replayDecay, k);
+    }
+  }
+
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  const cw = Math.round(canvas.clientWidth * dpr), ch = Math.round(canvas.clientHeight * dpr);
+  if (canvas.width !== cw || canvas.height !== ch) { canvas.width = cw; canvas.height = ch; }
+  pass(progFinal, null, cw, ch);
+  bindTex(progFinal, "u_proc", 0, pl.P.tex); bindTex(progFinal, "u_bg", 1, pl.bgA.tex); bindTex(progFinal, "u_raw", 2, srcTex);
+  for (let i = 0; i < 8; i++) bindTex(progFinal, "u_c" + i, 3 + i, copies[i]);
+  gl.uniform1fv(progFinal.u("u_w"), w);
+  gl.uniform1f(progFinal.u("u_time"), t); gl.uniform1f(progFinal.u("u_aspect"), aspect);
+  gl.uniform1f(progFinal.u("u_scope"), tr ? tr.scope : 0);
+  gl.uniform2f(progFinal.u("u_cp"), tr ? tr.cpAmt : 0, tr ? tr.cpHz : 1);
+  const va = cw / ch;
+  const cover = va > aspect ? [1, aspect / va] : [va / aspect, 1];
+  gl.uniform2f(progFinal.u("u_cover"), cover[0], cover[1]); gl.uniform2f(progFinal.u("u_coverOff"), 0, 0);
+  gl.uniform1f(progFinal.u("u_split"), state.compare ? state.split : -1);
+  gl.uniform1f(progFinal.u("u_rawMirror"), media.mirror ? 1 : 0);
+  gl.uniform4f(progFinal.u("u_geo"), ge ? ge.opacity : 0, ge ? ge.density : 14, ge ? ge.speed : 0, ge ? ge.coverage : 0);
+  gl.uniform3f(progFinal.u("u_geo2"), ge ? ge.form : 0, ge ? ge.grain : 0, ge ? ge.phos : 0);
+  gl.uniform2f(progFinal.u("u_res"), cw, ch);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+
+renderTabs(); renderPanel();
+requestAnimationFrame(frame);
+
+window.__replications = { state, setLevel, EFFECTS, renderTabs, renderPanel }; window.__prior = prior;
+</script>
+</body>
+</html>
