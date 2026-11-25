@@ -19,12 +19,38 @@ nonisolated struct QuickLogManifest: Codable, Hashable, Sendable {
     /// Drink presets for the alcohol by-volume flow, carried so the watch can log a
     /// drink with no pharmacology data. Empty when no alcohol favorite/recent exists.
     var drinkPresets: [ManifestDrinkPreset]
+    /// The My Meds checklist for today's journal day and the next, so a wrist that last
+    /// heard from the phone before the day turned still opens on the right one. Nil from
+    /// a phone build that doesn't send it.
+    var medDays: [ManifestMedDay]?
+    /// The last My Meds change from the watch the phone has handled (``WatchMedChange``):
+    /// this manifest is the phone's answer to every change up to it.
+    var handledMedChange: Int?
 
-    init(generatedAt: Date, items: [QuickLogManifestItem], drinkPresets: [ManifestDrinkPreset] = [], journalGeneration: Int? = nil) {
+    init(
+        generatedAt: Date,
+        items: [QuickLogManifestItem],
+        drinkPresets: [ManifestDrinkPreset] = [],
+        medDays: [ManifestMedDay]? = nil,
+        journalGeneration: Int? = nil,
+    ) {
         self.journalGeneration = journalGeneration
         self.generatedAt = generatedAt
         self.items = items
         self.drinkPresets = drinkPresets
+        self.medDays = medDays
+    }
+
+    /// The med day `date` falls in; nil once every day the manifest carries is over, or
+    /// when the phone sent no meds.
+    func medDay(containing date: Date) -> ManifestMedDay? {
+        medDays?.first { $0.contains(date) }
+    }
+
+    /// Whether the phone had handled the watch's My Meds change `number` when it built
+    /// this manifest.
+    func answers(medChange number: Int) -> Bool {
+        number <= handledMedChange ?? 0
     }
 }
 
@@ -129,6 +155,48 @@ nonisolated struct ManifestDrinkPreset: Codable, Hashable, Sendable, Identifiabl
     var defaultABV: Double
 }
 
+/// One journal day of the phone's My Meds checklist: its span on the clock (Settings ▸
+/// Journal ▸ Day Starts At, which the watch can't read) and its due slots.
+nonisolated struct ManifestMedDay: Codable, Hashable, Sendable {
+    var start: Date
+    var end: Date
+    /// Earliest first, as the phone card lists them; anytime slots last.
+    var slots: [ManifestMedSlot]
+
+    func contains(_ date: Date) -> Bool {
+        start <= date && date < end
+    }
+}
+
+/// One checkable slot: a due med × one of its reminder times, or the single anytime slot
+/// of a med with none. As-needed meds carry no slots.
+nonisolated struct ManifestMedSlot: Codable, Hashable, Sendable, Identifiable {
+    /// The med and its reminder time, as the phone names them. A dose taken here carries
+    /// it back, so the phone logs that med and ticks this slot.
+    var id: String
+    var substance: String
+    /// The title the phone card shows: the product name, else the substance's.
+    var displayName: String
+    var route: String
+    var amount: Double
+    var unit: String
+    /// The reminder time as minutes from midnight; nil for an anytime slot.
+    var slotMinutes: Int?
+    /// A quiet med (a supplement), which folds into the Supplements row.
+    var isQuiet: Bool
+    /// The slot's state when the phone built the manifest.
+    var taken: Bool
+    var skipped: Bool
+
+    // MARK: PSID identity — a med deleted on the phone meanwhile still logs as this product.
+
+    var substanceUID: String?
+    var isomer: String?
+    var releaseForm: String?
+    var saltForm: String?
+    var productName: String?
+}
+
 // MARK: - Watch-side payload construction
 
 nonisolated extension QuickLogManifestItem {
@@ -169,6 +237,31 @@ nonisolated extension QuickLogManifestItem {
     }
 }
 
+nonisolated extension ManifestMedSlot {
+    /// The dose the watch sends when this slot is taken: the med's one dose as the phone
+    /// saved it, plus the slot's id and the tick's number (``WatchMedChange``).
+    /// `journalGeneration` is the manifest's.
+    func makePayload(id: UUID, timestamp: Date, change: Int? = nil, journalGeneration: Int?) -> WatchDosePayload {
+        WatchDosePayload(
+            id: id,
+            substance: substance,
+            amount: amount,
+            unit: unit,
+            route: route,
+            timestamp: timestamp,
+            substanceUID: substanceUID,
+            isomer: isomer,
+            releaseForm: releaseForm,
+            saltForm: saltForm,
+            productName: productName,
+            displayName: displayName,
+            medSlot: self.id,
+            medChange: change,
+            journalGeneration: journalGeneration,
+        )
+    }
+}
+
 // MARK: - WatchConnectivity dictionary bridge
 
 nonisolated extension QuickLogManifest {
@@ -191,6 +284,34 @@ nonisolated extension QuickLogManifest {
     }
 }
 
+/// Numbers the My Meds ticks and unticks made on the watch, in the order made. The watch
+/// keeps the last number it gave out. The phone keeps the number of the last change it
+/// handled and sends it back with the manifest (``QuickLogManifest/handledMedChange``),
+/// so the watch knows which of its changes a manifest already answers without comparing
+/// the two devices' clocks.
+nonisolated enum WatchMedChange {
+    static let key = "watchMedChange"
+
+    /// The last change numbered (on the watch) or handled (on the phone).
+    static func last(in defaults: UserDefaults = .standard) -> Int {
+        defaults.integer(forKey: key)
+    }
+
+    /// The number of the watch's next change.
+    static func next(in defaults: UserDefaults = .standard) -> Int {
+        let next = last(in: defaults) + 1
+        defaults.set(next, forKey: key)
+        return next
+    }
+
+    /// Keep `number` as the last change: on the phone the one just handled, on the watch
+    /// a phone's number ahead of its own (a new watch, a reinstall), so the next change
+    /// made there isn't read as answered already.
+    static func record(_ number: Int, in defaults: UserDefaults = .standard) {
+        defaults.set(number, forKey: key)
+    }
+}
+
 /// Persistent deletion boundary shared by the phone and Watch wire format.
 nonisolated enum JournalResetGeneration {
     static let key = "journalResetGeneration"
@@ -210,6 +331,10 @@ nonisolated enum JournalResetGeneration {
 
     static func accepts(_ payload: WatchDosePayload, generation: Int) -> Bool {
         (payload.journalGeneration ?? 0) == generation
+    }
+
+    static func accepts(_ untake: WatchMedUntake, generation: Int) -> Bool {
+        (untake.journalGeneration ?? 0) == generation
     }
 
     static func accepts(_ manifest: QuickLogManifest, after current: QuickLogManifest?, minimumGeneration: Int) -> Bool {

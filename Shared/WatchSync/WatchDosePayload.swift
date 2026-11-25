@@ -60,6 +60,13 @@ nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
     /// Resolved display title captured on the phone at manifest-build time.
     var displayName: String?
 
+    /// The My Meds slot this dose checks off (``ManifestMedSlot/id``); nil for a
+    /// quick-log dose. The phone resolves it back to the med and logs the dose the way
+    /// My Meds does.
+    var medSlot: String?
+    /// The number of the tick that took it (``WatchMedChange``).
+    var medChange: Int?
+
     init(
         id: UUID,
         substance: String,
@@ -79,6 +86,8 @@ nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
         saltForm: String? = nil,
         productName: String? = nil,
         displayName: String? = nil,
+        medSlot: String? = nil,
+        medChange: Int? = nil,
         journalGeneration: Int? = nil,
     ) {
         self.journalGeneration = journalGeneration
@@ -100,6 +109,8 @@ nonisolated struct WatchDosePayload: Codable, Hashable, Sendable, Identifiable {
         self.saltForm = saltForm
         self.productName = productName
         self.displayName = displayName
+        self.medSlot = medSlot
+        self.medChange = medChange
     }
 }
 
@@ -123,6 +134,61 @@ nonisolated extension WatchDosePayload {
     init?(userInfo: [String: Any]) {
         guard let data = userInfo[Self.payloadKey] as? Data,
               let decoded = try? JSONDecoder().decode(WatchDosePayload.self, from: data)
+        else { return nil }
+        self = decoded
+    }
+}
+
+// MARK: - Untaking a med
+
+/// A My Meds slot unticked on the watch, sent like a dose over `transferUserInfo` so it
+/// arrives after the take it undoes. Naming ``entryID``, it removes that dose or
+/// nothing; without one, the dose that ticked ``medSlot`` that day.
+nonisolated struct WatchMedUntake: Codable, Hashable, Sendable {
+    var journalGeneration: Int?
+    /// The slot's id (``ManifestMedSlot/id``).
+    var medSlot: String
+    /// The dose this watch's own tick of the slot queued; nil for a slot the phone ticked.
+    var entryID: UUID?
+    /// The untick's number (``WatchMedChange``).
+    var medChange: Int?
+    /// When the slot was unticked, which names its journal day on the phone.
+    var timestamp: Date
+    /// The watch's time zone when the slot was unticked, so its journal day is read on
+    /// the same clock as a dose's.
+    var timeZoneIdentifier: String?
+
+    init(
+        medSlot: String,
+        entryID: UUID?,
+        change: Int? = nil,
+        timestamp: Date,
+        timeZoneIdentifier: String? = TimeZone.current.identifier,
+        journalGeneration: Int?,
+    ) {
+        self.journalGeneration = journalGeneration
+        self.medSlot = medSlot
+        self.entryID = entryID
+        self.medChange = change
+        self.timestamp = timestamp
+        self.timeZoneIdentifier = timeZoneIdentifier
+    }
+}
+
+nonisolated extension WatchMedUntake {
+    private static let untakeKey = "watchMedUntake"
+
+    /// Encode for `WCSession.transferUserInfo(_:)` — one key, one JSON blob, as a dose.
+    func userInfo() -> [String: Any]? {
+        guard let data = try? JSONEncoder().encode(self) else { return nil }
+        return [Self.untakeKey: data]
+    }
+
+    /// Decode an untake delivered to `session(_:didReceiveUserInfo:)`; nil for any
+    /// dictionary that isn't one.
+    init?(userInfo: [String: Any]) {
+        guard let data = userInfo[Self.untakeKey] as? Data,
+              let decoded = try? JSONDecoder().decode(WatchMedUntake.self, from: data)
         else { return nil }
         self = decoded
     }

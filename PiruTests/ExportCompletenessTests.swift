@@ -267,6 +267,8 @@ private let excludedSettingKeys: [String: String] = [
     "psid.repin.20260912.didRun": "migration bookkeeping",
     "quickLogManifest": "watch sync payload",
     "watchDosePayload": "watch sync payload",
+    "watchMedChange": "watch sync bookkeeping",
+    "watchMedUntake": "watch sync payload",
     "skinOwnedProducts": "StoreKit re-establishes ownership on the new install",
     "skinsPickerSeen": "prompt flag",
 ]
