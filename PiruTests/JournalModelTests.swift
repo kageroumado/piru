@@ -294,6 +294,50 @@ struct JournalModelTests {
         #expect(!model.hasActiveFilters)
     }
 
+    /// A Quiet med is grouped under Supplements in My Meds, so the Supplements
+    /// switch hides the doses logged from one even though their class (`.other`
+    /// here) is not a supplement.
+    @Test
+    func `The Supplements switch also hides a Quiet med`() async throws {
+        let hidden = JournalVisibility.hiddenCategories(supplements: true, meds: false)
+        let hide = { (model: JournalModel, entries: [DoseEntry]) in
+            model.setHiddenCategories(hidden, entries: entries)
+            model.rebuildGroups(
+                entries: entries, grouping: .byDay, searchText: "",
+                filterTags: [], filterCategories: [], filterRoutes: [],
+                hiddenCategories: model.hiddenCategories,
+                stackRedoses: true, revision: 0,
+            )
+        }
+
+        let context = try makeContext()
+        let entries = try makeEntries(context)
+        let model = JournalModel()
+        model.refreshColorMap([])
+        await model.rebuildDerived(entries: entries, colors: [])
+
+        entries[0].isBackgroundMed = true
+        hide(model, entries)
+        #expect(model.filtered.count == entries.count - 1)
+        #expect(!model.filtered.contains { $0.isBackgroundMed })
+        #expect(model.categories == [.other])
+        #expect(JournalVisibility.visible(entries, hiding: hidden).count == entries.count - 1)
+        #expect(JournalVisibility.visible(entries, hiding: []).count == entries.count)
+
+        // With every dose Quiet nothing is left for the facet menu to list, and
+        // a category selected before it went must not stay selected.
+        let quiet = JournalModel()
+        quiet.refreshColorMap([])
+        await quiet.rebuildDerived(entries: entries, colors: [])
+        entries.forEach { $0.isBackgroundMed = true }
+        quiet.filterCategories = [.other]
+        hide(quiet, entries)
+        #expect(quiet.filtered.isEmpty)
+        #expect(quiet.categories.isEmpty)
+        #expect(quiet.filterCategories.isEmpty)
+        #expect(!quiet.hasActiveFilters)
+    }
+
     @Test
     func `Each Hidden Classes switch covers its Library families`() {
         #expect(JournalVisibility.hiddenCategories(supplements: false, meds: false).isEmpty)

@@ -197,8 +197,10 @@ final class JournalModel {
     func setHiddenCategories(_ hidden: Set<SubstanceCategory>, entries: [DoseEntry]) {
         guard hidden != hiddenCategories else { return }
         hiddenCategories = hidden
-        filterCategories.subtract(hidden)
         rebuildFacets(entries: entries)
+        // A category the menu no longer lists cannot be unselected, and would
+        // leave the list filtered to nothing.
+        filterCategories.formIntersection(categories)
     }
 
     func toggleCollapsed(substance: String) {
@@ -592,7 +594,7 @@ final class JournalModel {
         var seenRoutes = Set<RouteOfAdministration>()
         for entry in entries {
             let category = derived[entry.persistentModelID]?.category
-            if let category, hiddenCategories.contains(category) { continue }
+            if let category, JournalVisibility.hides(entry, category: category, hiding: hiddenCategories) { continue }
             if let category, seen.insert(category).inserted {
                 cats.append(category)
             }
@@ -804,7 +806,7 @@ final class JournalModel {
         if !hiddenCategories.isEmpty {
             result = result.filter { entry in
                 guard let category = derived[entry.persistentModelID]?.category else { return false }
-                return !hiddenCategories.contains(category)
+                return !JournalVisibility.hides(entry, category: category, hiding: hiddenCategories)
             }
         }
 

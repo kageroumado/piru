@@ -948,7 +948,7 @@ ES = {
     "Split Days at Noon": "Dividir los días al mediodía",
     "Hidden Classes": "Clases ocultas",
     "Hide Supplements": "Ocultar suplementos",
-    "Keeps supplement entries out of the Journal.": "Los registros de suplementos no aparecen en el Diario.",
+    "Keeps supplement entries, and doses logged from a Quiet med, out of the Journal.": "Los registros de suplementos y las dosis de medicamentos silenciosos no aparecen en el Diario.",
     "Hide Meds & Other Classes": "Ocultar fármacos y otras clases",
     "Keeps Peptides, Mind & Cognition, Pharmaceuticals, and Other / Miscellaneous entries out of the Journal.": "Los registros de Péptidos, Mente y cognición, Fármacos y Otros / Varios no aparecen en el Diario.",
     "Hidden entries stay recorded. Search, Insights, and exports still include them.": "Los registros ocultos se conservan. La búsqueda, Tendencias y las exportaciones los siguen incluyendo.",

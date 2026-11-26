@@ -1439,6 +1439,40 @@ struct DataExportImportStableIDTests {
         #expect(Set(imported.map(\.id)).count == 2)
     }
 
+    /// An older file has no `isQuiet` on a daily item. A background med in it
+    /// imports as a Quiet med, as `MedsMigrator` folds it, so its doses (which
+    /// carry the flag) and the med agree.
+    @Test
+    func `Legacy daily item without isQuiet imports a background med as Quiet`() throws {
+        let container = try makeTestContainer()
+        let context = ModelContext(container)
+        let legacyJSON = """
+        {
+          "piruExportVersion": 1,
+          "appVersion": "Piru 1.0 (1)",
+          "exportedAt": 1700000000000,
+          "sessions": [],
+          "orphanDoses": [],
+          "dailyDoseItems": [
+            { "substance": "Magnesium", "amount": 200, "unit": "mg", "route": "oral",
+              "sortOrder": 0, "category": "", "isBackgroundMed": true,
+              "frequencyRaw": "daily", "frequencyDays": [], "startDate": 0 },
+            { "substance": "Methylphenidate", "amount": 18, "unit": "mg", "route": "oral",
+              "sortOrder": 1, "category": "", "isBackgroundMed": false,
+              "frequencyRaw": "daily", "frequencyDays": [], "startDate": 0 }
+          ],
+          "substanceColors": [],
+          "userColors": [],
+          "favorites": [],
+          "customSubstances": []
+        }
+        """
+        try DataExportImport.importJSON(data: Data(legacyJSON.utf8), context: context)
+
+        let items = try context.fetch(FetchDescriptor<DailyDoseItem>(sortBy: [SortDescriptor(\.sortOrder)]))
+        #expect(items.map(\.isQuiet) == [true, false])
+    }
+
     /// Merge safety: when an imported dose's id is already taken in the store
     /// (same-id, different-content — e.g. one side edited the dose after
     /// export), the existing row keeps the id and the imported dose gets a

@@ -51619,30 +51619,30 @@
         }
       }
     },
-    "Keeps supplement entries out of the Journal." : {
+    "Keeps supplement entries, and doses logged from a Quiet med, out of the Journal." : {
       "localizations" : {
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los registros de suplementos no aparecen en el Diario."
+            "value" : "Los registros de suplementos y las dosis de medicamentos silenciosos no aparecen en el Diario."
           }
         },
         "es-ES" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Los registros de suplementos no aparecen en el Diario."
+            "value" : "Los registros de suplementos y las dosis de medicamentos silenciosos no aparecen en el Diario."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "膳食补充剂的记录不在日记中显示。"
+            "value" : "膳食补充剂的记录，以及记为静默用药的剂量，不在日记中显示。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "膳食補充劑的記錄不在日記中顯示。"
+            "value" : "膳食補充劑的記錄，以及記為靜默用藥的劑量，不在日記中顯示。"
           }
         }
       }
