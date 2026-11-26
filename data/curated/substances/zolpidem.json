@@ -8,13 +8,21 @@
       "route": "oral",
       "unit": "mg",
       "duration": {
+        "onset": {
+          "min": 10,
+          "max": 20
+        },
+        "comeup": {
+          "min": 15,
+          "max": 30
+        },
         "peak": {
           "min": 45,
           "max": 90
         }
       },
       "durationSource": "pmid:7846196",
-      "durationReason": "The sources' shared 3-6 h peak holds the curve at full strength to hour 5 and ends it near hour 11. Effect is maximal 0.5-1.5 h after a dose (pmid:7846196, pmid:8690830) and lasts under 8 h (pmid:10773013); no study gives the plateau's length."
+      "durationReason": "The sources' 3-6 h peak and 45-90 min climb crest the curve near hour 3 and end it near hour 11. Sedation is present at 30 min (pmid:7846196; sleep latency 18 min, pmid:18996742), maximal at 0.5-1.5 h (pmid:8690830) and gone within 8 h (pmid:10773013); no study gives the phase lengths."
     }
   ]
 }
