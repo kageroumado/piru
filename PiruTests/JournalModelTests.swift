@@ -295,16 +295,12 @@ struct JournalModelTests {
     }
 
     /// A Quiet med is grouped under Supplements in My Meds, so the Supplements
-    /// switch hides it even though its own class (`.other` here) is not one.
+    /// switch hides the doses logged from one even though their class (`.other`
+    /// here) is not a supplement.
     @Test
     func `The Supplements switch also hides a Quiet med`() async throws {
-        let context = try makeContext()
-        let entries = try makeEntries(context)
-        let model = JournalModel()
-        model.refreshColorMap([])
-        await model.rebuildDerived(entries: entries, colors: [])
         let hidden = JournalVisibility.hiddenCategories(supplements: true, meds: false)
-        let regroup = {
+        let hide = { (model: JournalModel, entries: [DoseEntry]) in
             model.setHiddenCategories(hidden, entries: entries)
             model.rebuildGroups(
                 entries: entries, grouping: .byDay, searchText: "",
@@ -314,13 +310,28 @@ struct JournalModelTests {
             )
         }
 
+        let context = try makeContext()
+        let entries = try makeEntries(context)
+        let model = JournalModel()
+        model.refreshColorMap([])
+        await model.rebuildDerived(entries: entries, colors: [])
+
         entries[0].isBackgroundMed = true
-        regroup()
+        hide(model, entries)
         #expect(model.filtered.count == entries.count - 1)
         #expect(!model.filtered.contains { $0.isBackgroundMed })
-
+        #expect(model.categories == [.other])
         #expect(JournalVisibility.visible(entries, hiding: hidden).count == entries.count - 1)
         #expect(JournalVisibility.visible(entries, hiding: []).count == entries.count)
+
+        // With every dose Quiet nothing is left for the facet menu to list.
+        let quiet = JournalModel()
+        quiet.refreshColorMap([])
+        await quiet.rebuildDerived(entries: entries, colors: [])
+        entries.forEach { $0.isBackgroundMed = true }
+        hide(quiet, entries)
+        #expect(quiet.filtered.isEmpty)
+        #expect(quiet.categories.isEmpty)
     }
 
     @Test

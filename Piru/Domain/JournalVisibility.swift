@@ -3,9 +3,11 @@ import Foundation
 /// Settings ▸ Journal ▸ Hidden Classes: whole substance classes kept out of
 /// the Journal's history (Days, Timeline, Grouped, and the pushed timeline
 /// screen). The entries stay recorded — Search, Insights, My Meds, Active Now
-/// and exports read the full log. A Quiet med (``DoseEntry/isBackgroundMed``)
-/// is grouped under Supplements in My Meds, so the Supplements switch hides it
-/// whatever its class.
+/// and exports read the full log. A Quiet med is grouped under Supplements in
+/// My Meds, so the Supplements switch also hides the doses logged from one,
+/// whatever their class. That is the dose's own ``DoseEntry/isBackgroundMed``,
+/// stamped when it was logged: making a med Quiet later does not reach the
+/// doses it already has.
 enum JournalVisibility {
     static let suite = AppIdentity.appGroup
     static let hidesSupplementsKey = "journalHidesSupplements"
@@ -25,10 +27,10 @@ enum JournalVisibility {
     }
 
     /// Whether `entry`, in `category`, is kept out of the Journal. `.supplement`
-    /// is in `hidden` exactly when the Supplements switch is on, and a Quiet med
-    /// counts as a supplement there.
+    /// is in `hidden` exactly when the Supplements switch is on, and a dose
+    /// logged from a Quiet med counts as a supplement there.
     static func hides(_ entry: DoseEntry, category: SubstanceCategory, hiding hidden: Set<SubstanceCategory>) -> Bool {
-        hidden.contains(category) || (entry.isBackgroundMed && hidden.contains(.supplement))
+        hidden.contains(category) || (hidden.contains(.supplement) && entry.isBackgroundMed)
     }
 
     /// `entries` without the hidden classes, each resolved the way the Journal

@@ -79,7 +79,7 @@ struct JournalSettingsView: View {
                         CaptionedRowLabel(
                             title: "Hide Supplements",
                             systemImage: "pill",
-                            caption: Text("Keeps supplement entries out of the Journal."),
+                            caption: Text("Keeps supplement entries, and doses logged from a Quiet med, out of the Journal."),
                         )
                     }
                     .tint(Theme.accent)
