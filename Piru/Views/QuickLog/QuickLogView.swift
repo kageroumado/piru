@@ -213,30 +213,12 @@ struct QuickLogView: View {
                 // Routine pills depend on the routine rows + daily items; refresh
                 // the cache when either is edited (the Manage Routines sheet).
                 .onChange(of: routineSignature) { content.rebuildDailyGroups(dailyDoseItems: dailyDoseItems) }
-                .task(id: searchText) {
-                    guard !searchText.isEmpty else {
-                        content.setLibraryResults([])
-                        return
-                    }
-                    try? await Task.sleep(for: .milliseconds(150))
-                    guard !Task.isCancelled else { return }
-                    // Ranked off-main: the sync form runs the whole ranking pass —
-                    // fuzzy tail included — on the main actor, per keystroke.
-                    let matches = await SubstanceLibrary.searchMatchesAsync(searchText)
-                    guard !Task.isCancelled else { return }
-                    content.setLibraryResults(
-                        matches.filter { match in
-                            // Keep an ester match ("Estradiol Valerate") even when its
-                            // base substance is in history — it stages a distinct form
-                            // (the ester pre-set), so it must survive the history filter
-                            // just as it survives the recents dedup below. Otherwise the
-                            // ester is unsearchable for exactly the people who log the
-                            // base, which is everyone injecting it.
-                            if let alias = match.matchedAlias, SubstanceLibrary.saltForm(for: alias) != nil { return true }
-                            return !content.cachedHistoryNames.contains(match.substance.name.lowercased())
-                        },
-                    )
-                }
+                // The search runs in a leaf, and this body never reads
+                // `searchText`'s value — only passes `$searchText` on. One read
+                // here re-runs this whole body per keystroke: the toolbar, the
+                // routine signature over every My Meds item, and the dock sheet's
+                // presentation update.
+                .background(QuickLogLibrarySearch(searchText: $searchText, content: content))
         }
         #if os(iOS)
         // The staging dock: a native detented sheet over this cover, mounted
@@ -281,9 +263,8 @@ struct QuickLogView: View {
             )
         #else
             ScrollView {
-                // The scroll content is a closure-free child, so a search
-                // keystroke, which re-runs this body through
-                // `searchText`, doesn't cascade into every card.
+                // The scroll content is a closure-free child, so a re-run of
+                // this body doesn't cascade into every card.
                 // See ``QuickLogCardList``.
                 QuickLogCardList(content: content, tray: tray)
                     .padding(.horizontal)

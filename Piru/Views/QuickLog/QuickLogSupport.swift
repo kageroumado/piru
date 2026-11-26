@@ -160,6 +160,47 @@ struct StagingHaptics: View {
     }
 }
 
+// MARK: - Library Search
+
+/// A zero-size leaf that runs the dock's library search, so the keystroke read
+/// of `searchText` invalidates this view and not `QuickLogView.body`. Takes the
+/// query as a binding for that reason: a plain `String` would be read by the
+/// parent to build it.
+struct QuickLogLibrarySearch: View {
+    @Binding var searchText: String
+    let content: QuickLogContentModel
+
+    var body: some View {
+        Color.clear
+            .task(id: searchText) { await search(searchText) }
+    }
+
+    private func search(_ query: String) async {
+        guard !query.isEmpty else {
+            content.setLibraryResults([])
+            return
+        }
+        try? await Task.sleep(for: .milliseconds(150))
+        guard !Task.isCancelled else { return }
+        // Ranked off-main: the sync form runs the whole ranking pass — fuzzy
+        // tail included — on the main actor, per keystroke.
+        let matches = await SubstanceLibrary.searchMatchesAsync(query)
+        guard !Task.isCancelled else { return }
+        content.setLibraryResults(
+            matches.filter { match in
+                // Keep an ester match ("Estradiol Valerate") even when its base
+                // substance is in history — it stages a distinct form (the ester
+                // pre-set), so it must survive the history filter just as it
+                // survives the recents dedup below. Otherwise the ester is
+                // unsearchable for exactly the people who log the base, which is
+                // everyone injecting it.
+                if let alias = match.matchedAlias, SubstanceLibrary.saltForm(for: alias) != nil { return true }
+                return !content.cachedHistoryNames.contains(match.substance.name.lowercased())
+            },
+        )
+    }
+}
+
 // iOS UIKit type (CoverAccessibilityUnmasker) is in QuickLogSupport+iOS.swift.
 
 // MARK: - Card List
@@ -169,9 +210,9 @@ struct StagingHaptics: View {
 /// A closure-free child of `QuickLogView`: it takes only the two stable
 /// references it needs (`content`, `tray`) and owns its own `@Query`s and
 /// list-mutating actions. Closures can't be compared, so a view holding them
-/// always reads as changed; `QuickLogView`'s body re-runs on every search
-/// keystroke (it reads `searchText`), and a parent closure here
-/// would cascade that into every `SubstanceCardView`/`OneRowChips` body. With
+/// always reads as changed; `QuickLogView`'s body re-runs on every change to
+/// its own state (staging flags, sheet toggles, its `@Query`s), and a parent
+/// closure here would cascade that into every `SubstanceCardView`/`OneRowChips` body. With
 /// only stable references SwiftUI skips this subtree, and the cards still
 /// update through their own observation (the `content` caches, `tray` staging).
 struct QuickLogCardList: View {

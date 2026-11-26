@@ -59,6 +59,17 @@ struct NameResolutionTests {
     }
 
     @Test
+    func `A localized title the batch projection does not key still finds its substance`() async {
+        // "ketamina" is a search key (localized_names) but not a batch key, so the
+        // overlay's exact-name fallback must leave the ranked hit in place rather
+        // than resolve it again.
+        await SubstanceStore.shared.ensureAllLoaded()
+        let matches = SubstanceLibrary.searchMatches("ketamina", limit: 5)
+        #expect(matches.first?.substance.name == "Ketamine")
+        #expect(matches.count(where: { $0.substance.name == "Ketamine" }) == 1)
+    }
+
+    @Test
     func `Browse and search agree on what a substance is called`() {
         // The contract: a Substance from SubstanceLibrary already carries the
         // user's name for it, so no two surfaces can disagree.

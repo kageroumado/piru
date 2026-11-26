@@ -77,6 +77,19 @@
                     driver.endEditing()
                     return first ?? second ?? third
                 },
+                // Names the result titles don't contain — a brand and a localized
+                // title — so the overlay's exact-name fallback runs on each one.
+                // "ketamina" is no batch key: a miss here is main-actor SQL.
+                Step("type-aliases") { driver in
+                    driver.tab(.search)
+                    await driver.wait(0.8)
+                    let first = await driver.type("concerta", interval: 0.07)
+                    await driver.wait(0.6)
+                    let second = await driver.type("ketamina", interval: 0.07)
+                    await driver.wait(0.8)
+                    driver.endEditing()
+                    return first ?? second
+                },
             ]),
             Flow(name: "substance-pages", steps: ["MDMA", "Ketamine", "Methylphenidate", "Caffeine", "Alprazolam"].flatMap { name in
                 [
