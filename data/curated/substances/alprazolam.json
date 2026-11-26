@@ -11,6 +11,28 @@
     "Bars",
     "Xannies"
   ],
+  "routes": [
+    {
+      "route": "oral",
+      "unit": "mg",
+      "duration": {
+        "comeup": {
+          "min": 45,
+          "max": 75
+        },
+        "peak": {
+          "min": 30,
+          "max": 60
+        },
+        "offset": {
+          "min": 150,
+          "max": 210
+        }
+      },
+      "durationSource": "pmid:3138056",
+      "durationReason": "dose.wiki's 2-4 h peak and 2-6 h offset crest the curve at hour 3.5 and end it near hour 11. Rated effect peaks about 2 h after a dose (pmid:7965783) and sedation is back to placebo by 4-6 h (pmid:3138056); no study gives the plateau's length."
+    }
+  ],
   "combinations": [
     {
       "severity": "danger",
