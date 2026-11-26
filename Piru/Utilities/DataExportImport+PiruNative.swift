@@ -647,7 +647,7 @@ extension DataExportImport {
                 substanceUID: item.substanceUID, isomer: item.isomer, releaseForm: item.releaseForm,
                 saltForm: item.saltForm, productName: item.productName,
                 reminderTimesMinutes: item.reminderTimesMinutes ?? [], remind: item.remind ?? true,
-                isQuiet: item.isQuiet ?? false, isAsNeeded: item.isAsNeeded ?? false, maxPerDay: item.maxPerDay,
+                isQuiet: item.isQuiet ?? item.isBackgroundMed, isAsNeeded: item.isAsNeeded ?? false, maxPerDay: item.maxPerDay,
             )
             med.askAgainOverrideMinutes = item.askAgainOverrideMinutes
             context.insert(med)

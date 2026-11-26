@@ -17,8 +17,6 @@ struct EntryListView: View {
     }
 
     @Query private var substanceColors: [SubstanceColor]
-    /// My Meds, for the Quiet ones the Supplements switch hides.
-    @Query(sort: \DailyDoseItem.sortOrder) private var medItems: [DailyDoseItem]
 
     @Binding var searchText: String
 
@@ -52,11 +50,6 @@ struct EntryListView: View {
     /// asks when something was taken, hidden or not.
     private var hiddenCategories: Set<SubstanceCategory> {
         isSearchSurface ? [] : JournalVisibility.hiddenCategories(supplements: hidesSupplements, meds: hidesMeds)
-    }
-
-    /// The Quiet meds kept out of the list with them, by identity.
-    private var hiddenQuietMeds: Set<String> {
-        isSearchSurface ? [] : JournalVisibility.hiddenQuietMeds(supplements: hidesSupplements, items: medItems)
     }
     @State private var showingCalendar = false
 
@@ -183,7 +176,7 @@ struct EntryListView: View {
 
     /// Re-bucket for the current filter/grouping selection — no re-resolve.
     private func regroup() {
-        model.setHiddenCategories(hiddenCategories, quietMeds: hiddenQuietMeds, entries: entries)
+        model.setHiddenCategories(hiddenCategories, entries: entries)
         model.regroup(
             entries: entries,
             grouping: grouping,
@@ -335,15 +328,13 @@ struct EntryListView: View {
         .onChange(of: model.filterSignature) { resetWindowAndRegroup() }
         .onChange(of: dayBoundaryHour) { regroup() }
         .onChange(of: hiddenCategories) { resetWindowAndRegroup() }
-        .onChange(of: hiddenQuietMeds) { resetWindowAndRegroup() }
         // The Timeline grouping's layouts. Waits a beat so the filter/search
         // regroup above lands first — the timeline renders `model.filtered`
         // whenever a filter or search is active, the raw log otherwise.
         .task(id: timelineRebuildKey) {
             guard grouping == .timeline else { return }
             let hidden = hiddenCategories
-            let quietMeds = hiddenQuietMeds
-            let cacheable = !isSearchSurface && !model.hasActiveFilters && searchText.isEmpty && hidden.isEmpty && quietMeds.isEmpty
+            let cacheable = !isSearchSurface && !model.hasActiveFilters && searchText.isEmpty && hidden.isEmpty
             // The launch cache first, keyed off the store's identity, so a
             // hit paints without reading `entries` (materializing the
             // whole log on the main actor).
@@ -384,7 +375,6 @@ struct EntryListView: View {
                 bubbleStyle: prefs.bubbleStyle,
                 showsVitals: prefs.showsVitals,
                 hiding: hidden,
-                quietMeds: quietMeds,
                 cacheable: cacheable,
             )
         }
@@ -546,7 +536,7 @@ struct EntryListView: View {
     }
 
     private var timelineRebuildKey: String {
-        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(prefs.layoutSignature)|\(dayBoundaryHour)|\(dynamicTypeSize)|\(searchText)|\(model.filterSignature)|\(hidesSupplements)|\(hidesMeds)|\(hiddenQuietMeds.hashValue)|\(clockTick)"
+        "\(grouping.rawValue)|\(DoseLogService.shared.revision)|\(prefs.layoutSignature)|\(dayBoundaryHour)|\(dynamicTypeSize)|\(searchText)|\(model.filterSignature)|\(hidesSupplements)|\(hidesMeds)|\(clockTick)"
     }
 
     /// The Timeline grouping rendered as list rows — the same continuous

@@ -193,20 +193,14 @@ final class JournalModel {
     /// facet: it never counts as an active filter, and the facet menus list
     /// only what is left.
     private(set) var hiddenCategories: Set<SubstanceCategory> = []
-    /// The Quiet meds the Supplements switch keeps out too, by
-    /// ``DoseEntry/identityKey`` — empty with the switch off.
-    private(set) var hiddenQuietMeds: Set<String> = []
 
-    func setHiddenCategories(_ hidden: Set<SubstanceCategory>, quietMeds: Set<String> = [], entries: [DoseEntry]) {
-        guard hidden != hiddenCategories || quietMeds != hiddenQuietMeds else { return }
+    func setHiddenCategories(_ hidden: Set<SubstanceCategory>, entries: [DoseEntry]) {
+        guard hidden != hiddenCategories else { return }
         hiddenCategories = hidden
-        hiddenQuietMeds = quietMeds
         rebuildFacets(entries: entries)
-        // A facet the menu no longer lists cannot be unselected, and would
+        // A category the menu no longer lists cannot be unselected, and would
         // leave the list filtered to nothing.
         filterCategories.formIntersection(categories)
-        filterTags.formIntersection(tags)
-        filterRoutes.formIntersection(routes)
     }
 
     func toggleCollapsed(substance: String) {
@@ -600,7 +594,7 @@ final class JournalModel {
         var seenRoutes = Set<RouteOfAdministration>()
         for entry in entries {
             let category = derived[entry.persistentModelID]?.category
-            if let category, JournalVisibility.hides(entry, category: category, hiding: hiddenCategories, quietMeds: hiddenQuietMeds) { continue }
+            if let category, JournalVisibility.hides(entry, category: category, hiding: hiddenCategories) { continue }
             if let category, seen.insert(category).inserted {
                 cats.append(category)
             }
@@ -637,7 +631,6 @@ final class JournalModel {
             filterCategories: filterCategories,
             filterRoutes: filterRoutes,
             hiddenCategories: hiddenCategories,
-            hiddenQuietMeds: hiddenQuietMeds,
             stackRedoses: stackRedoses,
             revision: revision,
             dayBoundaryHour: dayBoundaryHour,
@@ -656,7 +649,6 @@ final class JournalModel {
         filterCategories: Set<SubstanceCategory>,
         filterRoutes: Set<RouteOfAdministration>,
         hiddenCategories: Set<SubstanceCategory> = [],
-        hiddenQuietMeds: Set<String> = [],
         stackRedoses: Bool,
         revision: Int,
         dayBoundaryHour: Int = Calendar.sessionDayBoundaryHour,
@@ -671,7 +663,6 @@ final class JournalModel {
         sigHasher.combine(filterCategories)
         sigHasher.combine(filterRoutes)
         sigHasher.combine(hiddenCategories)
-        sigHasher.combine(hiddenQuietMeds)
         // Fold the dose-log revision in so a change that affects *grouping*
         // but not per-entry resolution — a session split/merge, a moved
         // timestamp — still re-buckets. (The derive step may legitimately no-op
@@ -703,7 +694,6 @@ final class JournalModel {
             filterCategories: filterCategories,
             filterRoutes: filterRoutes,
             hiddenCategories: hiddenCategories,
-            hiddenQuietMeds: hiddenQuietMeds,
         )
         filtered = result
 
@@ -808,16 +798,15 @@ final class JournalModel {
         filterCategories: Set<SubstanceCategory>,
         filterRoutes: Set<RouteOfAdministration>,
         hiddenCategories: Set<SubstanceCategory>,
-        hiddenQuietMeds: Set<String>,
     ) -> [DoseEntry] {
         var result = entries
 
         // A hidden class never shows, whatever the facets select. An entry
         // not resolved yet waits for its category rather than flashing in.
-        if !hiddenCategories.isEmpty || !hiddenQuietMeds.isEmpty {
+        if !hiddenCategories.isEmpty {
             result = result.filter { entry in
                 guard let category = derived[entry.persistentModelID]?.category else { return false }
-                return !JournalVisibility.hides(entry, category: category, hiding: hiddenCategories, quietMeds: hiddenQuietMeds)
+                return !JournalVisibility.hides(entry, category: category, hiding: hiddenCategories)
             }
         }
 

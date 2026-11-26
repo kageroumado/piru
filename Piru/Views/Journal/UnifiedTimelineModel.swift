@@ -26,7 +26,7 @@ final class UnifiedTimelineModel {
     /// `cacheable` is true only for the unfiltered journal strip: the launch
     /// cache (``TimelineStripCache``) is keyed by the whole log, so a filtered
     /// or searched strip must neither read nor write it. Neither does one with
-    /// classes or Quiet meds hidden (`hiding`, `quietMeds`, ``JournalVisibility``).
+    /// classes hidden (`hiding`, ``JournalVisibility``).
     func rebuild(
         entries: [DoseEntry],
         colors: [SubstanceColor],
@@ -40,7 +40,6 @@ final class UnifiedTimelineModel {
         bubbleStyle: TimelineBubbleStyle,
         showsVitals: Bool,
         hiding hiddenCategories: Set<SubstanceCategory> = [],
-        quietMeds: Set<String> = [],
         cacheable: Bool = true,
     ) async {
         let preferences = "\(zoom)|\(compressGaps)|\(pkCurves)|\(curveScale.rawValue)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(TimelineDoseBubble.heightScale)"
@@ -64,7 +63,7 @@ final class UnifiedTimelineModel {
         )
         await SubstanceStore.shared.ensureAllLoaded()
         guard !logMoved() else { return }
-        let entries = JournalVisibility.visible(entries, hiding: hiddenCategories, quietMeds: quietMeds)
+        let entries = JournalVisibility.visible(entries, hiding: hiddenCategories)
         let sessions = Self.sessionsByID(of: entries)
 
         let heartRate = showsAxis && HealthKitVitals.shared.isOn(overlay: showsVitals) ? await Self.recentHeartRate(entries: entries) : []
@@ -120,7 +119,7 @@ final class UnifiedTimelineModel {
         days = built
         builtKey = key
         builtPreferences = preferences
-        if cacheable, hiddenCategories.isEmpty, quietMeds.isEmpty {
+        if cacheable, hiddenCategories.isEmpty {
             TimelineStripCache.save(built, key: cacheKey, now: now)
         }
     }

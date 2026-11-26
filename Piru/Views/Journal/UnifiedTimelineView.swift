@@ -29,8 +29,6 @@ struct UnifiedTimelineView: View {
     }
 
     @Query private var substanceColors: [SubstanceColor]
-    /// My Meds, for the Quiet ones the Supplements switch hides.
-    @Query(sort: \DailyDoseItem.sortOrder) private var medItems: [DailyDoseItem]
     @State private var model = UnifiedTimelineModel()
     /// Bubble heights grow with the text size, so a change re-lays the strip.
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
@@ -118,7 +116,6 @@ struct UnifiedTimelineView: View {
             }
             .task(id: rebuildKey) {
                 let hidden = JournalVisibility.hiddenCategories(supplements: hidesSupplements, meds: hidesMeds)
-                let quietMeds = JournalVisibility.hiddenQuietMeds(supplements: hidesSupplements, items: medItems)
                 // The launch cache first, as the Journal's strip does: a hit
                 // paints without building the strip on the main actor. It holds
                 // the whole log, so a strip with classes hidden builds instead.
@@ -149,14 +146,13 @@ struct UnifiedTimelineView: View {
                     bubbleStyle: bubbleStyle,
                     showsVitals: showsVitals,
                     hiding: hidden,
-                    quietMeds: quietMeds,
                 )
             }
         }
     }
 
     private var rebuildKey: String {
-        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(curveScale.rawValue)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(hidesSupplements)|\(hidesMeds)|\(JournalVisibility.hiddenQuietMeds(supplements: hidesSupplements, items: medItems).hashValue)|\(dynamicTypeSize)|\(clockTick)"
+        "\(DoseLogService.shared.revision)|\(zoom)|\(compressGaps)|\(pkCurves)|\(curveScale.rawValue)|\(showsAxis)|\(bubbleStyle.rawValue)|\(showsVitals)|\(hidesSupplements)|\(hidesMeds)|\(dynamicTypeSize)|\(clockTick)"
     }
 
     /// Pinch on the graph: preview by stretching vertically while the fingers
