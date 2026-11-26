@@ -294,6 +294,35 @@ struct JournalModelTests {
         #expect(!model.hasActiveFilters)
     }
 
+    /// A Quiet med is grouped under Supplements in My Meds, so the Supplements
+    /// switch hides it even though its own class (`.other` here) is not one.
+    @Test
+    func `The Supplements switch also hides a Quiet med`() async throws {
+        let context = try makeContext()
+        let entries = try makeEntries(context)
+        let model = JournalModel()
+        model.refreshColorMap([])
+        await model.rebuildDerived(entries: entries, colors: [])
+        let hidden = JournalVisibility.hiddenCategories(supplements: true, meds: false)
+        let regroup = {
+            model.setHiddenCategories(hidden, entries: entries)
+            model.rebuildGroups(
+                entries: entries, grouping: .byDay, searchText: "",
+                filterTags: [], filterCategories: [], filterRoutes: [],
+                hiddenCategories: model.hiddenCategories,
+                stackRedoses: true, revision: 0,
+            )
+        }
+
+        entries[0].isBackgroundMed = true
+        regroup()
+        #expect(model.filtered.count == entries.count - 1)
+        #expect(!model.filtered.contains { $0.isBackgroundMed })
+
+        #expect(JournalVisibility.visible(entries, hiding: hidden).count == entries.count - 1)
+        #expect(JournalVisibility.visible(entries, hiding: []).count == entries.count)
+    }
+
     @Test
     func `Each Hidden Classes switch covers its Library families`() {
         #expect(JournalVisibility.hiddenCategories(supplements: false, meds: false).isEmpty)

@@ -3,7 +3,9 @@ import Foundation
 /// Settings ▸ Journal ▸ Hidden Classes: whole substance classes kept out of
 /// the Journal's history (Days, Timeline, Grouped, and the pushed timeline
 /// screen). The entries stay recorded — Search, Insights, My Meds, Active Now
-/// and exports read the full log.
+/// and exports read the full log. A Quiet med (``DoseEntry/isBackgroundMed``)
+/// is grouped under Supplements in My Meds, so the Supplements switch hides it
+/// whatever its class.
 enum JournalVisibility {
     static let suite = AppIdentity.appGroup
     static let hidesSupplementsKey = "journalHidesSupplements"
@@ -22,18 +24,29 @@ enum JournalVisibility {
         return Set(LibraryFamily.all.filter { families.contains($0.id) }.flatMap(\.categories))
     }
 
+    /// Whether `entry`, in `category`, is kept out of the Journal. `.supplement`
+    /// is in `hidden` exactly when the Supplements switch is on, and a Quiet med
+    /// counts as a supplement there.
+    static func hides(_ entry: DoseEntry, category: SubstanceCategory, hiding hidden: Set<SubstanceCategory>) -> Bool {
+        hidden.contains(category) || (entry.isBackgroundMed && hidden.contains(.supplement))
+    }
+
     /// `entries` without the hidden classes, each resolved the way the Journal
     /// resolves a category (an unknown substance is `.other`). A dict hit per
     /// distinct substance over the batch projection, so the caller awaits
     /// `SubstanceStore.shared.ensureAllLoaded()` first.
     static func visible(_ entries: [DoseEntry], hiding hidden: Set<SubstanceCategory>) -> [DoseEntry] {
         guard !hidden.isEmpty else { return entries }
-        var isHidden: [String: Bool] = [:]
+        var categories: [String: SubstanceCategory] = [:]
         return entries.filter { entry in
-            if let known = isHidden[entry.substance] { return !known }
-            let hides = hidden.contains(SubstanceLibrary.lookup(entry.substance)?.category ?? .other)
-            isHidden[entry.substance] = hides
-            return !hides
+            let category: SubstanceCategory
+            if let known = categories[entry.substance] {
+                category = known
+            } else {
+                category = SubstanceLibrary.lookup(entry.substance)?.category ?? .other
+                categories[entry.substance] = category
+            }
+            return !hides(entry, category: category, hiding: hidden)
         }
     }
 }
