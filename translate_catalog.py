@@ -7103,9 +7103,9 @@ T = {
     # Settings ▸ Journal ▸ Hidden Classes
     "Hidden Classes": ("隐藏类别", "隱藏類別"),
     "Hide Supplements": ("隐藏膳食补充剂", "隱藏膳食補充劑"),
-    "Keeps supplement entries, and doses logged from a Quiet med, out of the Journal.": (
-        "膳食补充剂的记录，以及从静默用药记下的剂量，不在日记中显示。",
-        "膳食補充劑的記錄，以及從靜默用藥記下的劑量，不在日記中顯示。",
+    "Keeps supplement entries, and doses of a Quiet med, out of the Journal.": (
+        "膳食补充剂的记录，以及静默用药的剂量，不在日记中显示。",
+        "膳食補充劑的記錄，以及靜默用藥的劑量，不在日記中顯示。",
     ),
     "Hide Meds & Other Classes": ("隐藏药品及其他类别", "隱藏藥品及其他類別"),
     "Keeps Peptides, Mind & Cognition, Pharmaceuticals, and Other / Miscellaneous entries out of the Journal.": (
@@ -8533,7 +8533,7 @@ if __name__ == "__main__":
         "When did you take %@?",
         "Hidden Classes",
         "Hide Supplements",
-        "Keeps supplement entries, and doses logged from a Quiet med, out of the Journal.",
+        "Keeps supplement entries, and doses of a Quiet med, out of the Journal.",
         "Hide Meds & Other Classes",
         "Keeps Peptides, Mind & Cognition, Pharmaceuticals, and Other / Miscellaneous entries out of the Journal.",
         "Hidden entries stay recorded. Search, Insights, and exports still include them.",

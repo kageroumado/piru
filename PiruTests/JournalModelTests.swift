@@ -295,43 +295,40 @@ struct JournalModelTests {
     }
 
     /// A Quiet med is grouped under Supplements in My Meds, so the Supplements
-    /// switch hides the doses logged from one even though their class (`.other`
-    /// here) is not a supplement.
+    /// switch hides every dose of one, even though their class (`.other` here)
+    /// is not a supplement, and whenever the dose was logged.
     @Test
-    func `The Supplements switch also hides a Quiet med`() async throws {
-        let hidden = JournalVisibility.hiddenCategories(supplements: true, meds: false)
-        let hide = { (model: JournalModel, entries: [DoseEntry]) in
-            model.setHiddenCategories(hidden, entries: entries)
-            model.rebuildGroups(
-                entries: entries, grouping: .byDay, searchText: "",
-                filterTags: [], filterCategories: [], filterRoutes: [],
-                hiddenCategories: model.hiddenCategories,
-                stackRedoses: true, revision: 0,
-            )
-        }
-
+    func `The Supplements switch also hides the doses of a Quiet med`() async throws {
         let context = try makeContext()
         let entries = try makeEntries(context)
+        let quietMed = DailyDoseItem(substance: substanceName, amount: 100, isQuiet: true)
+        let hidden = JournalVisibility.hiddenCategories(supplements: true, meds: false)
+        let quiet = JournalVisibility.hiddenQuietMeds(supplements: true, items: [quietMed])
+        #expect(quiet == [quietMed.identityKey])
+        #expect(JournalVisibility.hiddenQuietMeds(supplements: false, items: [quietMed]).isEmpty)
+        quietMed.isQuiet = false
+        #expect(JournalVisibility.hiddenQuietMeds(supplements: true, items: [quietMed]).isEmpty)
+
         let model = JournalModel()
         model.refreshColorMap([])
         await model.rebuildDerived(entries: entries, colors: [])
+        // A selected category the menu stops listing must not stay selected.
+        model.filterCategories = [.other]
+        model.setHiddenCategories(hidden, quietMeds: quiet, entries: entries)
+        model.rebuildGroups(
+            entries: entries, grouping: .byDay, searchText: "",
+            filterTags: model.filterTags, filterCategories: model.filterCategories, filterRoutes: [],
+            hiddenCategories: model.hiddenCategories, hiddenQuietMeds: model.hiddenQuietMeds,
+            stackRedoses: true, revision: 0,
+        )
+        #expect(model.filtered.isEmpty)
+        #expect(model.categories.isEmpty)
+        #expect(model.filterCategories.isEmpty)
+        #expect(!model.hasActiveFilters)
 
-        entries[0].isBackgroundMed = true
-        hide(model, entries)
-        #expect(model.filtered.count == entries.count - 1)
-        #expect(!model.filtered.contains { $0.isBackgroundMed })
-        #expect(model.categories == [.other])
-        #expect(JournalVisibility.visible(entries, hiding: hidden).count == entries.count - 1)
+        #expect(JournalVisibility.visible(entries, hiding: hidden, quietMeds: quiet).isEmpty)
+        #expect(JournalVisibility.visible(entries, hiding: hidden).count == entries.count)
         #expect(JournalVisibility.visible(entries, hiding: []).count == entries.count)
-
-        // With every dose Quiet nothing is left for the facet menu to list.
-        let quiet = JournalModel()
-        quiet.refreshColorMap([])
-        await quiet.rebuildDerived(entries: entries, colors: [])
-        entries.forEach { $0.isBackgroundMed = true }
-        hide(quiet, entries)
-        #expect(quiet.filtered.isEmpty)
-        #expect(quiet.categories.isEmpty)
     }
 
     @Test
